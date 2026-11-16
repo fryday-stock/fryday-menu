@@ -41,7 +41,21 @@ export interface Zone {
   id: string;
   name: string;
   fee: number;
+  /** حدود المنطقة [lat, lng] — تقريبية، تتعدل من اللوحة (المرحلة 1) */
+  polygon: [number, number][];
 }
+
+/** محتوى الرأس: صورة أو فيديو (المرحلة 2: البانر الذكي من اللوحة) */
+export interface HeroMedia {
+  type: 'image' | 'video';
+  /** اسم صورة صنف (burger-mushroom.webp) أو رابط كامل */
+  src: string;
+  poster?: string;
+  title?: string;
+}
+
+/** طريقة أجرة التوصيل: map = تلقائية من الدبوس، fixed = مبلغ ثابت، cashier = يحددها الكاشير */
+export type FeeMode = 'map' | 'fixed' | 'cashier';
 
 export interface Settings {
   restaurantName: string;
@@ -59,6 +73,12 @@ export interface Settings {
   freeDelivery: { enabled: boolean; threshold: number };
   payment: string;
   etaMinutes: number;
+  /** موقع المطعم */
+  location: { lat: number; lng: number };
+  delivery: { enabled: boolean; feeMode: FeeMode; fixedFee: number; locationRequired: boolean };
+  pickup: { enabled: boolean };
+  hero: { image: string; media: HeroMedia[] };
+  messages: { outOfZone: string; cashierFee: string };
   social: { instagram: string; tiktok: string; facebook: string };
 }
 

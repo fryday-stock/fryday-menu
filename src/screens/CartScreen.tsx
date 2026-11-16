@@ -12,6 +12,7 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { ClosedNotice } from '../components/StatusPill';
 import { useTheme } from '../themes/ThemeContext';
 import { back, go } from '../lib/router';
+import { feeSummary } from '../lib/delivery';
 
 export function CartScreen() {
   const t = useTheme();
@@ -25,14 +26,14 @@ export function CartScreen() {
 
   return (
     <div className="flex min-h-full flex-col">
-      <ScreenHeader title="سلتك" onBack={() => back(t.id)} end={count ? <span className="text-[13px] font-bold whitespace-nowrap text-muted"><bdi className="num">{count}</bdi> قطع</span> : null} />
+      <ScreenHeader title="سلتك" onBack={() => back('')} end={count ? <span className="text-[13px] font-bold whitespace-nowrap text-muted"><bdi className="num">{count}</bdi> قطع</span> : null} />
 
       {lines.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 pb-24 text-center">
           <div className="grid size-24 place-items-center rounded-full bg-surface-2 text-muted"><ShoppingBag size={40} /></div>
           <h2 className="text-[20px] font-extrabold">سلتك فاضية</h2>
           <p className="text-[15px] text-muted">اختار من المنيو واضغط + حتى يبين هنا.</p>
-          <button onClick={() => go(t.id, { replace: true })} className={`mt-2 h-12 px-8 text-[16px] font-bold ${t.look.cta}`}>تصفح المنيو</button>
+          <button onClick={() => go('', { replace: true })} className={`mt-2 h-12 px-8 text-[16px] font-bold ${t.look.cta}`}>تصفح المنيو</button>
         </div>
       ) : (
         <>
@@ -70,20 +71,20 @@ export function CartScreen() {
               </AnimatePresence>
             </ul>
 
-            <button onClick={() => go(t.id, { replace: true })} className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-line text-[15px] font-bold text-muted transition active:scale-[0.98]">
+            <button onClick={() => go('', { replace: true })} className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-line text-[15px] font-bold text-muted transition active:scale-[0.98]">
               <Plus size={18} /> أضف أصناف ثانية
             </button>
 
             <div className={`mt-4 space-y-2 p-4 text-[15px] ${t.look.card}`}>
               <div className="flex justify-between"><span className="text-muted">المجموع</span><Price value={subtotal} className="font-bold" /></div>
-              <div className="flex justify-between text-[14px]"><span className="text-muted">التوصيل</span><span className="text-muted">يتحسب حسب المنطقة</span></div>
+              <div className="flex justify-between text-[14px]"><span className="text-muted">التوصيل</span><span className="text-muted">{data.settings.delivery.feeMode === 'map' ? 'يتحسب من موقعك على الخريطة' : data.settings.delivery.feeMode === 'cashier' ? data.settings.messages.cashierFee : `${feeSummary(data.settings, data.zones)} د.ع`}</span></div>
               {belowMin && <p className="text-[14px] font-semibold text-danger">أقل مبلغ للطلب <Price value={min.amount} /></p>}
             </div>
           </div>
 
           <div className="pb-safe sticky bottom-0 z-10 bg-gradient-to-t from-bg via-bg to-bg/0 px-4 pt-4">
             {!open && <p className="mb-2 text-center text-[14px] font-semibold text-danger">{data.settings.closedMessage}</p>}
-            <button disabled={!open || belowMin} onClick={() => go(`${t.id}/checkout`)}
+            <button disabled={!open || belowMin} onClick={() => go('checkout')}
               className={`flex h-14 w-full items-center justify-between px-5 text-[17px] font-bold transition active:scale-[0.98] disabled:opacity-45 ${t.look.cta}`}>
               <span>كمّل الطلب</span>
               <Price value={subtotal} />

@@ -7,6 +7,7 @@ import { isOpenAt } from '../src/lib/hours';
 import { normalizeQuery, searchItems } from '../src/lib/search';
 import { cleanPhone, isValidPhone } from '../src/lib/validate';
 import { resolveLines, toOrderLine } from '../src/store/cart';
+import { quoteDelivery, zoneAt } from '../src/lib/delivery';
 
 const data = menu as unknown as MenuData;
 const byId = new Map(data.items.map((i) => [i.id, i]));
@@ -99,5 +100,36 @@ describe('البحث والموبايل', () => {
     expect(cleanPhone('+964 780 123 4567')).toBe('07801234567');
     expect(isValidPhone('0780123456')).toBe(false);
     expect(isValidPhone('08801234567')).toBe(false);
+  });
+});
+
+describe('التوصيل من الخريطة', () => {
+  const s = data.settings;
+  const najaf = { lat: 32.01622, lng: 44.345007 }; // المطعم (الغدير)
+  const kufa = { lat: 32.0405, lng: 44.4015 };
+  const far = { lat: 32.5, lng: 44.4 }; // الحلة تقريباً
+  it('يحدد المنطقة من الدبوس', () => {
+    expect(zoneAt(najaf, data.zones)?.name).toBe('النجف');
+    expect(zoneAt(kufa, data.zones)?.name).toBe('الكوفة');
+    expect(zoneAt(far, data.zones)).toBeNull();
+  });
+  it('الأجرة تلقائية: النجف 2,500 / الكوفة 3,000 / برا = خارج المنطقة / بدون دبوس = لازم يحدد', () => {
+    expect(quoteDelivery(s, data.zones, najaf, 10000)).toMatchObject({ kind: 'fee', fee: 2500 });
+    expect(quoteDelivery(s, data.zones, kufa, 10000)).toMatchObject({ kind: 'fee', fee: 3000 });
+    expect(quoteDelivery(s, data.zones, far, 10000).kind).toBe('out');
+    expect(quoteDelivery(s, data.zones, null, 10000).kind).toBe('need-pin');
+  });
+  it('مبلغ ثابت / الكاشير يحدد', () => {
+    const fixed = { ...s, delivery: { ...s.delivery, feeMode: 'fixed' as const, fixedFee: 2000 } };
+    expect(quoteDelivery(fixed, data.zones, kufa, 0)).toMatchObject({ kind: 'fee', fee: 2000 });
+    const cashier = { ...s, delivery: { ...s.delivery, feeMode: 'cashier' as const } };
+    expect(quoteDelivery(cashier, data.zones, najaf, 0).kind).toBe('cashier');
+    const optional = { ...s, delivery: { ...s.delivery, locationRequired: false } };
+    expect(quoteDelivery(optional, data.zones, null, 0).kind).toBe('cashier');
+  });
+  it('رسالة الكاشير يحدد الأجرة', () => {
+    const msg = buildWhatsAppMessage({ number: 1001, lines: [], subtotal: 9000, deliveryFee: null, total: 9000, type: 'delivery', customer: { name: 'س', phone: '07801234567' }, zone: 'النجف', payment: 'كاش عند الاستلام' });
+    expect(msg).toContain('التوصيل: يحددها الكاشير');
+    expect(msg).toContain('الإجمالي: 9,000 د.ع + التوصيل');
   });
 });

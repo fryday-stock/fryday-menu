@@ -18,6 +18,13 @@
 | وقت التوصيل | 45 دقيقة تقريباً (أكده أحمد) — `settings.etaMinutes` |
 | الدوام | 12:00 الظهر — 12:00 بالليل (بغداد UTC+3). برا الدوام: المنيو يفتح، زر الطلب مسكّر + "نستقبل الطلبات من الساعة 12 الظهر" |
 | مناطق التوصيل | النجف 2,500 — الكوفة 3,000 **فقط** (ماكو منطقة ثالثة). "التوصيل داخل النجف والكوفة فقط" |
+| موقع التوصيل | **إجباري للتوصيل** (مثل توترز): زر "حدد موقعي على الخريطة" → GPS + خريطة Leaflet/OpenStreetMap بدبوس ثابت بالنص والزبون يحرك الخريطة. إذا الـ GPS انرفض: الخريطة تفتح على المطعم ويحرك بإيده. بدون دبوس مؤكد ما يكمل. الاستلام ما يحتاج موقع |
+| أجرة التوصيل | تتحدد **تلقائياً من الدبوس** (داخل حدود النجف 2,500، الكوفة 3,000، برا الاثنين = "نعتذر، خارج منطقة التوصيل"). تطلع كمعلومة مو كخيار (ماكو كروت مناطق). رابط الدبوس (Google Maps) يروح بالرسالة |
+| حدود المناطق | مضلعات تقريبية بـ `scripts/import-menu.ts` (`ZONE_POLYGONS`) → `zones[].polygon` — تتعدل من اللوحة بالمرحلة 1 |
+| موقع المطعم | 32.016220, 44.345007 (الغدير، النجف) — الخريطة تبدي منه، ورابط "موقعنا" بالرأس والفوتر |
+| النموذج النهائي | **A (الخلطة)** + **رأس C السينمائي الغامق** (لوغو + صورة كبيرة بإضاءة وظل) ينتقل بنعومة للمنيو الفاتح. B و C و D انحذفوا |
+| صورة الرأس | إعداد `settings.hero.image` (الافتراضي `burger-mushroom.webp`). `settings.hero.media[]` = مكان البانر الذكي (صور/فيديو) بالمرحلة 2، وإذا فاضي أو فشل يرجع للصورة الافتراضية |
+| مرونة كاملة | كلشي إعداد مو مكتوب بالكود (اللوحة بالمرحلة 1): طريقة الأجرة `delivery.feeMode` = `map` تلقائية / `fixed` مبلغ ثابت / `cashier` يحددها الكاشير ("أجرة التوصيل يأكدها الكاشير" والإجمالي بدون توصيل)، `delivery.enabled`، `pickup.enabled`، `delivery.locationRequired`، صورة الرأس، الدوام، الواتساب، الرسائل (`messages`)، المنيو والأسعار والصور |
 | حد أدنى / توصيل مجاني | لا يوجد (إعدادات `minOrder` و `freeDelivery` جاهزة للتفعيل) |
 | الدفع | كاش عند الاستلام |
 | نوع الطلب | توصيل أو استلام من المطعم |
@@ -42,15 +49,17 @@
 ## التقنية
 
 - React 19 + Vite + TypeScript + Tailwind v4، `motion` للحركات، `zustand` للسلة، `lucide-react` للأيقونات.
-- خطوط محلية (@fontsource، عربي فقط): A=Cairo، B=Tajawal، C=IBM Plex Sans Arabic، D=Baloo Bhaijaan 2.
-- راوتر hash بسيط (`src/lib/router.ts`): `#/a`، `#/a/item/F001`، `#/a/cart`، `#/a/checkout`، `#/a/done`.
+- خط محلي (@fontsource، عربي فقط): Cairo.
+- الخريطة: `leaflet` + بلاطات OpenStreetMap (`tile.openstreetmap.org`) — تنحمل بس بشاشة الطلب (lazy chunk).
+- راوتر hash بسيط (`src/lib/router.ts`): `#/`، `#/item/F001`، `#/cart`، `#/checkout`، `#/done`. روابط المرحلة 0 القديمة (`#/a/...`) تتحول تلقائياً.
+- وضع تجربة (للتجربة برا الدوام): `#/?test=open` يفتح الطلب، `#/?test=off` يرجعه طبيعي (محفوظ على الجهاز).
 - Vite `base: './'` → يشتغل على GitHub Pages (`/fryday-menu/`) وعلى Cloudflare (`/`) بدون تغيير.
 
 ### الهيكل
 ```
 assets-input/            ملفات أحمد الأصلية (لا تنحذف)
 scripts/import-menu.ts   Excel → src/data/menu.json + فك الصور → public/photos (+ public/photos/sm نسخ 360px للقوائم)
-scripts/screenshots.mjs  لقطات Playwright 390×844 لكل نموذج
+scripts/screenshots.mjs  لقطات Playwright 390×844 (الرئيسية، صنف، السلة، الطلب ويا الخريطة) → screenshots/final
 src/data/
   types.ts               أنواع البيانات
   menu.json              مولّد — لا تعدله يدوياً (npm run import-menu)
@@ -58,17 +67,19 @@ src/data/
   MenuContext.tsx        يحمّل المنيو ويوفره
 src/lib/
   price.ts               حساب السعر والخيارات والتحقق (إجباري/اختياري/متعدد/N بالضبط)
-  whatsapp.ts            بناء رسالة الواتساب + رابط wa.me + رابط الخرائط
+  whatsapp.ts            بناء رسالة الواتساب + رابط wa.me (أجرة null = "يحددها الكاشير")
+  delivery.ts            نقطة داخل مضلع، المنطقة من الدبوس، حساب الأجرة حسب feeMode، رابط الخرائط
   hours.ts               الدوام بتوقيت بغداد
   search.ts              تطبيع البحث العربي (أ/إ/آ→ا، ة→ه، ى→ي، بركر=برغر=burger)
   validate.ts            رقم الموبايل (11 رقم يبدي بـ 07، يقبل الأرقام العربية و+964)
   orderNumber.ts         المرحلة 0: عداد محلي من 1001
 src/store/cart.ts        السلة (zustand + localStorage)
 src/store/customer.ts    بيانات الزبون المحفوظة + آخر طلب
-src/components/          مكونات مشتركة (MenuBrowser: تبويبات + scroll-spy + بحث، OptionGroups، Overlay…)
-src/screens/             السلة، إكمال الطلب، التأكيد (مشتركة، تتلون بالـ tokens)، Chooser (صفحة اختيار النموذج)
-src/themes/a|b|c|d/      كل نموذج: الرئيسية + صفحة الصنف + إعدادات الشكل
-src/index.css            design tokens لكل نموذج (.theme-a … .theme-d)
+src/components/          مكونات مشتركة (MenuBrowser: تبويبات + scroll-spy + بحث، OptionGroups، Overlay، MapPicker، HeroMedia…)
+src/screens/             السلة، إكمال الطلب (ويا الخريطة)، التأكيد
+src/themes/a/            النموذج النهائي: index.tsx (الرئيسية + صفحة الصنف) + Hero.tsx (الرأس السينمائي)
+src/themes/common|shared الصف النصي، الفوتر، زر +، شريط الإضافة
+src/index.css            design tokens (.theme-a)
 tests/logic.test.ts      اختبارات المنطق (vitest)
 ```
 
@@ -76,7 +87,8 @@ tests/logic.test.ts      اختبارات المنطق (vitest)
 - `items[]`: `id` (F001…)، `tab` (food/drinks/sweets)، `section`، `name`، `nameEn`، `desc`، `price` (null = حسب الطلب)، `orderable`، `groups[]` (أكواد)، `image` (null = بدون صورة)، `available`.
 - `groups{}`: `code`، `name`، `kind` (single/multi)، `min`، `max`، `isSize`، `options[]` (`id`، `name`، `price` = فرق السعر).
   - "إجباري — واحد" → single 1/1 (يختار أول خيار تلقائياً) · "اختياري — واحد" → single 0/1 · "اختياري — متعدد" → multi 0/99 · "إجباري — 3 بالضبط" → multi 3/3.
-- `tabs[]` (الترتيب من الـ Excel)، `zones[]`، `settings{}` (واتساب، أرقام، عنوان، دوام، حد أدنى، توصيل مجاني، دفع، `etaMinutes`).
+- `tabs[]` (الترتيب من الـ Excel)، `zones[]` (`name`، `fee`، `polygon` [lat,lng])، `settings{}` (واتساب، أرقام، عنوان، دوام، حد أدنى، توصيل مجاني، دفع، `etaMinutes`، `location`، `delivery`، `pickup`، `hero`، `messages`).
+- قيم الإعدادات الافتراضية (اللي مو بالـ Excel) بـ `scripts/import-menu.ts` — بالمرحلة 1 تنتقل لـ D1 واللوحة.
 
 ### أوامر
 ```
@@ -89,13 +101,14 @@ npx vite preview --port 4173 & node scripts/screenshots.mjs   # لقطات (EXTR
 
 ## المراحل وحالتها
 
-- [x] **المرحلة 0 — أربع نماذج تصميم** (A الخلطة، B البرتقالي، C الفخم الأسود، D الأصفر) — منشورة على GitHub Pages عبر Actions.
-  - لقطات نهائية: `screenshots/phase0/` (16 لقطة: home/item/cart/checkout لكل نموذج).
-  - زر التبديل العائم وخيار "تجربة الطلب برا الدوام" أدوات تجربة للمرحلة 0 فقط (تنشال بالمرحلة 1).
-  - الشعار الرسمي: `assets-input/logo-fryday.webp` (من أحمد، خلفية شفافة) → `public/brand/` (logo.webp، logo-sm.webp، أيقونات 192/512، apple-touch-icon، favicon.png). مكون `Logo`: `badge` (دائرة بيضاء) أو `mark`.
+- [x] **المرحلة 0 — نماذج التصميم** — تمت ودُمجت (PR #1 ثم PR #2).
+  - أحمد اختار: **A (الخلطة) + رأس C السينمائي** (صورة بركر بالفطر). B و C و D انحذفوا.
+  - الموقع إجباري بالخريطة والأجرة تلقائية من الدبوس، وكل شي إعداد (شوف جدول القرارات).
+  - الشعار الرسمي: `assets-input/logo-fryday.webp` → `public/brand/` (logo.webp، logo-sm.webp، أيقونات 192/512، apple-touch-icon، favicon.png). مكون `Logo`: `badge` (دائرة بيضاء) أو `mark`.
   - قطة فرايدي: بانتظار ملفها من أحمد (للمرحلة 2).
-  - GitHub Pages مفعّل (Source: GitHub Actions)، والنشر يصير من فرع `main` بعد دمج الـ PR.
-  - ⏸ **بانتظار اختيار أحمد للنموذج.**
-- [ ] المرحلة 1 — الأساس: Cloudflare (Pages + Functions + D1 + R2)، `POST /api/orders` بعداد يومي، لوحة `/admin`، PWA، بحث ذكي، وقت الوصول المتوقع، اختبارات.
-- [ ] المرحلة 2 — المبيعات.
+  - النشر: GitHub Pages من `main` (Actions) → https://fryday-stock.github.io/fryday-menu/
+  - لقطات نهائية: `screenshots/final/`.
+  - ⏸ **بانتظار "كمل" من أحمد للمرحلة 1.**
+- [ ] المرحلة 1 — الأساس: Cloudflare (Pages + Functions + D1 + R2)، `POST /api/orders` بعداد يومي، لوحة `/admin` (تشمل: صورة الرأس، طريقة الأجرة، تفعيل التوصيل/الاستلام، الموقع إجباري/اختياري، تعديل حدود المناطق على الخريطة)، PWA، وقت الوصول المتوقع، اختبارات.
+- [ ] المرحلة 2 — المبيعات (البانر الذكي يستخدم `settings.hero.media`).
 - [ ] المرحلة 3 — الإبهار والبيانات.

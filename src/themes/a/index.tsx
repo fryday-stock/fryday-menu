@@ -6,7 +6,9 @@ import { useMenuBrowser, SectionChips, SectionList, SearchInput } from '../../co
 import { Plate } from '../../components/Plate';
 import { Price } from '../../components/Price';
 import { Logo } from '../../components/Logo';
-import { StatusPill, ClosedNotice } from '../../components/StatusPill';
+import { ClosedNotice } from '../../components/StatusPill';
+import { feeSummary } from '../../lib/delivery';
+import { DarkHero } from './Hero';
 import { QtyStepper } from '../../components/QtyStepper';
 import { SizePicker, OptionGroupView, NoteField } from '../../components/OptionGroups';
 import { useCartSummary } from '../../hooks/useCartSummary';
@@ -19,58 +21,27 @@ import { TAB_ICONS, TextRow, Footer } from '../common';
 import type { ThemeDef } from '../types';
 
 
-/* ───────── الغلاف (أسلوب C) ───────── */
-function Cover() {
-  return (
-    <div className="relative h-[228px] overflow-hidden bg-[#1c120a]">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_70%_20%,#6b3a12_0%,#2a170a_55%,#140c06_100%)]" />
-      <div className="absolute -top-16 left-1/2 size-[300px] -translate-x-1/2 rounded-full bg-[#ffc72c]/25 blur-3xl" />
-      {/* نقاط ضوء */}
-      <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(#ffd56b_1px,transparent_1.5px)] [background-size:22px_22px] [mask-image:linear-gradient(to_bottom,black,transparent_80%)]" />
-      <img src={photo('fries-classic.webp', 'sm')} alt="" className="absolute bottom-10 left-[4%] w-[30%] -rotate-6 drop-shadow-[0_18px_18px_rgba(0,0,0,0.55)]" />
-      <img src={photo('burger-fryday.webp')} alt="بركر فرايدي" fetchPriority="high" className="absolute bottom-7 left-1/2 w-[58%] -translate-x-[42%] drop-shadow-[0_22px_22px_rgba(0,0,0,0.6)]" />
-      <img src={photo('iced-latte.webp', 'sm')} alt="" className="absolute right-[5%] bottom-12 w-[17%] rotate-6 drop-shadow-[0_14px_14px_rgba(0,0,0,0.55)]" />
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-        <span className="rounded-full bg-black/35 px-3 py-1.5 text-[12.5px] font-bold text-white backdrop-blur">Fries &amp; Pastry</span>
-      </div>
-    </div>
-  );
-}
-
+/* شريط المعلومات: وقت التوصيل، الأجرة، الدوام (فوق نهاية الرأس الغامق) */
 function InfoCard() {
   const { data } = useMenu();
   const s = data.settings;
-  const minFee = Math.min(...data.zones.map((z) => z.fee));
+  const fee = feeSummary(s, data.zones);
   return (
-    <div className="relative z-10 mx-4 -mt-16 rounded-[24px] bg-surface p-4 pt-3 shadow-[0_18px_40px_-20px_rgba(26,22,18,0.45)]">
-      <div className="flex items-start gap-3">
-        <div className="-mt-10 shrink-0 rounded-full bg-surface p-1 shadow-[0_10px_24px_-10px_rgba(0,0,0,0.5)]">
-          <Logo size={72} />
-        </div>
-        <div className="min-w-0 flex-1 pt-1">
-          <div className="flex items-center justify-between gap-2">
-            <h1 className="text-[24px] leading-tight font-extrabold">{s.restaurantName}</h1>
-            <StatusPill />
-          </div>
-          <p className="text-[13.5px] text-muted">بركر · قرمشيات · مشويات · قهوة وحلويات</p>
-        </div>
+    <div className="relative z-10 mx-4 -mt-[70px] grid grid-cols-3 divide-x divide-x-reverse divide-line rounded-[22px] bg-surface py-3 text-center shadow-[0_18px_40px_-20px_rgba(26,22,18,0.55)]">
+      <div className="px-1">
+        <Timer size={18} className="mx-auto mb-0.5 text-accent" />
+        <p className="text-[14px] font-extrabold"><bdi className="num">{s.etaMinutes}</bdi> دقيقة</p>
+        <p className="text-[11.5px] text-muted">التوصيل تقريباً</p>
       </div>
-      <div className="mt-3 grid grid-cols-3 divide-x divide-x-reverse divide-line rounded-2xl bg-bg py-2.5 text-center">
-        <div className="px-1">
-          <Timer size={18} className="mx-auto mb-0.5 text-accent" />
-          <p className="text-[14px] font-extrabold"><bdi className="num">{s.etaMinutes}</bdi> دقيقة</p>
-          <p className="text-[11.5px] text-muted">التوصيل تقريباً</p>
-        </div>
-        <div className="px-1">
-          <Bike size={18} className="mx-auto mb-0.5 text-accent" />
-          <p className="text-[14px] font-extrabold">من <Price value={minFee} unit={false} /></p>
-          <p className="text-[11.5px] text-muted">أجرة التوصيل</p>
-        </div>
-        <div className="px-1">
-          <Clock size={18} className="mx-auto mb-0.5 text-accent" />
-          <p className="text-[14px] font-extrabold">{hourLabel(s.hours.open)}</p>
-          <p className="text-[11.5px] text-muted">لـ {hourLabel(s.hours.close)}</p>
-        </div>
+      <div className="px-1">
+        <Bike size={18} className="mx-auto mb-0.5 text-accent" />
+        <p className="text-[14px] font-extrabold">{fee}</p>
+        <p className="text-[11.5px] text-muted">{s.delivery.feeMode === 'map' ? 'حسب موقعك' : 'أجرة التوصيل'}</p>
+      </div>
+      <div className="px-1">
+        <Clock size={18} className="mx-auto mb-0.5 text-accent" />
+        <p className="text-[14px] font-extrabold">{hourLabel(s.hours.open)}</p>
+        <p className="text-[11.5px] text-muted">لـ {hourLabel(s.hours.close)}</p>
       </div>
     </div>
   );
@@ -135,7 +106,7 @@ function CartBar() {
     <AnimatePresence>
       {count > 0 && (
         <motion.div className="pb-safe pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[480px] px-4" initial={{ y: 120 }} animate={{ y: 0 }} exit={{ y: 120 }} transition={{ type: 'spring', stiffness: 380, damping: 32 }}>
-          <motion.button animate={controls} onClick={() => go('a/cart')} className="pointer-events-auto flex h-15 w-full items-center gap-3 rounded-[20px] bg-cta ps-2.5 pe-5 text-on-cta shadow-float">
+          <motion.button animate={controls} onClick={() => go('cart')} className="pointer-events-auto flex h-15 w-full items-center gap-3 rounded-[20px] bg-cta ps-2.5 pe-5 text-on-cta shadow-float">
             <span className="grid size-10 place-items-center rounded-[14px] bg-primary text-[16px] font-extrabold text-on-primary"><bdi className="num">{count}</bdi></span>
             <span className="flex-1 text-start text-[16.5px] font-bold">عرض السلة</span>
             <Price value={subtotal} className="text-[17px] font-extrabold" />
@@ -150,7 +121,7 @@ function HomeA() {
   const b = useMenuBrowser();
   return (
     <div className="pb-28">
-      <Cover />
+      <DarkHero />
       <InfoCard />
       <ClosedNotice className="mx-4 mt-3" />
       <Promo onGo={() => { b.setTab('food'); setTimeout(() => b.scrollToSection(b.data.tabs[0].sections[0].id), 30); }} />
@@ -246,7 +217,7 @@ export const themeA: ThemeDef = {
   name: 'الخلطة',
   blurb: 'فاتح ومرتب بألوان علبة فرايدي (الأصفر والأسود). رأس مطعم بغلاف ولوغو، والأصناف صفوف واضحة سريعة القراءة.',
   className: 'theme-a',
-  themeColor: '#f7f4ee',
+  themeColor: '#0e0a07',
   swatch: ['#ffc72c', '#17140f', '#f7f4ee', '#e4472b'],
   Home: HomeA,
   Item: ItemA,

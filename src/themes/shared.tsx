@@ -6,18 +6,16 @@ import { useMenu } from '../data/MenuContext';
 import { useCart } from '../store/cart';
 import { useToast } from '../components/Toast';
 import { go } from '../lib/router';
-import { useTheme } from './ThemeContext';
 import type { ItemConfig } from '../hooks/useItemConfig';
 
 /** زر + : الصنف بدون خيارات ينضاف مباشرة، والباقي يفتح صفحة الصنف */
 export function useQuickAdd() {
-  const t = useTheme();
   const add = useCart((s) => s.add);
   const toast = useToast((s) => s.show);
   return {
-    open: (item: Item) => go(`${t.id}/item/${item.id}`),
+    open: (item: Item) => go(`item/${item.id}`),
     plus: (item: Item) => {
-      if (!item.orderable || item.groups.length) return go(`${t.id}/item/${item.id}`);
+      if (!item.orderable || item.groups.length) return go(`item/${item.id}`);
       add(item.id, {}, 1, '');
       if (navigator.vibrate) navigator.vibrate(10);
       toast(`انضاف ${item.name}`);

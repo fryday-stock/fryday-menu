@@ -9,6 +9,8 @@ export interface Customer {
   zoneId: string;
   address: string;
   landmark: string;
+  /** موقع التوصيل المؤكد (دبوس الخريطة) */
+  pin?: { lat: number; lng: number } | null;
 }
 
 export const useCustomer = create<{ c: Customer; save: (c: Customer) => void }>()(

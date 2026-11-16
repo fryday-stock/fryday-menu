@@ -19,6 +19,18 @@ const OUT_JSON = join(ROOT, 'src/data/menu.json');
 const PHOTOS = join(ROOT, 'public/photos');
 const THUMBS = join(PHOTOS, 'sm');
 
+/** حدود تقريبية للنجف والكوفة [lat, lng] — تتعدل لاحقاً من اللوحة */
+const ZONE_POLYGONS: Record<string, [number, number][]> = {
+  'النجف': [
+    [32.078, 44.262], [32.078, 44.376], [32.040, 44.377], [32.000, 44.381], [31.960, 44.380],
+    [31.922, 44.360], [31.918, 44.300], [31.950, 44.262], [32.010, 44.248],
+  ],
+  'الكوفة': [
+    [32.078, 44.376], [32.098, 44.392], [32.098, 44.462], [32.060, 44.478], [32.010, 44.468],
+    [31.982, 44.440], [31.982, 44.398], [32.000, 44.381], [32.040, 44.377],
+  ],
+};
+
 const TAB_MAP: Record<string, TabId> = { 'الأكل': 'food', 'المشروبات': 'drinks', 'الحلويات': 'sweets' };
 const TAB_NAMES: Record<TabId, string> = { food: 'الأكل', drinks: 'المشروبات', sweets: 'الحلويات' };
 
@@ -136,7 +148,10 @@ async function main() {
     for (const r of sheetRows(wsZ).slice(1)) {
       const name = text(r[0]);
       const fee = num(r[1]);
-      if (name && fee != null) zones.push({ id: `z${zones.length + 1}`, name, fee });
+      if (!name || fee == null) continue;
+      const polygon = ZONE_POLYGONS[name];
+      if (!polygon) warnings.push(`منطقة "${name}" بدون حدود مرسومة — ما راح تشتغل بالخريطة`);
+      zones.push({ id: `z${zones.length + 1}`, name, fee, polygon: polygon ?? [] });
     }
   }
 
@@ -165,6 +180,14 @@ async function main() {
     freeDelivery: { enabled: false, threshold: 0 },
     payment: kv['طريقة الدفع'] || 'كاش عند الاستلام',
     etaMinutes: 45,
+    location: { lat: 32.01622, lng: 44.345007 },
+    delivery: { enabled: true, feeMode: 'map', fixedFee: 2500, locationRequired: true },
+    pickup: { enabled: true },
+    hero: { image: 'burger-mushroom.webp', media: [] },
+    messages: {
+      outOfZone: 'نعتذر، هذا الموقع خارج منطقة التوصيل (النجف والكوفة فقط)',
+      cashierFee: 'أجرة التوصيل يأكدها الكاشير',
+    },
     social: { instagram: instagram || 'fryday.iq', tiktok: tiktok || 'fryday.iq', facebook: facebook || 'fryday' },
   };
 
