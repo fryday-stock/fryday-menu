@@ -5,25 +5,6 @@
 @import '@fontsource/cairo/arabic-700.css';
 @import '@fontsource/cairo/arabic-800.css';
 @import '@fontsource/cairo/latin-700.css';
-@import '@fontsource/tajawal/arabic-400.css';
-@import '@fontsource/tajawal/arabic-500.css';
-@import '@fontsource/tajawal/arabic-700.css';
-@import '@fontsource/tajawal/arabic-800.css';
-@import '@fontsource/tajawal/latin-500.css';
-@import '@fontsource/tajawal/latin-700.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';
-@import '@fontsource/ibm-plex-sans-arabic/latin-500.css';
-@import '@fontsource/ibm-plex-sans-arabic/latin-600.css';
-@import '@fontsource/baloo-bhaijaan-2/arabic-400.css';
-@import '@fontsource/baloo-bhaijaan-2/arabic-500.css';
-@import '@fontsource/baloo-bhaijaan-2/arabic-600.css';
-@import '@fontsource/baloo-bhaijaan-2/arabic-700.css';
-@import '@fontsource/baloo-bhaijaan-2/arabic-800.css';
-@import '@fontsource/baloo-bhaijaan-2/latin-600.css';
-@import '@fontsource/baloo-bhaijaan-2/latin-700.css';
 
 /* ───────── Design tokens (كل نموذج يغير القيم فقط) ───────── */
 @theme inline {
@@ -71,7 +52,7 @@
   --nav-h: 112px;
 }
 
-/* A — الخلطة: كريمي فاتح + أصفر فرايدي + حبر غامق */
+/* A — الخلطة (النموذج النهائي): كريمي فاتح + أصفر فرايدي + حبر غامق */
 .theme-a {
   --t-bg: #f7f4ee;
   --t-surface: #ffffff;
@@ -90,69 +71,8 @@
   --t-radius-btn: 18px;
 }
 
-/* B — البرتقالي */
-.theme-b {
-  --t-bg: #ffffff;
-  --t-surface: #fff5ef;
-  --t-surface-2: #ffeadf;
-  --t-fg: #1b1b1f;
-  --t-muted: #66666f;
-  --t-line: #f6dccd;
-  --t-primary: #f0531c;
-  --t-primary-2: #ff8a3d;
-  --t-on-primary: #ffffff;
-  --t-accent: #ff8a3d;
-  --t-cta: #111111;
-  --t-on-cta: #ffffff;
-  --t-font: 'Tajawal';
-  --t-radius-card: 20px;
-  --t-radius-btn: 16px;
-  --t-shadow-card: 0 1px 2px rgb(240 83 28 / 0.05), 0 10px 24px -14px rgb(240 83 28 / 0.35);
-  --t-shadow-float: 0 14px 32px -10px rgb(17 17 17 / 0.45);
-}
 
-/* C — الفخم الأسود */
-.theme-c {
-  --t-bg: #0c0c0e;
-  --t-surface: #17171a;
-  --t-surface-2: #212125;
-  --t-fg: #f6f5f4;
-  --t-muted: #a3a3ab;
-  --t-line: #2b2b30;
-  --t-primary: #e8112d;
-  --t-primary-2: #ff3048;
-  --t-on-primary: #ffffff;
-  --t-accent: #ff3048;
-  --t-cta: #e8112d;
-  --t-on-cta: #ffffff;
-  --t-ok: #22c55e;
-  --t-danger: #ff5a5a;
-  --t-font: 'IBM Plex Sans Arabic';
-  --t-radius-card: 18px;
-  --t-radius-btn: 999px;
-  --t-shadow-card: 0 10px 30px -12px rgb(0 0 0 / 0.8);
-  --t-shadow-float: 0 14px 36px -8px rgb(0 0 0 / 0.9);
-}
 
-/* D — الأصفر */
-.theme-d {
-  --t-bg: #ffffff;
-  --t-surface: #ffffff;
-  --t-surface-2: #fff7dc;
-  --t-fg: #1f1d1a;
-  --t-muted: #6c6862;
-  --t-line: #f1e7c6;
-  --t-primary: #ffc20e;
-  --t-primary-2: #ffb300;
-  --t-on-primary: #1f1d1a;
-  --t-accent: #ffb300;
-  --t-cta: #121212;
-  --t-on-cta: #ffffff;
-  --t-font: 'Baloo Bhaijaan 2';
-  --t-radius-card: 22px;
-  --t-radius-btn: 999px;
-  --t-shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 10px 26px -14px rgb(120 90 0 / 0.35);
-}
 
 /* ───────── أساسيات ───────── */
 html {
@@ -231,9 +151,6 @@ button:disabled {
   background: radial-gradient(closest-side, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
   filter: blur(2px);
   pointer-events: none;
-}
-.theme-c .plate-shadow {
-  background: radial-gradient(closest-side, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0));
 }
 @media (prefers-reduced-motion: reduce) {
   * {

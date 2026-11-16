@@ -16,7 +16,8 @@ export interface Order {
   number: number;
   lines: OrderLine[];
   subtotal: number;
-  deliveryFee: number;
+  /** null = أجرة التوصيل يحددها الكاشير */
+  deliveryFee: number | null;
   total: number;
   type: 'delivery' | 'pickup';
   customer: { name: string; phone: string };
@@ -42,13 +43,13 @@ export function buildWhatsAppMessage(o: Order): string {
   }
   out.push(SEP);
   out.push(`المجموع: ${fmt(o.subtotal)}`);
-  if (o.type === 'delivery') out.push(`التوصيل: ${o.deliveryFee ? fmt(o.deliveryFee) : 'مجاني'}`);
-  out.push(`الإجمالي: ${fmt(o.total)} د.ع`);
+  if (o.type === 'delivery') out.push(`التوصيل: ${o.deliveryFee == null ? 'يحددها الكاشير' : o.deliveryFee ? fmt(o.deliveryFee) : 'مجاني'}`);
+  out.push(`الإجمالي: ${fmt(o.total)} د.ع${o.type === 'delivery' && o.deliveryFee == null ? ' + التوصيل' : ''}`);
   out.push(SEP);
   out.push(`👤 ${o.customer.name.trim()}`);
   out.push(`📞 ${o.customer.phone}`);
   if (o.type === 'delivery') {
-    out.push(`🛵 توصيل — ${o.zone ?? ''}`);
+    out.push(o.zone ? `🛵 توصيل — ${o.zone}` : '🛵 توصيل');
     if (o.address?.trim()) out.push(`📍 ${o.address.trim()}`);
     if (o.mapsUrl) out.push(`🗺️ ${o.mapsUrl}`);
   } else {

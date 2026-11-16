@@ -1,4 +1,4 @@
-# المرحلة 0: نشر النماذج على GitHub Pages
+# نشر الموقع على GitHub Pages من main (الفروع الثانية: بناء واختبار بس)
 # (من المرحلة 1 ننتقل لـ Cloudflare Pages)
 name: Deploy to GitHub Pages
 
@@ -34,6 +34,7 @@ jobs:
           path: dist
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

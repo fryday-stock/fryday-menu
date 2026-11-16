@@ -1,4 +1,5 @@
-import { Hamburger, Coffee, CakeSlice, Plus } from 'lucide-react';
+import { Hamburger, Coffee, CakeSlice, Plus, MapPin } from 'lucide-react';
+import { mapsUrl } from '../lib/delivery';
 import type { Item, TabId } from '../data/types';
 import { useMenu } from '../data/MenuContext';
 import { Price } from '../components/Price';
@@ -31,6 +32,9 @@ export function Footer({ className = '' }: { className?: string }) {
     <footer className={`mx-4 mt-10 border-t border-line pt-5 text-center text-[13px] leading-6 text-muted ${className}`}>
       <p className="font-bold text-fg">{s.restaurantName} — {s.restaurantNameEn}</p>
       <p>{s.address}</p>
+      <a href={mapsUrl(s.location)} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-1.5 font-bold text-fg underline underline-offset-4">
+        <MapPin size={15} /> موقعنا على الخريطة
+      </a>
       <p>اتصال: <bdi className="num">{s.phones.join(' — ')}</bdi></p>
       <p>الدفع {s.payment} · {s.deliveryNote}</p>
     </footer>

@@ -30,7 +30,7 @@ export function DoneScreen() {
       <div className="grid min-h-full place-items-center p-8 text-center">
         <div>
           <p className="mb-4 text-[16px] text-muted">ماكو طلب حالياً.</p>
-          <button onClick={() => go(t.id, { replace: true })} className={`h-12 px-8 font-bold ${t.look.cta}`}>رجوع للمنيو</button>
+          <button onClick={() => go('', { replace: true })} className={`h-12 px-8 font-bold ${t.look.cta}`}>رجوع للمنيو</button>
         </div>
       </div>
     );
@@ -81,9 +81,9 @@ export function DoneScreen() {
         </a>
         <div className="mt-3 grid grid-cols-2 gap-2">
           {!order.sent && (
-            <button onClick={() => go(`${t.id}/checkout`, { replace: true })} className="h-12 rounded-2xl border border-line bg-surface text-[15px] font-bold">تعديل البيانات</button>
+            <button onClick={() => go('checkout', { replace: true })} className="h-12 rounded-2xl border border-line bg-surface text-[15px] font-bold">تعديل البيانات</button>
           )}
-          <button onClick={() => go(t.id, { replace: true })} className={`h-12 rounded-2xl border border-line bg-surface text-[15px] font-bold ${order.sent ? 'col-span-2' : ''}`}>رجوع للمنيو</button>
+          <button onClick={() => go('', { replace: true })} className={`h-12 rounded-2xl border border-line bg-surface text-[15px] font-bold ${order.sent ? 'col-span-2' : ''}`}>رجوع للمنيو</button>
         </div>
       </div>
     </div>

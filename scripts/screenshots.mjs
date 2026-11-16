@@ -1,17 +1,17 @@
 /**
- * لقطات شاشة لكل نموذج (390×844): الرئيسية، صنف (بركر فرايدي)، السلة (3 أصناف)، شاشة الطلب.
- * الاستخدام:  npm run build && npx vite preview --port 4173 &  ثم  node scripts/screenshots.mjs [baseUrl] [outDir] [themes]
+ * لقطات شاشة (390×844): الرئيسية، صنف (بركر فرايدي)، السلة (3 أصناف)، شاشة الطلب ويا الخريطة.
+ * الاستخدام:  npm run build && npx vite preview --port 4173 &   ثم   node scripts/screenshots.mjs [baseUrl] [outDir]
+ * EXTRA=1 لقطات إضافية للمراجعة.  SCALE=1 لقطات أخف.
  */
 import { createRequire } from 'node:module';
+import { mkdirSync } from 'node:fs';
 const require = createRequire(import.meta.url);
 let pw;
 try { pw = require('playwright'); } catch { pw = require(require('node:child_process').execSync('npm root -g').toString().trim() + '/playwright'); }
 const { chromium } = pw;
-import { mkdirSync } from 'node:fs';
 
 const base = process.argv[2] ?? 'http://localhost:4173/';
-const out = process.argv[3] ?? 'screenshots/phase0';
-const themes = (process.argv[4] ?? 'a,b,c,d').split(',');
+const out = process.argv[3] ?? 'screenshots/final';
 const scale = Number(process.env.SCALE ?? 2);
 mkdirSync(out, { recursive: true });
 
@@ -25,89 +25,71 @@ const cart = {
   },
   version: 1,
 };
-const customer = { state: { c: { type: 'delivery', name: 'أحمد علي', phone: '07801234567', zoneId: 'z1', address: 'حي الأمير، شارع 20', landmark: 'قرب جامع الحسن' } }, version: 1 };
+const customer = { state: { c: { type: 'delivery', name: 'أحمد علي', phone: '07801234567', zoneId: '', address: 'حي الأمير، شارع 20', landmark: 'قرب جامع الحسن', pin: null } }, version: 1 };
 
 const browser = await chromium.launch();
-for (const t of themes) {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: scale, locale: 'ar-IQ', hasTouch: true, isMobile: true });
-  const page = await ctx.newPage();
-  // نخفي زر تبديل النماذج من اللقطات (أداة تجربة مو جزء من التصميم)
-  await ctx.addInitScript(() => {
-    document.addEventListener('DOMContentLoaded', () => {
-      const st = document.createElement('style');
-      st.textContent = '[data-proto]{display:none!important}';
-      document.head.appendChild(st);
-    });
-  });
-  // وقت ثابت: 7:30 بالليل بتوقيت بغداد (المطعم مفتوح)
-  // نزيّف Date فقط (مو performance.now) حتى الحركات تشتغل طبيعي
-  await ctx.addInitScript((target) => {
-    const D = Date;
-    const off = target - D.now();
-    class FakeDate extends D {
-      constructor(...a) { if (a.length) super(...a); else super(D.now() + off); }
-      static now() { return D.now() + off; }
-    }
-    globalThis.Date = FakeDate;
-  }, new Date('2026-11-16T19:30:00+03:00').getTime());
-  const shot = async (name) => {
-    await page.waitForTimeout(900);
-    await page.evaluate(() => document.fonts.ready);
-    if (process.env.DEBUG) console.log(name, await page.evaluate(() => location.hash), await page.locator('[role=dialog]').count());
-    await page.screenshot({ path: `${out}/${t}-${name}.png` });
-    console.log('✔', `${t}-${name}.png`);
-  };
-
-  // الرئيسية (سلة فاضية)
-  await page.goto(`${base}#/${t}`);
-  await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
-  await page.goto(`${base}#/${t}`);
-  await page.reload();
-  await shot('home');
-
-  // صنف
-  await page.goto(`${base}#/${t}/item/F001`);
-  await shot('item');
-
-  // السلة: 3 أصناف
-  await page.evaluate(([c, cu]) => { localStorage.setItem('fryday:cart', c); localStorage.setItem('fryday:customer', cu); }, [JSON.stringify(cart), JSON.stringify(customer)]);
-  await page.goto(`${base}#/${t}`);
-  await page.reload();
-  await page.goto(`${base}#/${t}/cart`);
-  await shot('cart');
-
-  await page.goto(`${base}#/${t}/checkout`);
-  await shot('checkout');
-
-  if (process.env.EXTRA) {
-    await page.goto(`${base}#/${t}`);
-    await page.waitForTimeout(1200);
-    await page.evaluate(() => window.scrollTo(0, 1000));
-    await shot('home-scrolled');
-    await page.goto(`${base}#/${t}/item/F024`);
-    await shot('item-pizza');
-    await page.goto(`${base}#/${t}/item/F077`);
-    await page.waitForTimeout(500);
-    await page.locator('[role=dialog] button[role=checkbox]').first().click();
-    await shot('item-appet');
-    await page.goto(`${base}#/${t}/item/S025`);
-    await shot('item-cake');
-    await page.goto(`${base}#/${t}`);
-    await page.waitForTimeout(700);
-    await page.locator('input[type=search]').fill('برغر');
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await shot('search');
-    await page.locator('input[type=search]').fill('');
-    await page.waitForTimeout(500);
-    await page.getByRole('button', { name: 'المقبلات', exact: true }).first().click().catch((e) => console.log('chip', e.message));
-    await page.waitForTimeout(400);
-    await shot('text-rows');
-    await page.goto(`${base}#/${t}/checkout`);
-    await page.waitForTimeout(600);
-    await page.getByText("راجع وأكّد الطلب").click();
-    await page.waitForTimeout(800);
-    await shot('done');
+const ctx = await browser.newContext({
+  viewport: { width: 390, height: 844 }, deviceScaleFactor: scale, locale: 'ar-IQ', hasTouch: true, isMobile: true,
+  geolocation: { latitude: 32.0262, longitude: 44.3365 }, permissions: ['geolocation'],
+});
+// وقت ثابت: 7:30 بالليل بتوقيت بغداد (المطعم مفتوح) — نزيّف Date بس حتى الحركات تشتغل
+await ctx.addInitScript((target) => {
+  const D = Date;
+  const off = target - D.now();
+  class FakeDate extends D {
+    constructor(...a) { if (a.length) super(...a); else super(D.now() + off); }
+    static now() { return D.now() + off; }
   }
-  await ctx.close();
+  globalThis.Date = FakeDate;
+}, new Date('2026-11-16T19:30:00+03:00').getTime());
+const page = await ctx.newPage();
+page.on('pageerror', (e) => console.log('pageerror', e.message));
+
+const shot = async (name, wait = 900) => {
+  await page.waitForTimeout(wait);
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: `${out}/${name}.png` });
+  console.log('✔', `${name}.png`);
+};
+const nav = async (hash, wait) => { await page.goto(`${base}#/${hash}`); if (wait) await page.waitForTimeout(wait); };
+
+// الرئيسية
+await nav('');
+await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+await page.reload();
+await shot('home', 1400);
+
+// صنف
+await nav('item/F001');
+await shot('item');
+
+// السلة
+await page.evaluate(([c, cu]) => { localStorage.setItem('fryday:cart', c); localStorage.setItem('fryday:customer', cu); }, [JSON.stringify(cart), JSON.stringify(customer)]);
+await nav('', 300);
+await page.reload();
+await nav('cart');
+await shot('cart');
+
+// شاشة الطلب ويا الخريطة
+await nav('checkout', 900);
+await page.getByRole('button', { name: 'حدد موقعي على الخريطة' }).click();
+await page.waitForLoadState('networkidle').catch(() => {});
+await shot('checkout-map', 3500);
+
+if (process.env.EXTRA) {
+  await page.getByRole('button', { name: 'أكّد الموقع هنا' }).click();
+  await page.locator('[role=dialog] .overflow-y-auto').first().evaluate((el) => el.scrollTo(0, 0));
+  await shot('checkout-confirmed');
+  await page.locator('[role=dialog] .overflow-y-auto').first().evaluate((el) => el.scrollTo(0, el.scrollHeight));
+  await shot('checkout-bottom', 500);
+  await page.getByText('راجع وأكّد الطلب').click();
+  await shot('done', 1300);
+  await nav('', 1200);
+  await page.evaluate(() => window.scrollTo(0, 230));
+  await shot('home-scroll-1');
+  await page.evaluate(() => window.scrollTo(0, 900));
+  await shot('home-scroll-2');
+  await nav('item/F024');
+  await shot('item-pizza');
 }
 await browser.close();
