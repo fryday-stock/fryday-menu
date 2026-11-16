@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ChevronDown, MapPin, Phone, RefreshCw, Search, MessageCircle } from 'lucide-react';
+import { ChevronDown, MapPin, Phone, RefreshCw, Search, MessageCircle, Trash } from 'lucide-react';
 import { api, baghdadToday, baghdadTime, AdminError } from '../api';
 import { Badge, Card, Empty, Input, PageTitle } from '../ui';
 import { Price } from '../../components/Price';
@@ -13,8 +13,18 @@ interface OrderRow {
 }
 interface Resp { day: string; orders: OrderRow[]; summary: { n: number; total: number; pending: number | null } }
 
-function OrderCard({ o }: { o: OrderRow }) {
+function OrderCard({ o, onDeleted }: { o: OrderRow; onDeleted: () => void }) {
   const [open, setOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const del = async () => {
+    if (!confirm(`تحذف الطلب #${o.number}؟\nاستخدمها بس للطلبات التجريبية — الحذف ما يرجع.`)) return;
+    setDeleting(true);
+    try {
+      const r = await api<{ nextNumber: number }>(`orders/${o.id}`, { method: 'DELETE' });
+      alert(`انحذف الطلب #${o.number}. الطلب الجاي بهذا اليوم راح ياخذ رقم #${r.nextNumber}.`);
+      onDeleted();
+    } catch (e) { alert((e as AdminError).message); setDeleting(false); }
+  };
   const pending = o.status === 'pending';
   return (
     <li className={`overflow-hidden rounded-[18px] bg-surface shadow-card ${pending ? 'ring-1 ring-[#f59e0b]/50' : ''}`}>
@@ -43,6 +53,7 @@ function OrderCard({ o }: { o: OrderRow }) {
             {o.lat != null && o.lng != null && (
               <a href={`https://maps.google.com/?q=${o.lat},${o.lng}`} target="_blank" rel="noopener noreferrer" className="flex h-11 items-center gap-1.5 rounded-xl border border-line px-3.5 text-[14px] font-bold"><MapPin size={16} /> الموقع</a>
             )}
+            <button onClick={del} disabled={deleting} className="ms-auto flex h-11 items-center gap-1.5 rounded-xl border border-danger/30 bg-danger/8 px-3.5 text-[14px] font-bold text-danger disabled:opacity-50"><Trash size={16} /> حذف (تجريبي)</button>
           </div>
         </div>
       )}
@@ -97,7 +108,7 @@ export function Orders() {
       )}
       {err && <p role="alert" className="mb-3 rounded-xl bg-danger/10 p-3 text-[14px] font-semibold text-danger">{err}</p>}
       {data && (data.orders.length ? (
-        <ul className="space-y-2.5">{data.orders.map((o) => <OrderCard key={o.id} o={o as OrderRow} />)}</ul>
+        <ul className="space-y-2.5">{data.orders.map((o) => <OrderCard key={o.id} o={o as OrderRow} onDeleted={load} />)}</ul>
       ) : (
         <Empty>{q ? 'ماكو نتائج' : 'ماكو طلبات بهذا اليوم بعد'}</Empty>
       ))}

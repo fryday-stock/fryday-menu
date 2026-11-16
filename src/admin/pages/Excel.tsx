@@ -54,7 +54,7 @@ export function ExcelPage() {
       const sheets = Object.fromEntries(all.map((s: { sheet: string; data: unknown[][] }) => [s.sheet, s.data]));
       const p = parseMenuSheets(sheets);
       // مكتبة القراءة تشيل الإيموجي (🌶) — إذا الاسم نفسه بدون الإيموجي نخلي الاسم القديم
-      const strip = (x: string) => x.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\uFE0F]/gu, '').trim();
+      const strip = (x: string) => x.replace(/[^\p{L}\p{N}\s()+.,،-]/gu, '').replace(/\s+/g, ' ').trim();
       for (const g of Object.values(p.groups)) {
         const old = menu.groups[g.code];
         if (old) g.options = g.options.map((o) => ({ ...o, name: old.options.find((x) => strip(x.name) === strip(o.name))?.name ?? o.name }));

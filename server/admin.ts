@@ -243,6 +243,22 @@ export async function handleAdmin(req: Request, env: Env, path: string): Promise
     return json({ day, orders: rows.map((r) => ({ ...r, lines: JSON.parse(String(r.lines)) })), summary: sum });
   }
 
+  /**
+   * حذف طلب (للطلبات التجريبية): بعد الحذف عداد ذاك اليوم يرجع لأكبر رقم باقي،
+   * فإذا انحذفت كل طلبات اليوم يبدي الطلب الجاي من 1001 من جديد.
+   */
+  const delMatch = path.match(/^orders\/(\d{1,10})$/);
+  if (delMatch && m === 'DELETE') {
+    const row = await db.prepare(`SELECT day FROM orders WHERE id = ?`).bind(Number(delMatch[1])).first<{ day: string }>();
+    if (!row) throw new HttpError(404, 'not_found', 'الطلب مو موجود');
+    await db.batch([
+      db.prepare(`DELETE FROM orders WHERE id = ?`).bind(Number(delMatch[1])),
+      db.prepare(`UPDATE order_counters SET last = COALESCE((SELECT MAX(number) FROM orders WHERE day = ?), 1000) WHERE day = ?`).bind(row.day, row.day),
+    ]);
+    const next = await db.prepare(`SELECT last FROM order_counters WHERE day = ?`).bind(row.day).first<{ last: number }>();
+    return json({ ok: true, nextNumber: (next?.last ?? 1000) + 1 });
+  }
+
   // ───── استيراد Excel (بعد شاشة المراجعة) ─────
   if (path === 'import' && m === 'PUT') {
     const body = await readJson<{ items: unknown[]; groups: Record<string, unknown>; sectionsByTab: Record<TabId, string[]>; zones?: { name: string; fee: number }[] }>(req, 2_000_000);
