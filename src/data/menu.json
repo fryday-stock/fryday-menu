@@ -1,0 +1,2994 @@
+{
+ "generatedAt": "2026-11-16T11:21:54.728Z",
+ "tabs": [
+  {
+   "id": "food",
+   "name": "الأكل",
+   "sections": [
+    {
+     "id": "food-1",
+     "name": "البركر"
+    },
+    {
+     "id": "food-2",
+     "name": "القرمشيات"
+    },
+    {
+     "id": "food-3",
+     "name": "البيتزا"
+    },
+    {
+     "id": "food-4",
+     "name": "التاكو"
+    },
+    {
+     "id": "food-5",
+     "name": "المشويات"
+    },
+    {
+     "id": "food-6",
+     "name": "الفروج المشوي"
+    },
+    {
+     "id": "food-7",
+     "name": "أطباق فرايدي"
+    },
+    {
+     "id": "food-8",
+     "name": "المقالي"
+    },
+    {
+     "id": "food-9",
+     "name": "السلطات"
+    },
+    {
+     "id": "food-10",
+     "name": "المقبلات"
+    }
+   ]
+  },
+  {
+   "id": "drinks",
+   "name": "المشروبات",
+   "sections": [
+    {
+     "id": "drinks-1",
+     "name": "المشروبات"
+    },
+    {
+     "id": "drinks-2",
+     "name": "بار الإسبريسو"
+    },
+    {
+     "id": "drinks-3",
+     "name": "المشروبات الساخنة"
+    },
+    {
+     "id": "drinks-4",
+     "name": "القهوة المختصة"
+    },
+    {
+     "id": "drinks-5",
+     "name": "شاي أعشاب (دمنوش)"
+    },
+    {
+     "id": "drinks-6",
+     "name": "القهوة الباردة"
+    },
+    {
+     "id": "drinks-7",
+     "name": "بلندر بار"
+    },
+    {
+     "id": "drinks-8",
+     "name": "بار الموكتيلات"
+    },
+    {
+     "id": "drinks-9",
+     "name": "رج واشرب"
+    },
+    {
+     "id": "drinks-10",
+     "name": "العصائر الطبيعية"
+    }
+   ]
+  },
+  {
+   "id": "sweets",
+   "name": "الحلويات",
+   "sections": [
+    {
+     "id": "sweets-1",
+     "name": "الحلويات"
+    },
+    {
+     "id": "sweets-2",
+     "name": "الآيس كريم الإيطالي"
+    },
+    {
+     "id": "sweets-3",
+     "name": "الكيك"
+    }
+   ]
+  }
+ ],
+ "items": [
+  {
+   "id": "F001",
+   "tab": "food",
+   "section": "البركر",
+   "name": "بركر فرايدي",
+   "nameEn": "Fryday Burger",
+   "desc": "روست بقري، باتي بقري، جبن، صوص الفريدو، طماطم، مخلل، خس",
+   "price": 10000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-fryday.webp",
+   "available": true
+  },
+  {
+   "id": "F002",
+   "tab": "food",
+   "section": "البركر",
+   "name": "زنجر بركر",
+   "nameEn": "Zinger Burger",
+   "desc": "دجاج كرسبي، خس، مخلل، شريحة جبن شيدر، صوص فراي دي",
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-zinger.webp",
+   "available": true
+  },
+  {
+   "id": "F003",
+   "tab": "food",
+   "section": "البركر",
+   "name": "كلاسيك بركر",
+   "nameEn": "Classic Burger",
+   "desc": "باتي بقري عراقي، خس، طماطم، مخلل، صوص",
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-classic.webp",
+   "available": true
+  },
+  {
+   "id": "F004",
+   "tab": "food",
+   "section": "البركر",
+   "name": "بركر بالجبن",
+   "nameEn": "Cheese Burger",
+   "desc": "باتي بقري عراقي، خس، شريحة جبن شيدر، طماطم، مخلل، صوص",
+   "price": 6500,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-cheese.webp",
+   "available": true
+  },
+  {
+   "id": "F005",
+   "tab": "food",
+   "section": "البركر",
+   "name": "بركر بالفطر",
+   "nameEn": "Mushroom Burger",
+   "desc": "باتي بقري عراقي، فطر، جبنة سويسرية، بصل مكرمل، صوص فطر",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-mushroom.webp",
+   "available": true
+  },
+  {
+   "id": "F006",
+   "tab": "food",
+   "section": "البركر",
+   "name": "بركر بالسمك المقرمش",
+   "nameEn": "Crispy Fish Burger",
+   "desc": "سمك مقرمش، طماطم، مخلل، صوص خاص، خس",
+   "price": 8000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-fish.webp",
+   "available": true
+  },
+  {
+   "id": "F007",
+   "tab": "food",
+   "section": "البركر",
+   "name": "بغداد ميلت",
+   "nameEn": "Baghdad Melt",
+   "desc": "توست بريوش، باتي بقري عراقي، متبل باذنجان، بصل مكرمل، بطاطا مقرمشة، زبدة",
+   "price": 7000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "toast-baghdad-melt.webp",
+   "available": true
+  },
+  {
+   "id": "F008",
+   "tab": "food",
+   "section": "البركر",
+   "name": "التراث",
+   "nameEn": "Heritage Toast",
+   "desc": "توست بريوش، باتي بقري عراقي، طماطة مكرملة، بصل مشوي، مخلل، ريحان، صوص خاص",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "toast-heritage.webp",
+   "available": true
+  },
+  {
+   "id": "F009",
+   "tab": "food",
+   "section": "البركر",
+   "name": "اوفردوز",
+   "nameEn": "Overdose Burger",
+   "desc": "توست بريوش، باتي بقري، طماطة، شريحة شيدر، مخلل، حبش مدخن، بطاطا مقرمشة، زبدة، صوص",
+   "price": 9500,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "toast-overdose.webp",
+   "available": true
+  },
+  {
+   "id": "F010",
+   "tab": "food",
+   "section": "البركر",
+   "name": "ميكس بركر",
+   "nameEn": "Mix Burger",
+   "desc": "باتي بقري، دجاج كرسبي، خس، طماطم، صوص لجبن، مخلل",
+   "price": 9000,
+   "orderable": true,
+   "groups": [
+    "MEAL"
+   ],
+   "image": "burger-mix.webp",
+   "available": true
+  },
+  {
+   "id": "F011",
+   "tab": "food",
+   "section": "البركر",
+   "name": "وجبة أطفال (بركر)",
+   "nameEn": "Kids Meal",
+   "desc": "بركر ملون، بطاطا، عصير، لعبة جديدة",
+   "price": 6500,
+   "orderable": true,
+   "groups": [],
+   "image": "kids-burger-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F012",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كنتاكي قطعتين",
+   "nameEn": "Kentucky 2 pcs",
+   "desc": "قطعتين دجاج مقرمش، بطاطا، كولسلو، صلصة ثومية، صلصة خاصة، صمون 2، مشروب غازي 1",
+   "price": 7500,
+   "orderable": true,
+   "groups": [],
+   "image": "crispy-3pcs.webp",
+   "available": true
+  },
+  {
+   "id": "F013",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كنتاكي ثلاث قطع",
+   "nameEn": "Kentucky 3 pcs",
+   "desc": "3 قطع دجاج مقرمش، بطاطا، كولسلو، صلصة ثومية، صلصة خاصة، صمون 3، مشروب غازي 1",
+   "price": 9500,
+   "orderable": true,
+   "groups": [],
+   "image": "crispy-3pcs.webp",
+   "available": true
+  },
+  {
+   "id": "F014",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كنتاكي خمس قطع",
+   "nameEn": "Kentucky 5 pcs",
+   "desc": "5 قطع دجاج مقرمش، بطاطا، كولسلو 2، صلصة ثومية 2، صلصة خاصة 2، صمون 5، مشروب غازي 2",
+   "price": 16000,
+   "orderable": true,
+   "groups": [],
+   "image": "crispy-5pcs.webp",
+   "available": true
+  },
+  {
+   "id": "F015",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كنتاكي عائلية",
+   "nameEn": "Kentucky Family",
+   "desc": "8 قطع دجاج مقرمش، بطاطا، كولسلو 3، صلصة ثومية 3، صلصة خاصة 2، صمون 8، مشروب غازي 3",
+   "price": 22500,
+   "orderable": true,
+   "groups": [],
+   "image": "crispy-8pcs.webp",
+   "available": true
+  },
+  {
+   "id": "F016",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كرسبي ستربس ثلاث قطع",
+   "nameEn": "Crispy Strips 3 pcs",
+   "desc": "3 قطع ستربس، بطاطا، كولسلو، صلصة ثومية، صلصة خاصة، صمون 3، مشروب غازي 1",
+   "price": 8000,
+   "orderable": true,
+   "groups": [],
+   "image": "strips-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F017",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كرسبي ستربس خمس قطع",
+   "nameEn": "Crispy Strips 5 pcs",
+   "desc": "5 قطع ستربس، بطاطا، كولسلو 2، صلصة ثومية 2، صلصة خاصة 2، صمون 5، مشروب غازي 2",
+   "price": 12000,
+   "orderable": true,
+   "groups": [],
+   "image": "strips-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F018",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة كرسبي ستربس ثمان قطع",
+   "nameEn": "Crispy Strips 8 pcs",
+   "desc": "8 قطع ستربس، بطاطا، كولسلو 2، صلصة ثومية 2، صلصة خاصة 2، صمون 8، مشروب غازي 2",
+   "price": 18500,
+   "orderable": true,
+   "groups": [],
+   "image": "strips-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F019",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة أطفال (كرسبي)",
+   "nameEn": "Kids Crispy Meal",
+   "desc": "قطعة كرسبي، قطعة ستربس، بطاطا، عصير، صمون، لعبة",
+   "price": 6500,
+   "orderable": true,
+   "groups": [],
+   "image": "kids-crispy-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F020",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة جامبو",
+   "nameEn": "Jumbo Meal",
+   "desc": "8 قطع دجاج مقرمش مع 8 قطع ستربس، بطاطا، كولسلو 3، صلصة ثومية 4، صلصة خاصة 4، صمون 5، مشروب غازي كبير",
+   "price": 35500,
+   "orderable": true,
+   "groups": [],
+   "image": "crispy-8pcs.webp",
+   "available": true
+  },
+  {
+   "id": "F021",
+   "tab": "food",
+   "section": "القرمشيات",
+   "name": "وجبة سمك مقرمش",
+   "nameEn": "Crispy Fish Meal",
+   "desc": "فيليه سمك مقرمش، بطاطا، كولسلو، صلصة خاصة، صمون 3",
+   "price": 12000,
+   "orderable": true,
+   "groups": [],
+   "image": "fish-meal.webp",
+   "available": true
+  },
+  {
+   "id": "F022",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا خضار",
+   "nameEn": "Veggie Pizza",
+   "desc": "فطر، زيتون، طماطم، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 6500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_A"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F023",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا مارغريتا",
+   "nameEn": "Margherita",
+   "desc": "جبن موزاريلا مضاعف، اوريغانو، صوص",
+   "price": 6500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_A"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F024",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا ببروني",
+   "nameEn": "Pepperoni",
+   "desc": "شرائح ببروني، اوريغانو، جبن موزاريلا، صوص",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_B"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F025",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا شاورما دجاج",
+   "nameEn": "Chicken Shawarma Pizza",
+   "desc": "دجاج، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_B"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F026",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا شاورما لحم",
+   "nameEn": "Meat Shawarma Pizza",
+   "desc": "لحم، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 8000,
+   "orderable": true,
+   "groups": [
+    "PIZZA_C"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F027",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا شاورما ميكس",
+   "nameEn": "Mix Shawarma Pizza",
+   "desc": "جبن موزاريلا، لحم مثروم، دجاج، فطر، زيتون، فليفلة، صوص",
+   "price": 8000,
+   "orderable": true,
+   "groups": [
+    "PIZZA_C"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F028",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا شرائح دجاج",
+   "nameEn": "Roast Chicken Pizza",
+   "desc": "شرائح دجاج، فطر، زيتون، طماطم، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_B"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F029",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا شرائح لحم",
+   "nameEn": "Roast Beef Pizza",
+   "desc": "لحم مفروم، فطر، زيتون، طماطم، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 8000,
+   "orderable": true,
+   "groups": [
+    "PIZZA_C"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F030",
+   "tab": "food",
+   "section": "البيتزا",
+   "name": "بيتزا TNT",
+   "nameEn": "TNT Pizza",
+   "desc": "مارتديلا، فطر، زيتون، طماطم، جبن موزاريلا، فليفلة، ذرة، اوريغانو، صوص",
+   "price": 7500,
+   "orderable": true,
+   "groups": [
+    "PIZZA_B"
+   ],
+   "image": "pizza-round.webp",
+   "available": true
+  },
+  {
+   "id": "F031",
+   "tab": "food",
+   "section": "التاكو",
+   "name": "تاكو دجاج مقرمش",
+   "nameEn": "Crispy Chicken Taco",
+   "desc": null,
+   "price": 8000,
+   "orderable": true,
+   "groups": [],
+   "image": "tacos.webp",
+   "available": true
+  },
+  {
+   "id": "F032",
+   "tab": "food",
+   "section": "التاكو",
+   "name": "تاكو شرائح دجاج",
+   "nameEn": "Chicken Slices Taco",
+   "desc": null,
+   "price": 8000,
+   "orderable": true,
+   "groups": [],
+   "image": "taco-chicken-box.webp",
+   "available": true
+  },
+  {
+   "id": "F033",
+   "tab": "food",
+   "section": "التاكو",
+   "name": "تاكو لحم",
+   "nameEn": "Meat Taco",
+   "desc": null,
+   "price": 9500,
+   "orderable": true,
+   "groups": [],
+   "image": "taco-meat-box.webp",
+   "available": true
+  },
+  {
+   "id": "F034",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "مشكل كباب",
+   "nameEn": "Mixed Kebab",
+   "desc": "شيش 3 طبقات من حبل الظهر، لحم مثروم، صدر دجاج، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 13500,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-mixed-kebab.webp",
+   "available": true
+  },
+  {
+   "id": "F035",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "رول تكة لحم",
+   "nameEn": "Meat Tikka Roll",
+   "desc": "شيش من لفائف حبل الظهر، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 14000,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-meat-roll.webp",
+   "available": true
+  },
+  {
+   "id": "F036",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "رول تكة دجاج",
+   "nameEn": "Chicken Tikka Roll",
+   "desc": "شيش من لفائف الدجاج، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 11500,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-chicken-roll.webp",
+   "available": true
+  },
+  {
+   "id": "F037",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "تكة مشكل",
+   "nameEn": "Mixed Tikka",
+   "desc": "شيش من تكة لحم مع تكة دجاج، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 12000,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-mixed-tikka.webp",
+   "available": true
+  },
+  {
+   "id": "F038",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "بقلاوة لحم",
+   "nameEn": "Meat Baklava",
+   "desc": "لحم حبل الظهر ورقائق الخبز، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 12500,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-meat-baklava.webp",
+   "available": true
+  },
+  {
+   "id": "F039",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "تكة دجاج فرايدي",
+   "nameEn": "Fryday Chicken Tikka",
+   "desc": "دجاج مشوي بطريقة فرايدي، أرز حسب الاختيار، طماطم، ليمون، صوص سماق",
+   "price": 12000,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE_INC",
+    "GRILL_RICE"
+   ],
+   "image": "grill-fryday-chicken.webp",
+   "available": true
+  },
+  {
+   "id": "F040",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "كباب لحم",
+   "nameEn": "Meat Kebab",
+   "desc": "شيشين كباب لحم، طماطم، ليمون، صوص سماق",
+   "price": 14000,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE"
+   ],
+   "image": "grill-kebab.webp",
+   "available": true
+  },
+  {
+   "id": "F041",
+   "tab": "food",
+   "section": "المشويات",
+   "name": "تكة دجاج",
+   "nameEn": "Chicken Tikka",
+   "desc": "شيشين تكة دجاج، طماطم، ليمون، صوص سماق",
+   "price": 11000,
+   "orderable": true,
+   "groups": [
+    "GRILL_RICE"
+   ],
+   "image": "grill-chicken-tikka.webp",
+   "available": true
+  },
+  {
+   "id": "F042",
+   "tab": "food",
+   "section": "الفروج المشوي",
+   "name": "فروج كامل مشوي",
+   "nameEn": "Whole Grilled Chicken",
+   "desc": "مع بطاطا، خبز، صلصة ثومية، صلصة خاصة، طرشي",
+   "price": 18000,
+   "orderable": true,
+   "groups": [
+    "CHICKEN_SAUCE"
+   ],
+   "image": "chicken-grilled.webp",
+   "available": true
+  },
+  {
+   "id": "F043",
+   "tab": "food",
+   "section": "الفروج المشوي",
+   "name": "نصف فروج مشوي",
+   "nameEn": "Half Grilled Chicken",
+   "desc": "مع بطاطا، خبز، صلصة ثومية، صلصة خاصة، طرشي",
+   "price": 9500,
+   "orderable": true,
+   "groups": [
+    "CHICKEN_SAUCE"
+   ],
+   "image": "chicken-grilled-half.webp",
+   "available": true
+  },
+  {
+   "id": "F044",
+   "tab": "food",
+   "section": "الفروج المشوي",
+   "name": "فروج كامل على التمن",
+   "nameEn": "Whole Chicken on Rice",
+   "desc": "مع خبز، صلصة ثومية، صلصة خاصة، طرشي",
+   "price": 19000,
+   "orderable": true,
+   "groups": [
+    "RICE_TYPE",
+    "CHICKEN_SAUCE"
+   ],
+   "image": "chicken-rice.webp",
+   "available": true
+  },
+  {
+   "id": "F045",
+   "tab": "food",
+   "section": "الفروج المشوي",
+   "name": "نصف فروج على التمن",
+   "nameEn": "Half Chicken on Rice",
+   "desc": "مع خبز، صلصة ثومية، صلصة خاصة، طرشي",
+   "price": 10000,
+   "orderable": true,
+   "groups": [
+    "RICE_TYPE",
+    "CHICKEN_SAUCE"
+   ],
+   "image": "chicken-rice.webp",
+   "available": true
+  },
+  {
+   "id": "F046",
+   "tab": "food",
+   "section": "الفروج المشوي",
+   "name": "ربع فروج على التمن",
+   "nameEn": "Quarter Chicken on Rice",
+   "desc": "مع خبز، صلصة ثومية، صلصة خاصة، طرشي",
+   "price": 7000,
+   "orderable": true,
+   "groups": [
+    "RICE_TYPE",
+    "CHICKEN_SAUCE"
+   ],
+   "image": "chicken-rice.webp",
+   "available": true
+  },
+  {
+   "id": "F047",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "نودلز دجاج ترياكي",
+   "nameEn": "Teriyaki Chicken Noodles",
+   "desc": null,
+   "price": 6500,
+   "orderable": true,
+   "groups": [],
+   "image": "noodles-teriyaki.webp",
+   "available": true
+  },
+  {
+   "id": "F048",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "نودلز دجاج تشيبوتلي",
+   "nameEn": "Chipotle Chicken Noodles",
+   "desc": null,
+   "price": 7000,
+   "orderable": true,
+   "groups": [],
+   "image": "noodles-chipotle.webp",
+   "available": true
+  },
+  {
+   "id": "F049",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "نودلز لحم",
+   "nameEn": "Beef Noodles",
+   "desc": null,
+   "price": 8000,
+   "orderable": true,
+   "groups": [],
+   "image": "noodles-chipotle.webp",
+   "available": true
+  },
+  {
+   "id": "F050",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "سباغيتي بالدجاج المقرمش",
+   "nameEn": "Crispy Chicken Spaghetti",
+   "desc": null,
+   "price": 7000,
+   "orderable": true,
+   "groups": [],
+   "image": "pasta-spaghetti.webp",
+   "available": true
+  },
+  {
+   "id": "F051",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "فوتوشيني الفريدو",
+   "nameEn": "Fettuccine Alfredo",
+   "desc": null,
+   "price": 8000,
+   "orderable": true,
+   "groups": [],
+   "image": "pasta-alfredo.webp",
+   "available": true
+  },
+  {
+   "id": "F052",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "باستا بالدجاج والجبن",
+   "nameEn": "Chicken Cheese Pasta",
+   "desc": null,
+   "price": 9000,
+   "orderable": true,
+   "groups": [],
+   "image": "pasta-spaghetti.webp",
+   "available": true
+  },
+  {
+   "id": "F053",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "أجنحة مقرمشة",
+   "nameEn": "Crispy Wings",
+   "desc": "الصوص حسب الاختيار",
+   "price": 6500,
+   "orderable": true,
+   "groups": [
+    "WINGS_SAUCE"
+   ],
+   "image": "wings.webp",
+   "available": true
+  },
+  {
+   "id": "F054",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "ريزو كلاسيك",
+   "nameEn": "Rizo Classic",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "rizo.webp",
+   "available": true
+  },
+  {
+   "id": "F055",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "ريزو سويت جيلي",
+   "nameEn": "Rizo Sweet Jelly",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "rizo.webp",
+   "available": true
+  },
+  {
+   "id": "F056",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "ريزو مدخن",
+   "nameEn": "Rizo Smoked",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "rizo.webp",
+   "available": true
+  },
+  {
+   "id": "F057",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "جكن جيز فرايز",
+   "nameEn": "Chicken Cheese Fries",
+   "desc": null,
+   "price": 7000,
+   "orderable": true,
+   "groups": [],
+   "image": "chicken-cheese-fries.webp",
+   "available": true
+  },
+  {
+   "id": "F058",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "دوريتوس بركر فرايز",
+   "nameEn": "Doritos Burger Fries",
+   "desc": null,
+   "price": 7500,
+   "orderable": true,
+   "groups": [],
+   "image": "doritos-fries.webp",
+   "available": true
+  },
+  {
+   "id": "F059",
+   "tab": "food",
+   "section": "أطباق فرايدي",
+   "name": "تشيلي جيز فرايز",
+   "nameEn": "Chili Cheese Fries",
+   "desc": null,
+   "price": 7000,
+   "orderable": true,
+   "groups": [],
+   "image": "chili-cheese-fries.webp",
+   "available": true
+  },
+  {
+   "id": "F060",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "بطاطا كلاسيك",
+   "nameEn": "Classic Fries",
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "fries-classic.webp",
+   "available": true
+  },
+  {
+   "id": "F061",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "بطاطا يابانية",
+   "nameEn": "Japanese Fries",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "fries-japanese.webp",
+   "available": true
+  },
+  {
+   "id": "F062",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "حلقات بصل",
+   "nameEn": "Onion Rings",
+   "desc": null,
+   "price": 3000,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "onion-rings.webp",
+   "available": true
+  },
+  {
+   "id": "F063",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "فطر مقرمش",
+   "nameEn": "Crispy Mushroom",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "crispy-mushroom.webp",
+   "available": true
+  },
+  {
+   "id": "F064",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "خبز مقرمش بالجبن والثوم",
+   "nameEn": "Cheesy Garlic Bread",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "garlic-bread.webp",
+   "available": true
+  },
+  {
+   "id": "F065",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "كرات بطاطا دجاج",
+   "nameEn": "Chicken Potato Balls",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "balls-chicken.webp",
+   "available": true
+  },
+  {
+   "id": "F066",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "كرات بطاطا بالجبن",
+   "nameEn": "Cheese Potato Balls",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "balls-cheese.webp",
+   "available": true
+  },
+  {
+   "id": "F067",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "كرات بطاطا بالهالابينو",
+   "nameEn": "Jalapeño Potato Balls",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "balls-cheese.webp",
+   "available": true
+  },
+  {
+   "id": "F068",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "بطاطا الفريدو",
+   "nameEn": "Alfredo Fries",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "fries-alfredo.webp",
+   "available": true
+  },
+  {
+   "id": "F069",
+   "tab": "food",
+   "section": "المقالي",
+   "name": "بطاطا فرايدي",
+   "nameEn": "Fryday Fries",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "EXTRA_SAUCE"
+   ],
+   "image": "fries-fryday.webp",
+   "available": true
+  },
+  {
+   "id": "F070",
+   "tab": "food",
+   "section": "السلطات",
+   "name": "سلطة سيزر",
+   "nameEn": "Caesar Salad",
+   "desc": "خس، دجاج، بارميزان، توست، صوص السيزر",
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "salad-caesar.webp",
+   "available": true
+  },
+  {
+   "id": "F071",
+   "tab": "food",
+   "section": "السلطات",
+   "name": "سلطة فراي دي",
+   "nameEn": "Fryday Salad",
+   "desc": "خس، جرجير، تفاح، برتقال، جوز، ذرة، طماطم، بارميزان، صلصة خاصة",
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F072",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "حمص بطحينة",
+   "nameEn": null,
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F073",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "متبل باذنجان",
+   "nameEn": null,
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F074",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "باذنجانية",
+   "nameEn": null,
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F075",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "محمرة",
+   "nameEn": null,
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F076",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "بابا غنوج",
+   "nameEn": null,
+   "desc": null,
+   "price": 2500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "F077",
+   "tab": "food",
+   "section": "المقبلات",
+   "name": "عرض 3 مقبلات",
+   "nameEn": "Appetizers Offer",
+   "desc": "اختار أي 3 أطباق مقبلات",
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "APPET_PICK"
+   ],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D001",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "مشروب غازي",
+   "nameEn": null,
+   "desc": null,
+   "price": 750,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D002",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "مشروب غازي فريش",
+   "nameEn": null,
+   "desc": null,
+   "price": 1000,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D003",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "لبن",
+   "nameEn": null,
+   "desc": null,
+   "price": 1000,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D004",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "ماء",
+   "nameEn": null,
+   "desc": null,
+   "price": 500,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D005",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "تمر هند",
+   "nameEn": null,
+   "desc": null,
+   "price": 1000,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D006",
+   "tab": "drinks",
+   "section": "المشروبات",
+   "name": "شاي",
+   "nameEn": null,
+   "desc": null,
+   "price": 1000,
+   "orderable": true,
+   "groups": [],
+   "image": null,
+   "available": true
+  },
+  {
+   "id": "D007",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "سولو اسبرسو",
+   "nameEn": "Solo Espresso",
+   "desc": null,
+   "price": 3000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-espresso.webp",
+   "available": true
+  },
+  {
+   "id": "D008",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "دوبيو إسبريسو",
+   "nameEn": "Doppio Espresso",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-espresso.webp",
+   "available": true
+  },
+  {
+   "id": "D009",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "إسبريسو ماكياتو",
+   "nameEn": "Espresso Macchiato",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-macchiato.webp",
+   "available": true
+  },
+  {
+   "id": "D010",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "لاتيه",
+   "nameEn": "Latte",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D011",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "أمريكانو",
+   "nameEn": "Americano",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-americano.webp",
+   "available": true
+  },
+  {
+   "id": "D012",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "فلات وايت",
+   "nameEn": "Flat White",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-flat-white.webp",
+   "available": true
+  },
+  {
+   "id": "D013",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "إسبريسو بومبون",
+   "nameEn": "Espresso Bombón",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-bombon.webp",
+   "available": true
+  },
+  {
+   "id": "D014",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "كابتشينو",
+   "nameEn": "Cappuccino",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D015",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "سبانش لاتيه",
+   "nameEn": "Spanish Latte",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-spanish-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D016",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "موكا ماكياتو",
+   "nameEn": "Mocha Macchiato",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-glass-macchiato.webp",
+   "available": true
+  },
+  {
+   "id": "D017",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "كراميل ماكياتو",
+   "nameEn": "Caramel Macchiato",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-glass-macchiato.webp",
+   "available": true
+  },
+  {
+   "id": "D018",
+   "tab": "drinks",
+   "section": "بار الإسبريسو",
+   "name": "كورتادو",
+   "nameEn": "Cortado",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-heart.webp",
+   "available": true
+  },
+  {
+   "id": "D019",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "وايت شوكليت",
+   "nameEn": "White Chocolate",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-heart.webp",
+   "available": true
+  },
+  {
+   "id": "D020",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "هوت شوكليت",
+   "nameEn": "Hot Chocolate",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "hot-chocolate-face.webp",
+   "available": true
+  },
+  {
+   "id": "D021",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "شاي كرك",
+   "nameEn": "Karak Tea",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "hot-karak.webp",
+   "available": true
+  },
+  {
+   "id": "D022",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "شاي ماسالا",
+   "nameEn": "Masala Tea",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "hot-masala.webp",
+   "available": true
+  },
+  {
+   "id": "D023",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "قهوة غزوان",
+   "nameEn": "Ghazwan Coffee",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "esp-espresso.webp",
+   "available": true
+  },
+  {
+   "id": "D024",
+   "tab": "drinks",
+   "section": "المشروبات الساخنة",
+   "name": "بي جرين",
+   "nameEn": "Bi-Cherin",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "hot-bicherin.webp",
+   "available": true
+  },
+  {
+   "id": "D025",
+   "tab": "drinks",
+   "section": "القهوة المختصة",
+   "name": "قهوة تركية",
+   "nameEn": "Turkish Café",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "COFFEE_ADD"
+   ],
+   "image": "brew-turkish.webp",
+   "available": true
+  },
+  {
+   "id": "D026",
+   "tab": "drinks",
+   "section": "القهوة المختصة",
+   "name": "قهوة فرنسية",
+   "nameEn": "French Café",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "COFFEE_ADD"
+   ],
+   "image": "brew-french.webp",
+   "available": true
+  },
+  {
+   "id": "D027",
+   "tab": "drinks",
+   "section": "القهوة المختصة",
+   "name": "ايروبرس",
+   "nameEn": "AeroPress",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "COFFEE_ADD"
+   ],
+   "image": "brew-aeropress.webp",
+   "available": true
+  },
+  {
+   "id": "D028",
+   "tab": "drinks",
+   "section": "القهوة المختصة",
+   "name": "في 60",
+   "nameEn": "V60",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "COFFEE_ADD"
+   ],
+   "image": "brew-v60.webp",
+   "available": true
+  },
+  {
+   "id": "D029",
+   "tab": "drinks",
+   "section": "القهوة المختصة",
+   "name": "كيميكس",
+   "nameEn": "Chemex",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "COFFEE_ADD"
+   ],
+   "image": "brew-chemex.webp",
+   "available": true
+  },
+  {
+   "id": "D030",
+   "tab": "drinks",
+   "section": "شاي أعشاب (دمنوش)",
+   "name": "تنظيم الجهاز الهضمي",
+   "nameEn": "GIT Damnoosh",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [],
+   "image": "tea-red.webp",
+   "available": true
+  },
+  {
+   "id": "D031",
+   "tab": "drinks",
+   "section": "شاي أعشاب (دمنوش)",
+   "name": "شاي مهدئ",
+   "nameEn": "Melatoni Damnoosh",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [],
+   "image": "tea-yellow.webp",
+   "available": true
+  },
+  {
+   "id": "D032",
+   "tab": "drinks",
+   "section": "شاي أعشاب (دمنوش)",
+   "name": "تعزيز سلامة الجسم",
+   "nameEn": "Salamat Damnoosh",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [],
+   "image": "tea-red.webp",
+   "available": true
+  },
+  {
+   "id": "D033",
+   "tab": "drinks",
+   "section": "شاي أعشاب (دمنوش)",
+   "name": "تقوية الأعصاب",
+   "nameEn": "CNS Damnoosh",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [],
+   "image": "tea-yellow.webp",
+   "available": true
+  },
+  {
+   "id": "D034",
+   "tab": "drinks",
+   "section": "شاي أعشاب (دمنوش)",
+   "name": "زيادة مناعة الجسم",
+   "nameEn": "Immunity Damnoosh",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [],
+   "image": "tea-red.webp",
+   "available": true
+  },
+  {
+   "id": "D035",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "آيس لاتيه",
+   "nameEn": "Iced Latte",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D036",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "آيس أمريكانو",
+   "nameEn": "Iced Americano",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-americano.webp",
+   "available": true
+  },
+  {
+   "id": "D037",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "آيس كراميل لاتيه",
+   "nameEn": "Iced Caramel Latte",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-caramel-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D038",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "آيس موكا",
+   "nameEn": "Iced Mocha",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-mocha.webp",
+   "available": true
+  },
+  {
+   "id": "D039",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "آيس سبانش لاتيه",
+   "nameEn": "Iced Spanish Latte",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-spanish-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D040",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "أفوغاتو",
+   "nameEn": "Affogato",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "affogato.webp",
+   "available": true
+  },
+  {
+   "id": "D041",
+   "tab": "drinks",
+   "section": "القهوة الباردة",
+   "name": "فرابتشينو",
+   "nameEn": "Frappuccino",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "frappuccino.webp",
+   "available": true
+  },
+  {
+   "id": "D042",
+   "tab": "drinks",
+   "section": "بلندر بار",
+   "name": "بلو سكاي",
+   "nameEn": "Blue Sky",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "blend-blue-sky.webp",
+   "available": true
+  },
+  {
+   "id": "D043",
+   "tab": "drinks",
+   "section": "بلندر بار",
+   "name": "لاماسو",
+   "nameEn": "Lamassu",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "blend-lamassu.webp",
+   "available": true
+  },
+  {
+   "id": "D044",
+   "tab": "drinks",
+   "section": "بلندر بار",
+   "name": "مانجا دريم",
+   "nameEn": "Mango Dream",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "blend-mango-dream.webp",
+   "available": true
+  },
+  {
+   "id": "D045",
+   "tab": "drinks",
+   "section": "بلندر بار",
+   "name": "فراي دي",
+   "nameEn": "FryDay",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "blend-fryday.webp",
+   "available": true
+  },
+  {
+   "id": "D046",
+   "tab": "drinks",
+   "section": "بلندر بار",
+   "name": "سامبا",
+   "nameEn": "Samba",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "blend-samba.webp",
+   "available": true
+  },
+  {
+   "id": "D047",
+   "tab": "drinks",
+   "section": "بار الموكتيلات",
+   "name": "الشروق",
+   "nameEn": "Sunrise",
+   "desc": null,
+   "price": 6500,
+   "orderable": true,
+   "groups": [],
+   "image": "mock-sunrise.webp",
+   "available": true
+  },
+  {
+   "id": "D048",
+   "tab": "drinks",
+   "section": "بار الموكتيلات",
+   "name": "نكهة كوبا",
+   "nameEn": "Cuban Mojito",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "mock-mojito.webp",
+   "available": true
+  },
+  {
+   "id": "D049",
+   "tab": "drinks",
+   "section": "بار الموكتيلات",
+   "name": "نسمة كوبا",
+   "nameEn": "Cuban Lemonade",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "mock-lemonade.webp",
+   "available": true
+  },
+  {
+   "id": "D050",
+   "tab": "drinks",
+   "section": "بار الموكتيلات",
+   "name": "ياسان",
+   "nameEn": "Yasan Mocktail",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "mock-yasan.webp",
+   "available": true
+  },
+  {
+   "id": "D051",
+   "tab": "drinks",
+   "section": "بار الموكتيلات",
+   "name": "شارلوت",
+   "nameEn": "Charlotte",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "mock-charlotte.webp",
+   "available": true
+  },
+  {
+   "id": "D052",
+   "tab": "drinks",
+   "section": "رج واشرب",
+   "name": "نوتيلا",
+   "nameEn": "Nutella",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "frappuccino.webp",
+   "available": true
+  },
+  {
+   "id": "D053",
+   "tab": "drinks",
+   "section": "رج واشرب",
+   "name": "مانجو وتوت",
+   "nameEn": "Mango Berry",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "shake-mango-berry.webp",
+   "available": true
+  },
+  {
+   "id": "D054",
+   "tab": "drinks",
+   "section": "رج واشرب",
+   "name": "ماريان بالقهوه",
+   "nameEn": "Marian Café",
+   "desc": null,
+   "price": 7000,
+   "orderable": true,
+   "groups": [],
+   "image": "shake-marian.webp",
+   "available": true
+  },
+  {
+   "id": "D055",
+   "tab": "drinks",
+   "section": "رج واشرب",
+   "name": "بن بينات",
+   "nameEn": "Ben Pinat",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "shake-ben-pinat.webp",
+   "available": true
+  },
+  {
+   "id": "D056",
+   "tab": "drinks",
+   "section": "رج واشرب",
+   "name": "فراولة",
+   "nameEn": "Strawberry",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "shake-strawberry.webp",
+   "available": true
+  },
+  {
+   "id": "D057",
+   "tab": "drinks",
+   "section": "العصائر الطبيعية",
+   "name": "برتقال",
+   "nameEn": "Orange",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "juice-orange.webp",
+   "available": true
+  },
+  {
+   "id": "D058",
+   "tab": "drinks",
+   "section": "العصائر الطبيعية",
+   "name": "ليمون و برتقال",
+   "nameEn": "Lemon plus Orange",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "juice-orange.webp",
+   "available": true
+  },
+  {
+   "id": "D059",
+   "tab": "drinks",
+   "section": "العصائر الطبيعية",
+   "name": "أناناس",
+   "nameEn": "Pineapple",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "iced-caramel-latte.webp",
+   "available": true
+  },
+  {
+   "id": "D060",
+   "tab": "drinks",
+   "section": "العصائر الطبيعية",
+   "name": "موز برتقال",
+   "nameEn": "Banana plus Orange",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "juice-orange.webp",
+   "available": true
+  },
+  {
+   "id": "D061",
+   "tab": "drinks",
+   "section": "العصائر الطبيعية",
+   "name": "عصير فصلي",
+   "nameEn": "Seasonal (ask me)",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "juice-seasonal.webp",
+   "available": true
+  },
+  {
+   "id": "S001",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "تيراميسو",
+   "nameEn": "Tiramisu Boutique",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [
+    "FL_TIRAMISU"
+   ],
+   "image": "sweet-tiramisu.webp",
+   "available": true
+  },
+  {
+   "id": "S002",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "براونيز",
+   "nameEn": "Brownie Boutique",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [
+    "FL_BROWNIE"
+   ],
+   "image": "sweet-brownie.webp",
+   "available": true
+  },
+  {
+   "id": "S003",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "جيز كيك",
+   "nameEn": "Cheesecake New York",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [
+    "FL_CHEESE"
+   ],
+   "image": "sweet-cheesecake-ny.webp",
+   "available": true
+  },
+  {
+   "id": "S004",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "لوتس برادايس",
+   "nameEn": "Lotus Paradise",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-lotus-paradise.webp",
+   "available": true
+  },
+  {
+   "id": "S005",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "سان سباستيان",
+   "nameEn": "San Sebastian",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-san-sebastian.webp",
+   "available": true
+  },
+  {
+   "id": "S006",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "موس",
+   "nameEn": "Mousse cake",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-mousse.webp",
+   "available": true
+  },
+  {
+   "id": "S007",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "باريس برست",
+   "nameEn": "Paris-Brest",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [
+    "FL_PARIS"
+   ],
+   "image": "sweet-paris-brest.webp",
+   "available": true
+  },
+  {
+   "id": "S008",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "ايكلير",
+   "nameEn": "Eclair Boutique",
+   "desc": null,
+   "price": 3000,
+   "orderable": true,
+   "groups": [
+    "FL_ECLAIR"
+   ],
+   "image": "sweet-eclair.webp",
+   "available": true
+  },
+  {
+   "id": "S009",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "نيويورك رول",
+   "nameEn": "New York Roll",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "FL_NYROLL"
+   ],
+   "image": "sweet-ny-roll.webp",
+   "available": true
+  },
+  {
+   "id": "S010",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "بروله",
+   "nameEn": "Brulee",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-brulee.webp",
+   "available": true
+  },
+  {
+   "id": "S011",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "كيك بالحليب",
+   "nameEn": "Tres Leches Cake",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "FL_TRES"
+   ],
+   "image": "sweet-tres-leches.webp",
+   "available": true
+  },
+  {
+   "id": "S012",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "سابل بريتون",
+   "nameEn": "Sable Breton Boutique",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [
+    "FL_SABLE"
+   ],
+   "image": "sweet-sable-breton.webp",
+   "available": true
+  },
+  {
+   "id": "S013",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "كرواسون",
+   "nameEn": "Croissant",
+   "desc": null,
+   "price": 3500,
+   "orderable": true,
+   "groups": [
+    "FL_CROISSANT"
+   ],
+   "image": "sweet-croissant.webp",
+   "available": true
+  },
+  {
+   "id": "S014",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "تارت",
+   "nameEn": "Tart",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-tart.webp",
+   "available": true
+  },
+  {
+   "id": "S015",
+   "tab": "sweets",
+   "section": "الحلويات",
+   "name": "فطيرة تفاح",
+   "nameEn": "Apple Crumble",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "sweet-apple-crumble.webp",
+   "available": true
+  },
+  {
+   "id": "S016",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "3 سكوب",
+   "nameEn": "Scoop 3",
+   "desc": null,
+   "price": 3000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-3-scoops.webp",
+   "available": true
+  },
+  {
+   "id": "S017",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "دبدوبي جيلاتو",
+   "nameEn": "Dabdoobi Gelato",
+   "desc": null,
+   "price": 4500,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-dabdoobi.webp",
+   "available": true
+  },
+  {
+   "id": "S018",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "اورياسون جيلاتو",
+   "nameEn": "Oriason Gelato",
+   "desc": null,
+   "price": 6000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-oriason.webp",
+   "available": true
+  },
+  {
+   "id": "S019",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "كيتي وافل",
+   "nameEn": "Kitty Waffle",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-kitty-waffle.webp",
+   "available": true
+  },
+  {
+   "id": "S020",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "وافل الفراشة",
+   "nameEn": "Butterfly Waffle",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-butterfly-waffle.webp",
+   "available": true
+  },
+  {
+   "id": "S021",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "براونيز مع الجيلاتو",
+   "nameEn": "Chocolate Ray",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-chocolate-ray.webp",
+   "available": true
+  },
+  {
+   "id": "S022",
+   "tab": "sweets",
+   "section": "الآيس كريم الإيطالي",
+   "name": "وافل الفقاعات",
+   "nameEn": "Warp Waffle",
+   "desc": null,
+   "price": 4000,
+   "orderable": true,
+   "groups": [],
+   "image": "gelato-warp-waffle.webp",
+   "available": true
+  },
+  {
+   "id": "S023",
+   "tab": "sweets",
+   "section": "الكيك",
+   "name": "اوبرا",
+   "nameEn": "Opera",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "cake-opera.webp",
+   "available": true
+  },
+  {
+   "id": "S024",
+   "tab": "sweets",
+   "section": "الكيك",
+   "name": "نابولي",
+   "nameEn": "Mille Feuille",
+   "desc": null,
+   "price": 5000,
+   "orderable": true,
+   "groups": [],
+   "image": "cake-mille-feuille.webp",
+   "available": true
+  },
+  {
+   "id": "S025",
+   "tab": "sweets",
+   "section": "الكيك",
+   "name": "كيك الأعياد والمناسبات",
+   "nameEn": "Happy Cake",
+   "desc": null,
+   "price": null,
+   "orderable": false,
+   "groups": [],
+   "image": "cake-happy.webp",
+   "available": true
+  }
+ ],
+ "groups": {
+  "MEAL": {
+   "code": "MEAL",
+   "name": "حوّل لوجبة",
+   "kind": "single",
+   "min": 0,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "MEAL-1",
+     "name": "وجبة (بطاطا + حلقات بصل + ببسي)",
+     "price": 3000
+    }
+   ]
+  },
+  "PIZZA_A": {
+   "code": "PIZZA_A",
+   "name": "الحجم",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": true,
+   "options": [
+    {
+     "id": "PIZZA_A-1",
+     "name": "صغيرة",
+     "price": 0
+    },
+    {
+     "id": "PIZZA_A-2",
+     "name": "وسط",
+     "price": 4500
+    },
+    {
+     "id": "PIZZA_A-3",
+     "name": "كبيرة",
+     "price": 5500
+    }
+   ]
+  },
+  "PIZZA_B": {
+   "code": "PIZZA_B",
+   "name": "الحجم",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": true,
+   "options": [
+    {
+     "id": "PIZZA_B-1",
+     "name": "صغيرة",
+     "price": 0
+    },
+    {
+     "id": "PIZZA_B-2",
+     "name": "وسط",
+     "price": 6500
+    },
+    {
+     "id": "PIZZA_B-3",
+     "name": "كبيرة",
+     "price": 7500
+    }
+   ]
+  },
+  "PIZZA_C": {
+   "code": "PIZZA_C",
+   "name": "الحجم",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": true,
+   "options": [
+    {
+     "id": "PIZZA_C-1",
+     "name": "صغيرة",
+     "price": 0
+    },
+    {
+     "id": "PIZZA_C-2",
+     "name": "وسط",
+     "price": 7000
+    },
+    {
+     "id": "PIZZA_C-3",
+     "name": "كبيرة",
+     "price": 8000
+    }
+   ]
+  },
+  "GRILL_RICE": {
+   "code": "GRILL_RICE",
+   "name": "صحن تمن إضافي",
+   "kind": "single",
+   "min": 0,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "GRILL_RICE-1",
+     "name": "تمن أبيض",
+     "price": 3000
+    },
+    {
+     "id": "GRILL_RICE-2",
+     "name": "تمن باقلاء",
+     "price": 3500
+    }
+   ]
+  },
+  "GRILL_RICE_INC": {
+   "code": "GRILL_RICE_INC",
+   "name": "نوع التمن (داخل السعر)",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "GRILL_RICE_INC-1",
+     "name": "تمن أبيض",
+     "price": 0
+    },
+    {
+     "id": "GRILL_RICE_INC-2",
+     "name": "تمن باقلاء",
+     "price": 0
+    }
+   ]
+  },
+  "RICE_TYPE": {
+   "code": "RICE_TYPE",
+   "name": "نوع التمن",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "RICE_TYPE-1",
+     "name": "سادة",
+     "price": 0
+    },
+    {
+     "id": "RICE_TYPE-2",
+     "name": "تمن باقلاء",
+     "price": 0
+    },
+    {
+     "id": "RICE_TYPE-3",
+     "name": "كبسة",
+     "price": 0
+    }
+   ]
+  },
+  "CHICKEN_SAUCE": {
+   "code": "CHICKEN_SAUCE",
+   "name": "الصوص",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "CHICKEN_SAUCE-1",
+     "name": "باربكيو",
+     "price": 0
+    },
+    {
+     "id": "CHICKEN_SAUCE-2",
+     "name": "داينمت (حار)",
+     "price": 0
+    },
+    {
+     "id": "CHICKEN_SAUCE-3",
+     "name": "فراي دي",
+     "price": 0
+    },
+    {
+     "id": "CHICKEN_SAUCE-4",
+     "name": "ثومية",
+     "price": 0
+    }
+   ]
+  },
+  "WINGS_SAUCE": {
+   "code": "WINGS_SAUCE",
+   "name": "الصوص",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "WINGS_SAUCE-1",
+     "name": "هوني ماستر",
+     "price": 0
+    },
+    {
+     "id": "WINGS_SAUCE-2",
+     "name": "باربكيو",
+     "price": 0
+    },
+    {
+     "id": "WINGS_SAUCE-3",
+     "name": "دبس الرمان",
+     "price": 0
+    },
+    {
+     "id": "WINGS_SAUCE-4",
+     "name": "سويت جيلي 🌶",
+     "price": 0
+    }
+   ]
+  },
+  "EXTRA_SAUCE": {
+   "code": "EXTRA_SAUCE",
+   "name": "صلصة إضافية",
+   "kind": "multi",
+   "min": 0,
+   "max": 99,
+   "isSize": false,
+   "options": [
+    {
+     "id": "EXTRA_SAUCE-1",
+     "name": "داينمت",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-2",
+     "name": "هاني ماسترد",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-3",
+     "name": "كوكتيل",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-4",
+     "name": "سويت تشيلي",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-5",
+     "name": "ثومية",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-6",
+     "name": "تارتار",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-7",
+     "name": "مايو ماسترد",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-8",
+     "name": "زنجر",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-9",
+     "name": "سيراتشا",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-10",
+     "name": "فراي دي",
+     "price": 1000
+    },
+    {
+     "id": "EXTRA_SAUCE-11",
+     "name": "سماق",
+     "price": 1000
+    }
+   ]
+  },
+  "COFFEE_ADD": {
+   "code": "COFFEE_ADD",
+   "name": "إضافات",
+   "kind": "multi",
+   "min": 0,
+   "max": 99,
+   "isSize": false,
+   "options": [
+    {
+     "id": "COFFEE_ADD-1",
+     "name": "ماء",
+     "price": 500
+    },
+    {
+     "id": "COFFEE_ADD-2",
+     "name": "شوت حليب",
+     "price": 1000
+    },
+    {
+     "id": "COFFEE_ADD-3",
+     "name": "شوت إسبريسو",
+     "price": 2000
+    },
+    {
+     "id": "COFFEE_ADD-4",
+     "name": "نكهة إضافية",
+     "price": 1000
+    }
+   ]
+  },
+  "APPET_PICK": {
+   "code": "APPET_PICK",
+   "name": "اختار 3 مقبلات",
+   "kind": "multi",
+   "min": 3,
+   "max": 3,
+   "isSize": false,
+   "options": [
+    {
+     "id": "APPET_PICK-1",
+     "name": "حمص بطحينة",
+     "price": 0
+    },
+    {
+     "id": "APPET_PICK-2",
+     "name": "متبل باذنجان",
+     "price": 0
+    },
+    {
+     "id": "APPET_PICK-3",
+     "name": "باذنجانية",
+     "price": 0
+    },
+    {
+     "id": "APPET_PICK-4",
+     "name": "محمرة",
+     "price": 0
+    },
+    {
+     "id": "APPET_PICK-5",
+     "name": "بابا غنوج",
+     "price": 0
+    }
+   ]
+  },
+  "FL_TIRAMISU": {
+   "code": "FL_TIRAMISU",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_TIRAMISU-1",
+     "name": "نيوتلا",
+     "price": 0
+    },
+    {
+     "id": "FL_TIRAMISU-2",
+     "name": "دارك جوكليت",
+     "price": 0
+    },
+    {
+     "id": "FL_TIRAMISU-3",
+     "name": "فراولة",
+     "price": 0
+    },
+    {
+     "id": "FL_TIRAMISU-4",
+     "name": "كراميل",
+     "price": 0
+    }
+   ]
+  },
+  "FL_BROWNIE": {
+   "code": "FL_BROWNIE",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_BROWNIE-1",
+     "name": "فستق",
+     "price": 0
+    },
+    {
+     "id": "FL_BROWNIE-2",
+     "name": "لوتس",
+     "price": 0
+    },
+    {
+     "id": "FL_BROWNIE-3",
+     "name": "نوتيلا",
+     "price": 0
+    },
+    {
+     "id": "FL_BROWNIE-4",
+     "name": "كلاسيك",
+     "price": 0
+    }
+   ]
+  },
+  "FL_CHEESE": {
+   "code": "FL_CHEESE",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_CHEESE-1",
+     "name": "كراميل",
+     "price": 0
+    },
+    {
+     "id": "FL_CHEESE-2",
+     "name": "نوتيلا",
+     "price": 0
+    },
+    {
+     "id": "FL_CHEESE-3",
+     "name": "توت أسود",
+     "price": 0
+    }
+   ]
+  },
+  "FL_PARIS": {
+   "code": "FL_PARIS",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_PARIS-1",
+     "name": "فانيلا",
+     "price": 0
+    },
+    {
+     "id": "FL_PARIS-2",
+     "name": "كراميل",
+     "price": 0
+    },
+    {
+     "id": "FL_PARIS-3",
+     "name": "فستق",
+     "price": 0
+    }
+   ]
+  },
+  "FL_ECLAIR": {
+   "code": "FL_ECLAIR",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_ECLAIR-1",
+     "name": "دارك جوكليت",
+     "price": 0
+    },
+    {
+     "id": "FL_ECLAIR-2",
+     "name": "فستق",
+     "price": 0
+    },
+    {
+     "id": "FL_ECLAIR-3",
+     "name": "جوكلت",
+     "price": 0
+    }
+   ]
+  },
+  "FL_NYROLL": {
+   "code": "FL_NYROLL",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_NYROLL-1",
+     "name": "فستق",
+     "price": 0
+    },
+    {
+     "id": "FL_NYROLL-2",
+     "name": "لوتس",
+     "price": 0
+    },
+    {
+     "id": "FL_NYROLL-3",
+     "name": "جوكلت",
+     "price": 0
+    }
+   ]
+  },
+  "FL_TRES": {
+   "code": "FL_TRES",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_TRES-1",
+     "name": "فستق",
+     "price": 0
+    },
+    {
+     "id": "FL_TRES-2",
+     "name": "كراميل",
+     "price": 0
+    }
+   ]
+  },
+  "FL_SABLE": {
+   "code": "FL_SABLE",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_SABLE-1",
+     "name": "فانيلا",
+     "price": 0
+    },
+    {
+     "id": "FL_SABLE-2",
+     "name": "كراميل",
+     "price": 0
+    },
+    {
+     "id": "FL_SABLE-3",
+     "name": "فستق",
+     "price": 0
+    },
+    {
+     "id": "FL_SABLE-4",
+     "name": "لوتس",
+     "price": 0
+    },
+    {
+     "id": "FL_SABLE-5",
+     "name": "كرز",
+     "price": 0
+    }
+   ]
+  },
+  "FL_CROISSANT": {
+   "code": "FL_CROISSANT",
+   "name": "النكهة",
+   "kind": "single",
+   "min": 1,
+   "max": 1,
+   "isSize": false,
+   "options": [
+    {
+     "id": "FL_CROISSANT-1",
+     "name": "لوز",
+     "price": 0
+    },
+    {
+     "id": "FL_CROISSANT-2",
+     "name": "لوتس",
+     "price": 0
+    },
+    {
+     "id": "FL_CROISSANT-3",
+     "name": "نوتيلا",
+     "price": 0
+    }
+   ]
+  }
+ },
+ "zones": [
+  {
+   "id": "z1",
+   "name": "النجف",
+   "fee": 2500
+  },
+  {
+   "id": "z2",
+   "name": "الكوفة",
+   "fee": 3000
+  }
+ ],
+ "settings": {
+  "restaurantName": "فرايدي",
+  "restaurantNameEn": "FRY DAY",
+  "tagline": "Fries & Pastry",
+  "whatsapp": "9647715796059",
+  "phones": [
+   "7320",
+   "07893000406"
+  ],
+  "callPhone": "07893000406",
+  "address": "النجف — شارع الغدير، مجاور جسر المشاة",
+  "hours": {
+   "open": "12:00",
+   "close": "24:00",
+   "utcOffset": 3
+  },
+  "closedMessage": "نستقبل الطلبات من الساعة 12 الظهر",
+  "deliveryNote": "التوصيل داخل النجف والكوفة فقط",
+  "minOrder": {
+   "enabled": false,
+   "amount": 0
+  },
+  "freeDelivery": {
+   "enabled": false,
+   "threshold": 0
+  },
+  "payment": "كاش عند الاستلام",
+  "etaMinutes": 45,
+  "social": {
+   "instagram": "fryday.iq",
+   "tiktok": "fryday.iq",
+   "facebook": "fryday"
+  }
+ }
+}
