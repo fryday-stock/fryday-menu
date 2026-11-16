@@ -49,7 +49,7 @@ function OrderCard({ o, onDeleted }: { o: OrderRow; onDeleted: () => void }) {
           <pre dir="rtl" className="max-h-80 overflow-auto rounded-xl bg-surface-2 p-3 font-sans text-[13px] leading-6 whitespace-pre-wrap">{o.message}</pre>
           <div className="flex flex-wrap gap-2">
             <a href={`tel:${o.phone}`} className="flex h-11 items-center gap-1.5 rounded-xl border border-line px-3.5 text-[14px] font-bold"><Phone size={16} /> <bdi className="num">{o.phone}</bdi></a>
-            <a href={`https://wa.me/964${o.phone.slice(1)}`} target="_blank" rel="noopener noreferrer" className="flex h-11 items-center gap-1.5 rounded-xl border border-line px-3.5 text-[14px] font-bold"><MessageCircle size={16} /> واتساب</a>
+            <a href={`https://api.whatsapp.com/send?phone=964${o.phone.slice(1)}`} target="_blank" rel="noopener noreferrer" className="flex h-11 items-center gap-1.5 rounded-xl border border-line px-3.5 text-[14px] font-bold"><MessageCircle size={16} /> واتساب</a>
             {o.lat != null && o.lng != null && (
               <a href={`https://maps.google.com/?q=${o.lat},${o.lng}`} target="_blank" rel="noopener noreferrer" className="flex h-11 items-center gap-1.5 rounded-xl border border-line px-3.5 text-[14px] font-bold"><MapPin size={16} /> الموقع</a>
             )}
