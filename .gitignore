@@ -7,3 +7,5 @@ dist
 test-results
 .dev.vars
 .wrangler
+tsconfig.tsbuildinfo
+*.tsbuildinfo

@@ -161,3 +161,23 @@ describe('لوحة الإدارة', () => {
     expect((await loadMenu(env.DB)).settings.busy.enabled).toBe(true);
   });
 });
+
+describe('حذف الطلبات التجريبية', () => {
+  it('بعد حذف كل طلبات اليوم العداد يرجع يبدي من 1001', async () => {
+    const db = await freshDb();
+    const env = { DB: db, ADMIN_PASSWORD: 'p' } as Env;
+    const m = await loadMenu(db);
+    const now = new Date();
+    const open = { ...m, settings: { ...m.settings, hours: { ...m.settings.hours, open: '00:00', close: '00:00' } } };
+    const a = await createOrder(db, { ...base, clientId: 'del-000001' }, open, '1', now);
+    const b = await createOrder(db, { ...base, clientId: 'del-000002' }, open, '1', now);
+    expect([a.number, b.number]).toEqual([1001, 1002]);
+    const login = await handleAdmin(new Request('https://x.test/api/admin/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: 'p' }) }), env, 'login');
+    const cookie = login.headers.get('set-cookie')!.split(';')[0];
+    const del = (id: number) => handleAdmin(new Request(`https://x.test/api/admin/orders/${id}`, { method: 'DELETE', headers: { cookie } }), env, `orders/${id}`).then((r) => r.json() as Promise<{ nextNumber: number }>);
+    expect((await del(b.id)).nextNumber).toBe(1002);
+    expect((await del(a.id)).nextNumber).toBe(1001);
+    const c = await createOrder(db, { ...base, clientId: 'del-000003' }, open, '1', now);
+    expect(c.number).toBe(1001);
+  });
+});
