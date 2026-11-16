@@ -12,7 +12,13 @@ export const useDemo = create<{ forceOpen: boolean; set: (v: boolean) => void }>
 export function useOpen() {
   const { data } = useMenu();
   const now = useNow();
-  const force = useDemo((s) => s.forceOpen);
+  // وضع التجربة يشتغل بس بدون سيرفر (GitHub Pages) — السيرفر دائماً يتأكد من الدوام
+  const force = useDemo((s) => s.forceOpen) && !data.live;
   const real = isOpenAt(now, data.settings.hours);
-  return { open: real || force, realOpen: real, forced: force && !real, now };
+  const paused = data.settings.paused.enabled;
+  const hoursOpen = real || force;
+  const open = hoursOpen && !paused;
+  /** سبب تسكير زر الطلب (يطلع للزبون) */
+  const reason = paused ? data.settings.paused.message : !hoursOpen ? data.settings.closedMessage : '';
+  return { open, hoursOpen, paused, realOpen: real, forced: force && !real, now, reason };
 }

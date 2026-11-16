@@ -1,16 +1,16 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import type { Item, MenuData } from './types';
-import { menuSource } from './source';
+import type { Item } from './types';
+import { menuSource, type LoadedMenu } from './source';
 
 interface MenuCtx {
-  data: MenuData;
+  data: LoadedMenu;
   byId: Map<string, Item>;
 }
 
 const Ctx = createContext<MenuCtx | null>(null);
 
 export function MenuProvider({ children, fallback }: { children: ReactNode; fallback: ReactNode }) {
-  const [data, setData] = useState<MenuData | null>(null);
+  const [data, setData] = useState<LoadedMenu | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     menuSource.load().then(setData).catch((e) => setError(String(e)));

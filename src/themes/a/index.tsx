@@ -8,6 +8,7 @@ import { Price } from '../../components/Price';
 import { Logo } from '../../components/Logo';
 import { ClosedNotice } from '../../components/StatusPill';
 import { feeSummary } from '../../lib/delivery';
+import { etaFor } from '../../data/defaults';
 import { DarkHero } from './Hero';
 import { QtyStepper } from '../../components/QtyStepper';
 import { SizePicker, OptionGroupView, NoteField } from '../../components/OptionGroups';
@@ -30,8 +31,8 @@ function InfoCard() {
     <div className="relative z-10 mx-4 -mt-[70px] grid grid-cols-3 divide-x divide-x-reverse divide-line rounded-[22px] bg-surface py-3 text-center shadow-[0_18px_40px_-20px_rgba(26,22,18,0.55)]">
       <div className="px-1">
         <Timer size={18} className="mx-auto mb-0.5 text-accent" />
-        <p className="text-[14px] font-extrabold"><bdi className="num">{s.etaMinutes}</bdi> دقيقة</p>
-        <p className="text-[11.5px] text-muted">التوصيل تقريباً</p>
+        <p className={`text-[14px] font-extrabold ${s.busy.enabled ? 'text-[#b45309]' : ''}`}><bdi className="num">{etaFor(s, 'delivery')}</bdi> دقيقة</p>
+        <p className="text-[11.5px] text-muted">{s.busy.enabled ? 'ضغط طلبات' : 'التوصيل تقريباً'}</p>
       </div>
       <div className="px-1">
         <Bike size={18} className="mx-auto mb-0.5 text-accent" />

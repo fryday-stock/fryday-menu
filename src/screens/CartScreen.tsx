@@ -20,7 +20,7 @@ export function CartScreen() {
   const { lines, count, subtotal } = useCartSummary();
   const setQty = useCart((s) => s.setQty);
   const remove = useCart((s) => s.remove);
-  const { open } = useOpen();
+  const { open, reason } = useOpen();
   const min = data.settings.minOrder;
   const belowMin = min.enabled && subtotal < min.amount;
 
@@ -83,7 +83,7 @@ export function CartScreen() {
           </div>
 
           <div className="pb-safe sticky bottom-0 z-10 bg-gradient-to-t from-bg via-bg to-bg/0 px-4 pt-4">
-            {!open && <p className="mb-2 text-center text-[14px] font-semibold text-danger">{data.settings.closedMessage}</p>}
+            {!open && <p className="mb-2 text-center text-[14px] font-semibold text-danger">{reason}</p>}
             <button disabled={!open || belowMin} onClick={() => go('checkout')}
               className={`flex h-14 w-full items-center justify-between px-5 text-[17px] font-bold transition active:scale-[0.98] disabled:opacity-45 ${t.look.cta}`}>
               <span>كمّل الطلب</span>

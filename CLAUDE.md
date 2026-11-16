@@ -50,19 +50,31 @@
 
 - React 19 + Vite + TypeScript + Tailwind v4، `motion` للحركات، `zustand` للسلة، `lucide-react` للأيقونات.
 - خط محلي (@fontsource، عربي فقط): Cairo.
-- الخريطة: `leaflet` + بلاطات OpenStreetMap (`tile.openstreetmap.org`) — تنحمل بس بشاشة الطلب (lazy chunk).
+- الخريطة: `leaflet` + مزود بلاطات من الإعدادات (`settings.map` — OpenStreetMap افتراضياً، CARTO أو مخصص من اللوحة بدون تعديل كود) — تنحمل بس بشاشة الطلب (lazy chunk).
+- **السيرفر (المرحلة 1): Cloudflare Pages + Pages Functions + D1** (+ R2 اختياري للصور).
+  - الجداول تنخلق تلقائياً بأول طلب، والمنيو يتعبى تلقائياً من `menu.json` (ماكو أوامر يشغلها أحمد).
+  - الصور المرفوعة: على R2 إذا مربوط (`MEDIA`)، وإلا بجدول `media` بـ D1 (base64) — لأن تفعيل R2 يطلب بطاقة دفع.
+  - الأسرار (بإعدادات Cloudflare فقط): `ADMIN_PASSWORD_HASH` (يولده أحمد من `/admin/#/password` داخل متصفحه — PBKDF2-SHA256 30k تكرار؛ مناسب لحد CPU بالخطة المجانية). بديل: `ADMIN_PASSWORD`. ممنوع `wrangler.toml` بالريبو (يقفل تعديل الربط من لوحة Cloudflare).
+  - الربط (bindings) من لوحة Cloudflare: `DB` (D1)، `MEDIA` (R2 اختياري).
+- مصدر البيانات (`src/data/source.ts`): `/api/menu` أول؛ إذا ماكو سيرفر (GitHub Pages/أوفلاين) يرجع لـ `menu.json` المضمّن (`data.live=false`، الطلب برقم محلي).
 - راوتر hash بسيط (`src/lib/router.ts`): `#/`، `#/item/F001`، `#/cart`، `#/checkout`، `#/done`. روابط المرحلة 0 القديمة (`#/a/...`) تتحول تلقائياً.
-- وضع تجربة (للتجربة برا الدوام): `#/?test=open` يفتح الطلب، `#/?test=off` يرجعه طبيعي (محفوظ على الجهاز).
+- لوحة الإدارة: `/admin/` (صفحة Vite ثانية `admin/index.html`، hash: `#/orders` `#/menu` `#/item/F001` `#/item/new/food` `#/settings` `#/more` `#/groups` `#/group/CODE` `#/zones` `#/excel` `#/password`).
+- وضع تجربة برا الدوام `#/?test=open`: يشتغل **بس بدون سيرفر** — السيرفر دائماً يتأكد من الدوام (للتجربة على Cloudflare غيّر الدوام من اللوحة).
+- PWA: `public/manifest.webmanifest` + `sw.js` يتولد بالبناء (plugin بـ `vite.config.ts`): الواجهة والخطوط محفوظة، `/api/menu` الشبكة أول، الصور من المحفوظ. اللوحة والـ API مستثناة.
 - Vite `base: './'` → يشتغل على GitHub Pages (`/fryday-menu/`) وعلى Cloudflare (`/`) بدون تغيير.
 
 ### الهيكل
 ```
 assets-input/            ملفات أحمد الأصلية (لا تنحذف)
 scripts/import-menu.ts   Excel → src/data/menu.json + فك الصور → public/photos (+ public/photos/sm نسخ 360px للقوائم)
-scripts/screenshots.mjs  لقطات Playwright 390×844 (الرئيسية، صنف، السلة، الطلب ويا الخريطة) → screenshots/final
+scripts/screenshots.mjs  لقطات Playwright 390×844 للزبون (الرئيسية، صنف، السلة، الطلب ويا الخريطة)
+scripts/screenshots-admin.mjs  لقطات اللوحة (يحتاج السيرفر المحلي + ADMIN_PW)
+functions/               Cloudflare Pages Functions (المسارات): api/menu، api/orders، api/orders/[id]/sent، api/admin/[[path]]، media/[[path]]
+server/                  منطق السيرفر: db.ts (الجداول + التعبئة + تحميل المنيو)، orders.ts (الطلب + العداد اليومي)، auth.ts (الدخول والجلسات)، admin.ts (واجهة اللوحة)، time.ts (يوم بغداد، 6 الصبح)
 src/data/
   types.ts               أنواع البيانات
-  menu.json              مولّد — لا تعدله يدوياً (npm run import-menu)
+  menu.json              مولّد — لا تعدله يدوياً (npm run import-menu). بالمرحلة 1: بس للتعبئة الأولى والنسخة الاحتياطية
+  defaults.ts            القيم الافتراضية للإعدادات + حدود المناطق + مزودات الخرائط + mergeSettings + etaFor
   source.ts              طبقة البيانات المجردة (المرحلة 1: تتبدل لـ API)
   MenuContext.tsx        يحمّل المنيو ويوفره
 src/lib/
@@ -72,8 +84,10 @@ src/lib/
   hours.ts               الدوام بتوقيت بغداد
   search.ts              تطبيع البحث العربي (أ/إ/آ→ا، ة→ه، ى→ي، بركر=برغر=burger)
   validate.ts            رقم الموبايل (11 رقم يبدي بـ 07، يقبل الأرقام العربية و+964)
-  orderNumber.ts         المرحلة 0: عداد محلي من 1001
-src/store/cart.ts        السلة (zustand + localStorage)
+  orderNumber.ts         عداد محلي (بس بدون سيرفر)
+  menuSheet.ts           Excel ⇄ المنيو (نفس شكل menu.xlsx) — مشترك بين السكربت واللوحة
+src/store/cart.ts        السلة (zustand + localStorage) — المنطق الصافي بـ cartCore.ts (يستخدمه السيرفر)
+src/admin/               لوحة الإدارة (React): App.tsx، api.ts، ui.tsx، image.ts (ضغط WebP)، ZoneMap.tsx، pages/*
 src/store/customer.ts    بيانات الزبون المحفوظة + آخر طلب
 src/components/          مكونات مشتركة (MenuBrowser: تبويبات + scroll-spy + بحث، OptionGroups، Overlay، MapPicker، HeroMedia…)
 src/screens/             السلة، إكمال الطلب (ويا الخريطة)، التأكيد
@@ -81,7 +95,13 @@ src/themes/a/            النموذج النهائي: index.tsx (الرئيس�
 src/themes/common|shared الصف النصي، الفوتر، زر +، شريط الإضافة
 src/index.css            design tokens (.theme-a)
 tests/logic.test.ts      اختبارات المنطق (vitest)
+tests/server.test.ts     اختبارات السيرفر فوق D1 مزيّف (tests/d1shim.ts على node:sqlite): العداد اليومي، الطلبات، الدخول، خالص اليوم
 ```
+
+### قاعدة البيانات D1
+`items` · `sections` (ترتيب الأقسام) · `option_groups` (JSON) · `zones` · `settings` (`main` = JSON الإعدادات، `seeded`) · `orders` (`day` بغداد + `number` فريد باليوم، `client_id` فريد لمنع التكرار، `status` pending=غير مؤكد / sent) · `order_counters` (عداد يومي ذري: `INSERT … ON CONFLICT DO UPDATE SET last=last+1 RETURNING`) · `sessions` (hash التوكن) · `login_attempts` (5 غلط/15 دقيقة) · `media`.
+- "خالص اليوم" = `items.sold_out_until` = الساعة 6 الصبح بغداد الجاية — يرجع متوفر تلقائياً بدون cron.
+- الطلب: السيرفر يعيد حساب الأسعار من القاعدة، يتأكد من الدوام/الإيقاف/المنطقة/الخيارات، ويبني رسالة الواتساب. حد 30 طلب/ساعة لكل جهاز.
 
 ### هيكل البيانات (`menu.json`)
 - `items[]`: `id` (F001…)، `tab` (food/drinks/sweets)، `section`، `name`، `nameEn`، `desc`، `price` (null = حسب الطلب)، `orderable`، `groups[]` (أكواد)، `image` (null = بدون صورة)، `available`.
@@ -96,19 +116,17 @@ npm run import-menu   # بعد أي تعديل على menu.xlsx أو photos.zip
 npm run dev           # تطوير
 npm test              # اختبارات المنطق
 npm run build         # بناء
-npx vite preview --port 4173 & node scripts/screenshots.mjs   # لقطات (EXTRA=1 لقطات إضافية)
+npx wrangler pages dev dist --d1 DB --port 8788   # السيرفر كامل محلياً (كلمة سر محلية بـ .dev.vars — مو بالريبو)
+node scripts/screenshots.mjs http://localhost:8788/   # لقطات الزبون (EXTRA=1 لقطات إضافية)
+ADMIN_PW=... node scripts/screenshots-admin.mjs       # لقطات اللوحة
 ```
 
 ## المراحل وحالتها
 
-- [x] **المرحلة 0 — نماذج التصميم** — تمت ودُمجت (PR #1 ثم PR #2).
-  - أحمد اختار: **A (الخلطة) + رأس C السينمائي** (صورة بركر بالفطر). B و C و D انحذفوا.
-  - الموقع إجباري بالخريطة والأجرة تلقائية من الدبوس، وكل شي إعداد (شوف جدول القرارات).
-  - الشعار الرسمي: `assets-input/logo-fryday.webp` → `public/brand/` (logo.webp، logo-sm.webp، أيقونات 192/512، apple-touch-icon، favicon.png). مكون `Logo`: `badge` (دائرة بيضاء) أو `mark`.
-  - قطة فرايدي: بانتظار ملفها من أحمد (للمرحلة 2).
-  - النشر: GitHub Pages من `main` (Actions) → https://fryday-stock.github.io/fryday-menu/
-  - لقطات نهائية: `screenshots/final/`.
-  - ⏸ **بانتظار "كمل" من أحمد للمرحلة 1.**
-- [ ] المرحلة 1 — الأساس: Cloudflare (Pages + Functions + D1 + R2)، `POST /api/orders` بعداد يومي، لوحة `/admin` (تشمل: صورة الرأس، طريقة الأجرة، تفعيل التوصيل/الاستلام، الموقع إجباري/اختياري، تعديل حدود المناطق على الخريطة)، PWA، وقت الوصول المتوقع، اختبارات.
+- [x] **المرحلة 0 — نماذج التصميم** — تمت ودُمجت (PR #1 و #2). النموذج النهائي A + رأس C السينمائي.
+  - الشعار الرسمي: `assets-input/logo-fryday.webp` → `public/brand/`. قطة فرايدي: بانتظار ملفها (للمرحلة 2).
+- [x] **المرحلة 1 — الأساس (الكود جاهز ومختبر محلياً)**: D1 + Functions، `POST /api/orders` بعداد يومي، لوحة `/admin` (الطلبات، المنيو + خالص اليوم + رفع صور، الخيارات، المناطق بخريطة، الإعدادات كلها، ضغط عالي، إيقاف مؤقت، Excel استيراد/تصدير بمراجعة، توليد كلمة السر)، PWA، وقت الوصول المتوقع، مزود خرائط قابل للتبديل، 26 اختبار.
+  - ⏳ **إعداد Cloudflare مع أحمد خطوة خطوة** (حساب ← ربط الريبو ← D1 ← كلمة السر ← R2 اختياري). أحمد يدخل كلمة السر بنفسه — لا تطلبها منه.
+  - بعد الإعداد: تقرير + لقطات + رابط اللوحة، ثم ⏸ انتظار "كمل".
 - [ ] المرحلة 2 — المبيعات (البانر الذكي يستخدم `settings.hero.media`).
 - [ ] المرحلة 3 — الإبهار والبيانات.
