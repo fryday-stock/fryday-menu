@@ -8,6 +8,9 @@ import { whatsAppLink } from '../lib/whatsapp';
 import { Price } from '../components/Price';
 import { useTheme } from '../themes/ThemeContext';
 import { go } from '../lib/router';
+import { postSent } from '../data/source';
+import { etaText } from '../lib/hours';
+import { Clock } from 'lucide-react';
 
 function WhatsAppIcon({ size = 22 }: { size?: number }) {
   return (
@@ -38,9 +41,11 @@ export function DoneScreen() {
 
   const link = whatsAppLink(data.settings.whatsapp, order.message);
   const onSend = () => {
+    if (order.id != null && order.clientId) postSent(order.id, order.clientId);
     markSent();
     clear();
   };
+  const eta = order.etaMinutes ? etaText(new Date(order.createdAt), order.etaMinutes, data.settings.hours.utcOffset) : null;
 
   return (
     <div className="pb-safe flex min-h-full flex-col px-4 pt-8">
@@ -57,6 +62,12 @@ export function DoneScreen() {
         <p className="mt-3 text-[15px] text-muted">
           الإجمالي <Price value={order.total} className="font-bold text-fg" /> · {order.type === 'delivery' ? 'توصيل' : 'استلام من المطعم'} · كاش
         </p>
+        {eta && (
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-[15px] font-bold shadow-sm">
+            <Clock size={17} className="text-accent" />
+            {order.type === 'delivery' ? 'يوصلك تقريباً الساعة' : 'يكون جاهز تقريباً الساعة'} <bdi className="num">{eta.split(' ')[0]}</bdi> {eta.split(' ').slice(1).join(' ')}
+          </p>
+        )}
       </div>
 
       <div className={`mt-6 overflow-hidden ${t.look.card}`}>

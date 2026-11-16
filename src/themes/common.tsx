@@ -1,5 +1,7 @@
-import { Hamburger, Coffee, CakeSlice, Plus, MapPin } from 'lucide-react';
+import { Hamburger, Coffee, CakeSlice, Plus, MapPin, Smartphone } from 'lucide-react';
 import { mapsUrl } from '../lib/delivery';
+import { useInstall } from '../hooks/useInstall';
+import { useState } from 'react';
 import type { Item, TabId } from '../data/types';
 import { useMenu } from '../data/MenuContext';
 import { Price } from '../components/Price';
@@ -37,7 +39,22 @@ export function Footer({ className = '' }: { className?: string }) {
       </a>
       <p>اتصال: <bdi className="num">{s.phones.join(' — ')}</bdi></p>
       <p>الدفع {s.payment} · {s.deliveryNote}</p>
+      <InstallButton />
     </footer>
   );
 }
 
+
+function InstallButton() {
+  const ins = useInstall();
+  const [tip, setTip] = useState(false);
+  if (!ins.available) return null;
+  return (
+    <div className="mt-4">
+      <button onClick={() => (ins.ios ? setTip((t) => !t) : ins.install())} className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 text-[14px] font-bold text-fg">
+        <Smartphone size={17} /> أضف فرايدي لشاشتك
+      </button>
+      {tip && <p className="mt-2 text-[13px] leading-6">بالآيفون: اضغط زر المشاركة <span aria-hidden>⎋</span> بأسفل Safari ← "إضافة إلى الشاشة الرئيسية".</p>}
+    </div>
+  );
+}

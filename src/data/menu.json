@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-16T19:08:11.974Z",
+ "generatedAt": "2026-11-16T19:30:31.556Z",
  "tabs": [
   {
    "id": "food",
@@ -126,7 +126,8 @@
     "MEAL"
    ],
    "image": "burger-fryday.webp",
-   "available": true
+   "available": true,
+   "sort": 0
   },
   {
    "id": "F002",
@@ -141,7 +142,8 @@
     "MEAL"
    ],
    "image": "burger-zinger.webp",
-   "available": true
+   "available": true,
+   "sort": 1
   },
   {
    "id": "F003",
@@ -156,7 +158,8 @@
     "MEAL"
    ],
    "image": "burger-classic.webp",
-   "available": true
+   "available": true,
+   "sort": 2
   },
   {
    "id": "F004",
@@ -171,7 +174,8 @@
     "MEAL"
    ],
    "image": "burger-cheese.webp",
-   "available": true
+   "available": true,
+   "sort": 3
   },
   {
    "id": "F005",
@@ -186,7 +190,8 @@
     "MEAL"
    ],
    "image": "burger-mushroom.webp",
-   "available": true
+   "available": true,
+   "sort": 4
   },
   {
    "id": "F006",
@@ -201,7 +206,8 @@
     "MEAL"
    ],
    "image": "burger-fish.webp",
-   "available": true
+   "available": true,
+   "sort": 5
   },
   {
    "id": "F007",
@@ -216,7 +222,8 @@
     "MEAL"
    ],
    "image": "toast-baghdad-melt.webp",
-   "available": true
+   "available": true,
+   "sort": 6
   },
   {
    "id": "F008",
@@ -231,7 +238,8 @@
     "MEAL"
    ],
    "image": "toast-heritage.webp",
-   "available": true
+   "available": true,
+   "sort": 7
   },
   {
    "id": "F009",
@@ -246,7 +254,8 @@
     "MEAL"
    ],
    "image": "toast-overdose.webp",
-   "available": true
+   "available": true,
+   "sort": 8
   },
   {
    "id": "F010",
@@ -261,7 +270,8 @@
     "MEAL"
    ],
    "image": "burger-mix.webp",
-   "available": true
+   "available": true,
+   "sort": 9
   },
   {
    "id": "F011",
@@ -274,7 +284,8 @@
    "orderable": true,
    "groups": [],
    "image": "kids-burger-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 10
   },
   {
    "id": "F012",
@@ -287,7 +298,8 @@
    "orderable": true,
    "groups": [],
    "image": "crispy-3pcs.webp",
-   "available": true
+   "available": true,
+   "sort": 11
   },
   {
    "id": "F013",
@@ -300,7 +312,8 @@
    "orderable": true,
    "groups": [],
    "image": "crispy-3pcs.webp",
-   "available": true
+   "available": true,
+   "sort": 12
   },
   {
    "id": "F014",
@@ -313,7 +326,8 @@
    "orderable": true,
    "groups": [],
    "image": "crispy-5pcs.webp",
-   "available": true
+   "available": true,
+   "sort": 13
   },
   {
    "id": "F015",
@@ -326,7 +340,8 @@
    "orderable": true,
    "groups": [],
    "image": "crispy-8pcs.webp",
-   "available": true
+   "available": true,
+   "sort": 14
   },
   {
    "id": "F016",
@@ -339,7 +354,8 @@
    "orderable": true,
    "groups": [],
    "image": "strips-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 15
   },
   {
    "id": "F017",
@@ -352,7 +368,8 @@
    "orderable": true,
    "groups": [],
    "image": "strips-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 16
   },
   {
    "id": "F018",
@@ -365,7 +382,8 @@
    "orderable": true,
    "groups": [],
    "image": "strips-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 17
   },
   {
    "id": "F019",
@@ -378,7 +396,8 @@
    "orderable": true,
    "groups": [],
    "image": "kids-crispy-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 18
   },
   {
    "id": "F020",
@@ -391,7 +410,8 @@
    "orderable": true,
    "groups": [],
    "image": "crispy-8pcs.webp",
-   "available": true
+   "available": true,
+   "sort": 19
   },
   {
    "id": "F021",
@@ -404,7 +424,8 @@
    "orderable": true,
    "groups": [],
    "image": "fish-meal.webp",
-   "available": true
+   "available": true,
+   "sort": 20
   },
   {
    "id": "F022",
@@ -419,7 +440,8 @@
     "PIZZA_A"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 21
   },
   {
    "id": "F023",
@@ -434,7 +456,8 @@
     "PIZZA_A"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 22
   },
   {
    "id": "F024",
@@ -449,7 +472,8 @@
     "PIZZA_B"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 23
   },
   {
    "id": "F025",
@@ -464,7 +488,8 @@
     "PIZZA_B"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 24
   },
   {
    "id": "F026",
@@ -479,7 +504,8 @@
     "PIZZA_C"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 25
   },
   {
    "id": "F027",
@@ -494,7 +520,8 @@
     "PIZZA_C"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 26
   },
   {
    "id": "F028",
@@ -509,7 +536,8 @@
     "PIZZA_B"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 27
   },
   {
    "id": "F029",
@@ -524,7 +552,8 @@
     "PIZZA_C"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 28
   },
   {
    "id": "F030",
@@ -539,7 +568,8 @@
     "PIZZA_B"
    ],
    "image": "pizza-round.webp",
-   "available": true
+   "available": true,
+   "sort": 29
   },
   {
    "id": "F031",
@@ -552,7 +582,8 @@
    "orderable": true,
    "groups": [],
    "image": "tacos.webp",
-   "available": true
+   "available": true,
+   "sort": 30
   },
   {
    "id": "F032",
@@ -565,7 +596,8 @@
    "orderable": true,
    "groups": [],
    "image": "taco-chicken-box.webp",
-   "available": true
+   "available": true,
+   "sort": 31
   },
   {
    "id": "F033",
@@ -578,7 +610,8 @@
    "orderable": true,
    "groups": [],
    "image": "taco-meat-box.webp",
-   "available": true
+   "available": true,
+   "sort": 32
   },
   {
    "id": "F034",
@@ -594,7 +627,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-mixed-kebab.webp",
-   "available": true
+   "available": true,
+   "sort": 33
   },
   {
    "id": "F035",
@@ -610,7 +644,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-meat-roll.webp",
-   "available": true
+   "available": true,
+   "sort": 34
   },
   {
    "id": "F036",
@@ -626,7 +661,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-chicken-roll.webp",
-   "available": true
+   "available": true,
+   "sort": 35
   },
   {
    "id": "F037",
@@ -642,7 +678,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-mixed-tikka.webp",
-   "available": true
+   "available": true,
+   "sort": 36
   },
   {
    "id": "F038",
@@ -658,7 +695,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-meat-baklava.webp",
-   "available": true
+   "available": true,
+   "sort": 37
   },
   {
    "id": "F039",
@@ -674,7 +712,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-fryday-chicken.webp",
-   "available": true
+   "available": true,
+   "sort": 38
   },
   {
    "id": "F040",
@@ -689,7 +728,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-kebab.webp",
-   "available": true
+   "available": true,
+   "sort": 39
   },
   {
    "id": "F041",
@@ -704,7 +744,8 @@
     "GRILL_RICE"
    ],
    "image": "grill-chicken-tikka.webp",
-   "available": true
+   "available": true,
+   "sort": 40
   },
   {
    "id": "F042",
@@ -719,7 +760,8 @@
     "CHICKEN_SAUCE"
    ],
    "image": "chicken-grilled.webp",
-   "available": true
+   "available": true,
+   "sort": 41
   },
   {
    "id": "F043",
@@ -734,7 +776,8 @@
     "CHICKEN_SAUCE"
    ],
    "image": "chicken-grilled-half.webp",
-   "available": true
+   "available": true,
+   "sort": 42
   },
   {
    "id": "F044",
@@ -750,7 +793,8 @@
     "CHICKEN_SAUCE"
    ],
    "image": "chicken-rice.webp",
-   "available": true
+   "available": true,
+   "sort": 43
   },
   {
    "id": "F045",
@@ -766,7 +810,8 @@
     "CHICKEN_SAUCE"
    ],
    "image": "chicken-rice.webp",
-   "available": true
+   "available": true,
+   "sort": 44
   },
   {
    "id": "F046",
@@ -782,7 +827,8 @@
     "CHICKEN_SAUCE"
    ],
    "image": "chicken-rice.webp",
-   "available": true
+   "available": true,
+   "sort": 45
   },
   {
    "id": "F047",
@@ -795,7 +841,8 @@
    "orderable": true,
    "groups": [],
    "image": "noodles-teriyaki.webp",
-   "available": true
+   "available": true,
+   "sort": 46
   },
   {
    "id": "F048",
@@ -808,7 +855,8 @@
    "orderable": true,
    "groups": [],
    "image": "noodles-chipotle.webp",
-   "available": true
+   "available": true,
+   "sort": 47
   },
   {
    "id": "F049",
@@ -821,7 +869,8 @@
    "orderable": true,
    "groups": [],
    "image": "noodles-chipotle.webp",
-   "available": true
+   "available": true,
+   "sort": 48
   },
   {
    "id": "F050",
@@ -834,7 +883,8 @@
    "orderable": true,
    "groups": [],
    "image": "pasta-spaghetti.webp",
-   "available": true
+   "available": true,
+   "sort": 49
   },
   {
    "id": "F051",
@@ -847,7 +897,8 @@
    "orderable": true,
    "groups": [],
    "image": "pasta-alfredo.webp",
-   "available": true
+   "available": true,
+   "sort": 50
   },
   {
    "id": "F052",
@@ -860,7 +911,8 @@
    "orderable": true,
    "groups": [],
    "image": "pasta-spaghetti.webp",
-   "available": true
+   "available": true,
+   "sort": 51
   },
   {
    "id": "F053",
@@ -875,7 +927,8 @@
     "WINGS_SAUCE"
    ],
    "image": "wings.webp",
-   "available": true
+   "available": true,
+   "sort": 52
   },
   {
    "id": "F054",
@@ -888,7 +941,8 @@
    "orderable": true,
    "groups": [],
    "image": "rizo.webp",
-   "available": true
+   "available": true,
+   "sort": 53
   },
   {
    "id": "F055",
@@ -901,7 +955,8 @@
    "orderable": true,
    "groups": [],
    "image": "rizo.webp",
-   "available": true
+   "available": true,
+   "sort": 54
   },
   {
    "id": "F056",
@@ -914,7 +969,8 @@
    "orderable": true,
    "groups": [],
    "image": "rizo.webp",
-   "available": true
+   "available": true,
+   "sort": 55
   },
   {
    "id": "F057",
@@ -927,7 +983,8 @@
    "orderable": true,
    "groups": [],
    "image": "chicken-cheese-fries.webp",
-   "available": true
+   "available": true,
+   "sort": 56
   },
   {
    "id": "F058",
@@ -940,7 +997,8 @@
    "orderable": true,
    "groups": [],
    "image": "doritos-fries.webp",
-   "available": true
+   "available": true,
+   "sort": 57
   },
   {
    "id": "F059",
@@ -953,7 +1011,8 @@
    "orderable": true,
    "groups": [],
    "image": "chili-cheese-fries.webp",
-   "available": true
+   "available": true,
+   "sort": 58
   },
   {
    "id": "F060",
@@ -968,7 +1027,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "fries-classic.webp",
-   "available": true
+   "available": true,
+   "sort": 59
   },
   {
    "id": "F061",
@@ -983,7 +1043,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "fries-japanese.webp",
-   "available": true
+   "available": true,
+   "sort": 60
   },
   {
    "id": "F062",
@@ -998,7 +1059,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "onion-rings.webp",
-   "available": true
+   "available": true,
+   "sort": 61
   },
   {
    "id": "F063",
@@ -1013,7 +1075,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "crispy-mushroom.webp",
-   "available": true
+   "available": true,
+   "sort": 62
   },
   {
    "id": "F064",
@@ -1028,7 +1091,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "garlic-bread.webp",
-   "available": true
+   "available": true,
+   "sort": 63
   },
   {
    "id": "F065",
@@ -1043,7 +1107,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "balls-chicken.webp",
-   "available": true
+   "available": true,
+   "sort": 64
   },
   {
    "id": "F066",
@@ -1058,7 +1123,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "balls-cheese.webp",
-   "available": true
+   "available": true,
+   "sort": 65
   },
   {
    "id": "F067",
@@ -1073,7 +1139,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "balls-cheese.webp",
-   "available": true
+   "available": true,
+   "sort": 66
   },
   {
    "id": "F068",
@@ -1088,7 +1155,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "fries-alfredo.webp",
-   "available": true
+   "available": true,
+   "sort": 67
   },
   {
    "id": "F069",
@@ -1103,7 +1171,8 @@
     "EXTRA_SAUCE"
    ],
    "image": "fries-fryday.webp",
-   "available": true
+   "available": true,
+   "sort": 68
   },
   {
    "id": "F070",
@@ -1116,7 +1185,8 @@
    "orderable": true,
    "groups": [],
    "image": "salad-caesar.webp",
-   "available": true
+   "available": true,
+   "sort": 69
   },
   {
    "id": "F071",
@@ -1129,7 +1199,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 70
   },
   {
    "id": "F072",
@@ -1142,7 +1213,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 71
   },
   {
    "id": "F073",
@@ -1155,7 +1227,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 72
   },
   {
    "id": "F074",
@@ -1168,7 +1241,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 73
   },
   {
    "id": "F075",
@@ -1181,7 +1255,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 74
   },
   {
    "id": "F076",
@@ -1194,7 +1269,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 75
   },
   {
    "id": "F077",
@@ -1209,7 +1285,8 @@
     "APPET_PICK"
    ],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 76
   },
   {
    "id": "D001",
@@ -1222,7 +1299,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 77
   },
   {
    "id": "D002",
@@ -1235,7 +1313,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 78
   },
   {
    "id": "D003",
@@ -1248,7 +1327,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 79
   },
   {
    "id": "D004",
@@ -1261,7 +1341,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 80
   },
   {
    "id": "D005",
@@ -1274,7 +1355,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 81
   },
   {
    "id": "D006",
@@ -1287,7 +1369,8 @@
    "orderable": true,
    "groups": [],
    "image": null,
-   "available": true
+   "available": true,
+   "sort": 82
   },
   {
    "id": "D007",
@@ -1300,7 +1383,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-espresso.webp",
-   "available": true
+   "available": true,
+   "sort": 83
   },
   {
    "id": "D008",
@@ -1313,7 +1397,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-espresso.webp",
-   "available": true
+   "available": true,
+   "sort": 84
   },
   {
    "id": "D009",
@@ -1326,7 +1411,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-macchiato.webp",
-   "available": true
+   "available": true,
+   "sort": 85
   },
   {
    "id": "D010",
@@ -1339,7 +1425,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 86
   },
   {
    "id": "D011",
@@ -1352,7 +1439,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-americano.webp",
-   "available": true
+   "available": true,
+   "sort": 87
   },
   {
    "id": "D012",
@@ -1365,7 +1453,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-flat-white.webp",
-   "available": true
+   "available": true,
+   "sort": 88
   },
   {
    "id": "D013",
@@ -1378,7 +1467,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-bombon.webp",
-   "available": true
+   "available": true,
+   "sort": 89
   },
   {
    "id": "D014",
@@ -1391,7 +1481,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 90
   },
   {
    "id": "D015",
@@ -1404,7 +1495,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-spanish-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 91
   },
   {
    "id": "D016",
@@ -1417,7 +1509,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-glass-macchiato.webp",
-   "available": true
+   "available": true,
+   "sort": 92
   },
   {
    "id": "D017",
@@ -1430,7 +1523,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-glass-macchiato.webp",
-   "available": true
+   "available": true,
+   "sort": 93
   },
   {
    "id": "D018",
@@ -1443,7 +1537,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-heart.webp",
-   "available": true
+   "available": true,
+   "sort": 94
   },
   {
    "id": "D019",
@@ -1456,7 +1551,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-heart.webp",
-   "available": true
+   "available": true,
+   "sort": 95
   },
   {
    "id": "D020",
@@ -1469,7 +1565,8 @@
    "orderable": true,
    "groups": [],
    "image": "hot-chocolate-face.webp",
-   "available": true
+   "available": true,
+   "sort": 96
   },
   {
    "id": "D021",
@@ -1482,7 +1579,8 @@
    "orderable": true,
    "groups": [],
    "image": "hot-karak.webp",
-   "available": true
+   "available": true,
+   "sort": 97
   },
   {
    "id": "D022",
@@ -1495,7 +1593,8 @@
    "orderable": true,
    "groups": [],
    "image": "hot-masala.webp",
-   "available": true
+   "available": true,
+   "sort": 98
   },
   {
    "id": "D023",
@@ -1508,7 +1607,8 @@
    "orderable": true,
    "groups": [],
    "image": "esp-espresso.webp",
-   "available": true
+   "available": true,
+   "sort": 99
   },
   {
    "id": "D024",
@@ -1521,7 +1621,8 @@
    "orderable": true,
    "groups": [],
    "image": "hot-bicherin.webp",
-   "available": true
+   "available": true,
+   "sort": 100
   },
   {
    "id": "D025",
@@ -1536,7 +1637,8 @@
     "COFFEE_ADD"
    ],
    "image": "brew-turkish.webp",
-   "available": true
+   "available": true,
+   "sort": 101
   },
   {
    "id": "D026",
@@ -1551,7 +1653,8 @@
     "COFFEE_ADD"
    ],
    "image": "brew-french.webp",
-   "available": true
+   "available": true,
+   "sort": 102
   },
   {
    "id": "D027",
@@ -1566,7 +1669,8 @@
     "COFFEE_ADD"
    ],
    "image": "brew-aeropress.webp",
-   "available": true
+   "available": true,
+   "sort": 103
   },
   {
    "id": "D028",
@@ -1581,7 +1685,8 @@
     "COFFEE_ADD"
    ],
    "image": "brew-v60.webp",
-   "available": true
+   "available": true,
+   "sort": 104
   },
   {
    "id": "D029",
@@ -1596,7 +1701,8 @@
     "COFFEE_ADD"
    ],
    "image": "brew-chemex.webp",
-   "available": true
+   "available": true,
+   "sort": 105
   },
   {
    "id": "D030",
@@ -1609,7 +1715,8 @@
    "orderable": true,
    "groups": [],
    "image": "tea-red.webp",
-   "available": true
+   "available": true,
+   "sort": 106
   },
   {
    "id": "D031",
@@ -1622,7 +1729,8 @@
    "orderable": true,
    "groups": [],
    "image": "tea-yellow.webp",
-   "available": true
+   "available": true,
+   "sort": 107
   },
   {
    "id": "D032",
@@ -1635,7 +1743,8 @@
    "orderable": true,
    "groups": [],
    "image": "tea-red.webp",
-   "available": true
+   "available": true,
+   "sort": 108
   },
   {
    "id": "D033",
@@ -1648,7 +1757,8 @@
    "orderable": true,
    "groups": [],
    "image": "tea-yellow.webp",
-   "available": true
+   "available": true,
+   "sort": 109
   },
   {
    "id": "D034",
@@ -1661,7 +1771,8 @@
    "orderable": true,
    "groups": [],
    "image": "tea-red.webp",
-   "available": true
+   "available": true,
+   "sort": 110
   },
   {
    "id": "D035",
@@ -1674,7 +1785,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 111
   },
   {
    "id": "D036",
@@ -1687,7 +1799,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-americano.webp",
-   "available": true
+   "available": true,
+   "sort": 112
   },
   {
    "id": "D037",
@@ -1700,7 +1813,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-caramel-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 113
   },
   {
    "id": "D038",
@@ -1713,7 +1827,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-mocha.webp",
-   "available": true
+   "available": true,
+   "sort": 114
   },
   {
    "id": "D039",
@@ -1726,7 +1841,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-spanish-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 115
   },
   {
    "id": "D040",
@@ -1739,7 +1855,8 @@
    "orderable": true,
    "groups": [],
    "image": "affogato.webp",
-   "available": true
+   "available": true,
+   "sort": 116
   },
   {
    "id": "D041",
@@ -1752,7 +1869,8 @@
    "orderable": true,
    "groups": [],
    "image": "frappuccino.webp",
-   "available": true
+   "available": true,
+   "sort": 117
   },
   {
    "id": "D042",
@@ -1765,7 +1883,8 @@
    "orderable": true,
    "groups": [],
    "image": "blend-blue-sky.webp",
-   "available": true
+   "available": true,
+   "sort": 118
   },
   {
    "id": "D043",
@@ -1778,7 +1897,8 @@
    "orderable": true,
    "groups": [],
    "image": "blend-lamassu.webp",
-   "available": true
+   "available": true,
+   "sort": 119
   },
   {
    "id": "D044",
@@ -1791,7 +1911,8 @@
    "orderable": true,
    "groups": [],
    "image": "blend-mango-dream.webp",
-   "available": true
+   "available": true,
+   "sort": 120
   },
   {
    "id": "D045",
@@ -1804,7 +1925,8 @@
    "orderable": true,
    "groups": [],
    "image": "blend-fryday.webp",
-   "available": true
+   "available": true,
+   "sort": 121
   },
   {
    "id": "D046",
@@ -1817,7 +1939,8 @@
    "orderable": true,
    "groups": [],
    "image": "blend-samba.webp",
-   "available": true
+   "available": true,
+   "sort": 122
   },
   {
    "id": "D047",
@@ -1830,7 +1953,8 @@
    "orderable": true,
    "groups": [],
    "image": "mock-sunrise.webp",
-   "available": true
+   "available": true,
+   "sort": 123
   },
   {
    "id": "D048",
@@ -1843,7 +1967,8 @@
    "orderable": true,
    "groups": [],
    "image": "mock-mojito.webp",
-   "available": true
+   "available": true,
+   "sort": 124
   },
   {
    "id": "D049",
@@ -1856,7 +1981,8 @@
    "orderable": true,
    "groups": [],
    "image": "mock-lemonade.webp",
-   "available": true
+   "available": true,
+   "sort": 125
   },
   {
    "id": "D050",
@@ -1869,7 +1995,8 @@
    "orderable": true,
    "groups": [],
    "image": "mock-yasan.webp",
-   "available": true
+   "available": true,
+   "sort": 126
   },
   {
    "id": "D051",
@@ -1882,7 +2009,8 @@
    "orderable": true,
    "groups": [],
    "image": "mock-charlotte.webp",
-   "available": true
+   "available": true,
+   "sort": 127
   },
   {
    "id": "D052",
@@ -1895,7 +2023,8 @@
    "orderable": true,
    "groups": [],
    "image": "frappuccino.webp",
-   "available": true
+   "available": true,
+   "sort": 128
   },
   {
    "id": "D053",
@@ -1908,7 +2037,8 @@
    "orderable": true,
    "groups": [],
    "image": "shake-mango-berry.webp",
-   "available": true
+   "available": true,
+   "sort": 129
   },
   {
    "id": "D054",
@@ -1921,7 +2051,8 @@
    "orderable": true,
    "groups": [],
    "image": "shake-marian.webp",
-   "available": true
+   "available": true,
+   "sort": 130
   },
   {
    "id": "D055",
@@ -1934,7 +2065,8 @@
    "orderable": true,
    "groups": [],
    "image": "shake-ben-pinat.webp",
-   "available": true
+   "available": true,
+   "sort": 131
   },
   {
    "id": "D056",
@@ -1947,7 +2079,8 @@
    "orderable": true,
    "groups": [],
    "image": "shake-strawberry.webp",
-   "available": true
+   "available": true,
+   "sort": 132
   },
   {
    "id": "D057",
@@ -1960,7 +2093,8 @@
    "orderable": true,
    "groups": [],
    "image": "juice-orange.webp",
-   "available": true
+   "available": true,
+   "sort": 133
   },
   {
    "id": "D058",
@@ -1973,7 +2107,8 @@
    "orderable": true,
    "groups": [],
    "image": "juice-orange.webp",
-   "available": true
+   "available": true,
+   "sort": 134
   },
   {
    "id": "D059",
@@ -1986,7 +2121,8 @@
    "orderable": true,
    "groups": [],
    "image": "iced-caramel-latte.webp",
-   "available": true
+   "available": true,
+   "sort": 135
   },
   {
    "id": "D060",
@@ -1999,7 +2135,8 @@
    "orderable": true,
    "groups": [],
    "image": "juice-orange.webp",
-   "available": true
+   "available": true,
+   "sort": 136
   },
   {
    "id": "D061",
@@ -2012,7 +2149,8 @@
    "orderable": true,
    "groups": [],
    "image": "juice-seasonal.webp",
-   "available": true
+   "available": true,
+   "sort": 137
   },
   {
    "id": "S001",
@@ -2027,7 +2165,8 @@
     "FL_TIRAMISU"
    ],
    "image": "sweet-tiramisu.webp",
-   "available": true
+   "available": true,
+   "sort": 138
   },
   {
    "id": "S002",
@@ -2042,7 +2181,8 @@
     "FL_BROWNIE"
    ],
    "image": "sweet-brownie.webp",
-   "available": true
+   "available": true,
+   "sort": 139
   },
   {
    "id": "S003",
@@ -2057,7 +2197,8 @@
     "FL_CHEESE"
    ],
    "image": "sweet-cheesecake-ny.webp",
-   "available": true
+   "available": true,
+   "sort": 140
   },
   {
    "id": "S004",
@@ -2070,7 +2211,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-lotus-paradise.webp",
-   "available": true
+   "available": true,
+   "sort": 141
   },
   {
    "id": "S005",
@@ -2083,7 +2225,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-san-sebastian.webp",
-   "available": true
+   "available": true,
+   "sort": 142
   },
   {
    "id": "S006",
@@ -2096,7 +2239,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-mousse.webp",
-   "available": true
+   "available": true,
+   "sort": 143
   },
   {
    "id": "S007",
@@ -2111,7 +2255,8 @@
     "FL_PARIS"
    ],
    "image": "sweet-paris-brest.webp",
-   "available": true
+   "available": true,
+   "sort": 144
   },
   {
    "id": "S008",
@@ -2126,7 +2271,8 @@
     "FL_ECLAIR"
    ],
    "image": "sweet-eclair.webp",
-   "available": true
+   "available": true,
+   "sort": 145
   },
   {
    "id": "S009",
@@ -2141,7 +2287,8 @@
     "FL_NYROLL"
    ],
    "image": "sweet-ny-roll.webp",
-   "available": true
+   "available": true,
+   "sort": 146
   },
   {
    "id": "S010",
@@ -2154,7 +2301,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-brulee.webp",
-   "available": true
+   "available": true,
+   "sort": 147
   },
   {
    "id": "S011",
@@ -2169,7 +2317,8 @@
     "FL_TRES"
    ],
    "image": "sweet-tres-leches.webp",
-   "available": true
+   "available": true,
+   "sort": 148
   },
   {
    "id": "S012",
@@ -2184,7 +2333,8 @@
     "FL_SABLE"
    ],
    "image": "sweet-sable-breton.webp",
-   "available": true
+   "available": true,
+   "sort": 149
   },
   {
    "id": "S013",
@@ -2199,7 +2349,8 @@
     "FL_CROISSANT"
    ],
    "image": "sweet-croissant.webp",
-   "available": true
+   "available": true,
+   "sort": 150
   },
   {
    "id": "S014",
@@ -2212,7 +2363,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-tart.webp",
-   "available": true
+   "available": true,
+   "sort": 151
   },
   {
    "id": "S015",
@@ -2225,7 +2377,8 @@
    "orderable": true,
    "groups": [],
    "image": "sweet-apple-crumble.webp",
-   "available": true
+   "available": true,
+   "sort": 152
   },
   {
    "id": "S016",
@@ -2238,7 +2391,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-3-scoops.webp",
-   "available": true
+   "available": true,
+   "sort": 153
   },
   {
    "id": "S017",
@@ -2251,7 +2405,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-dabdoobi.webp",
-   "available": true
+   "available": true,
+   "sort": 154
   },
   {
    "id": "S018",
@@ -2264,7 +2419,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-oriason.webp",
-   "available": true
+   "available": true,
+   "sort": 155
   },
   {
    "id": "S019",
@@ -2277,7 +2433,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-kitty-waffle.webp",
-   "available": true
+   "available": true,
+   "sort": 156
   },
   {
    "id": "S020",
@@ -2290,7 +2447,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-butterfly-waffle.webp",
-   "available": true
+   "available": true,
+   "sort": 157
   },
   {
    "id": "S021",
@@ -2303,7 +2461,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-chocolate-ray.webp",
-   "available": true
+   "available": true,
+   "sort": 158
   },
   {
    "id": "S022",
@@ -2316,7 +2475,8 @@
    "orderable": true,
    "groups": [],
    "image": "gelato-warp-waffle.webp",
-   "available": true
+   "available": true,
+   "sort": 159
   },
   {
    "id": "S023",
@@ -2329,7 +2489,8 @@
    "orderable": true,
    "groups": [],
    "image": "cake-opera.webp",
-   "available": true
+   "available": true,
+   "sort": 160
   },
   {
    "id": "S024",
@@ -2342,7 +2503,8 @@
    "orderable": true,
    "groups": [],
    "image": "cake-mille-feuille.webp",
-   "available": true
+   "available": true,
+   "sort": 161
   },
   {
    "id": "S025",
@@ -2355,7 +2517,8 @@
    "orderable": false,
    "groups": [],
    "image": "cake-happy.webp",
-   "available": true
+   "available": true,
+   "sort": 162
   }
  ],
  "groups": {
@@ -3081,6 +3244,23 @@
   "messages": {
    "outOfZone": "نعتذر، هذا الموقع خارج منطقة التوصيل (النجف والكوفة فقط)",
    "cashierFee": "أجرة التوصيل يأكدها الكاشير"
+  },
+  "pickupMinutes": 20,
+  "busy": {
+   "enabled": false,
+   "deliveryMinutes": 75,
+   "pickupMinutes": 40,
+   "message": "عدنا ضغط طلبات هسه — الطلب ياخذ وقت أطول شوية. شكراً لصبركم 🙏"
+  },
+  "paused": {
+   "enabled": false,
+   "message": "الطلبات أونلاين متوقفة مؤقتاً — تگدر تتصل بينا"
+  },
+  "map": {
+   "provider": "osm",
+   "tileUrl": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+   "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\" rel=\"noopener\">OpenStreetMap</a>",
+   "maxZoom": 19
   },
   "social": {
    "instagram": "fryday.iq",

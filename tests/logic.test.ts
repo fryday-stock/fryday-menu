@@ -133,3 +133,20 @@ describe('التوصيل من الخريطة', () => {
     expect(msg).toContain('الإجمالي: 9,000 د.ع + التوصيل');
   });
 });
+
+describe('Excel: تصدير ← استيراد يرجع نفس المنيو', () => {
+  it('buildMenuSheets ثم parseMenuSheets', async () => {
+    const { buildMenuSheets, parseMenuSheets } = await import('../src/lib/menuSheet');
+    const sheets = buildMenuSheets(data);
+    const p = parseMenuSheets(sheets as Record<string, unknown[][]>);
+    expect(p.warnings).toEqual([]);
+    expect(p.items).toHaveLength(data.items.length);
+    for (const i of data.items) {
+      const x = p.items.find((y) => y.id === i.id)!;
+      expect([x.name, x.price, x.section, x.tab, x.groups.join(), x.image, x.available]).toEqual([i.name, i.price, i.section, i.tab, i.groups.join(), i.image, i.available]);
+    }
+    expect(Object.keys(p.groups)).toEqual(Object.keys(data.groups));
+    expect(p.groups.APPET_PICK).toMatchObject({ kind: 'multi', min: 3, max: 3 });
+    expect(p.zones).toEqual(data.zones.map((z) => ({ name: z.name, fee: z.fee })));
+  });
+});

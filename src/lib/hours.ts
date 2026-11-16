@@ -44,3 +44,11 @@ export function etaClock(now: Date, minutes: number, utcOffset: number): string 
   if (h === 0) h = 12;
   return `${h}:${String(m % 60).padStart(2, '0')}`;
 }
+
+/** وقت الوصول المتوقع كنص: "9:40 بالليل" */
+export function etaText(from: Date, minutes: number, utcOffset: number): string {
+  const m = (localMinutes(from, utcOffset) + minutes) % 1440;
+  const h24 = Math.floor(m / 60);
+  const period = h24 < 5 ? 'بالليل' : h24 < 12 ? 'الصبح' : h24 < 15 ? 'الظهر' : h24 < 18 ? 'العصر' : 'بالليل';
+  return `${etaClock(from, minutes, utcOffset)} ${period}`;
+}

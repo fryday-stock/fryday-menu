@@ -7,8 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { LocateFixed, Plus, Minus } from 'lucide-react';
-import type { Zone } from '../data/types';
+import type { MapProvider, Zone } from '../data/types';
 import type { LatLng } from '../lib/delivery';
+import { assetBase } from '../lib/format';
 
 interface Props {
   /** نقطة البداية (موقع المطعم أو آخر دبوس) */
@@ -20,9 +21,11 @@ interface Props {
   onMove: (p: LatLng) => void;
   onLocate: () => void;
   locating: boolean;
+  /** مزود الخرائط من الإعدادات (OpenStreetMap حالياً) */
+  tiles: MapProvider;
 }
 
-export default function MapPicker({ start, target, zones, restaurant, onMove, onLocate, locating }: Props) {
+export default function MapPicker({ start, target, zones, restaurant, onMove, onLocate, locating, tiles }: Props) {
   const el = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const [dragging, setDragging] = useState(false);
@@ -33,9 +36,10 @@ export default function MapPicker({ start, target, zones, restaurant, onMove, on
     if (!el.current) return;
     const map = L.map(el.current, { zoomControl: false, attributionControl: true, tapHold: false } as L.MapOptions).setView([start.lat, start.lng], 16);
     mapRef.current = map;
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+    L.tileLayer(tiles.tileUrl, {
+      maxZoom: tiles.maxZoom,
+      attribution: tiles.attribution,
+      ...(tiles.subdomains ? { subdomains: tiles.subdomains } : {}),
     }).addTo(map);
     map.attributionControl.setPrefix(false);
     for (const z of zones) {
@@ -48,7 +52,7 @@ export default function MapPicker({ start, target, zones, restaurant, onMove, on
         className: '',
         iconSize: [40, 40],
         iconAnchor: [20, 20],
-        html: `<div style="width:40px;height:40px;border-radius:999px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.3)"><img src="${import.meta.env.BASE_URL}brand/logo-sm.webp" style="width:28px;height:28px;object-fit:contain" alt=""/></div>`,
+        html: `<div style="width:40px;height:40px;border-radius:999px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.3)"><img src="${assetBase()}brand/logo-sm.webp" style="width:28px;height:28px;object-fit:contain" alt=""/></div>`,
       }),
     }).addTo(map);
 

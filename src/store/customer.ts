@@ -31,6 +31,11 @@ export interface PlacedOrder {
   type: 'delivery' | 'pickup';
   sent: boolean;
   createdAt: number;
+  /** وقت الوصول/التجهيز المتوقع بالدقائق */
+  etaMinutes: number;
+  /** رقم الطلب بالسيرفر + معرف الجهاز (حتى نأكد "انرسل") — null بدون سيرفر */
+  id: number | null;
+  clientId: string | null;
 }
 
 export const useLastOrder = create<{ order: PlacedOrder | null; set: (o: PlacedOrder | null) => void; markSent: () => void }>()(

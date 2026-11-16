@@ -8,6 +8,8 @@ import { toOrderLine } from '../store/cart';
 import { buildWhatsAppMessage, type Order } from '../lib/whatsapp';
 import { mapsUrl, quoteDelivery, zoneAt, type LatLng, type DeliveryQuote } from '../lib/delivery';
 import { nextLocalOrderNumber } from '../lib/orderNumber';
+import { postOrder, ApiError } from '../data/source';
+import { etaFor } from '../data/defaults';
 import { cleanPhone, isValidPhone } from '../lib/validate';
 import { fmt } from '../lib/format';
 import { Price } from '../components/Price';
@@ -46,7 +48,7 @@ export function CheckoutScreen() {
   const { data } = useMenu();
   const s = data.settings;
   const { lines, subtotal } = useCartSummary();
-  const { open } = useOpen();
+  const { open, reason } = useOpen();
   const saved = useCustomer((x) => x.c);
   const saveCustomer = useCustomer((x) => x.save);
   const setOrder = useLastOrder((x) => x.set);
@@ -67,6 +69,10 @@ export function CheckoutScreen() {
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const refs = useRef<Record<string, HTMLElement | null>>({});
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  // نفس المعرف لكل إعادة محاولة → السيرفر ما يكرر الطلب
+  const clientId = useRef(globalThis.crypto?.randomUUID?.() ?? `c-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
 
   const delivery = c.type === 'delivery';
   const quote = quoteDelivery(s, data.zones, pin, subtotal);
@@ -123,7 +129,8 @@ export function CheckoutScreen() {
     setErrors((e) => ({ ...e, location: undefined }));
   };
 
-  const submit = () => {
+  const submit = async () => {
+    if (sending) return;
     const e = validate(c);
     setErrors(e);
     setTouched({ name: true, phone: true, location: true, address: true });
@@ -137,6 +144,30 @@ export function CheckoutScreen() {
     const zone = quote.kind === 'fee' || quote.kind === 'cashier' ? quote.zone : null;
     const clean: Customer = { ...c, name: c.name.trim(), phone: cleanPhone(c.phone), address: c.address.trim(), landmark: c.landmark.trim(), zoneId: zone?.id ?? '', pin: pin ?? saved.pin ?? null };
     saveCustomer(clean);
+    setSendError(null);
+
+    if (data.live) {
+      // السيرفر يحفظ الطلب ويعيد حساب الأسعار ويرجع رقم يومي + الرسالة
+      setSending(true);
+      try {
+        const r = await postOrder({
+          clientId: clientId.current, type: clean.type, name: clean.name, phone: clean.phone,
+          address: clean.address, landmark: clean.landmark, note, pin: delivery ? pin : null,
+          lines: lines.map((l) => ({ itemId: l.itemId, qty: l.qty, sel: l.sel, note: l.note })),
+        });
+        setOrder({ number: r.number, message: r.message, total: r.total, type: r.type, sent: false, createdAt: Date.parse(r.createdAt) || Date.now(), etaMinutes: r.etaMinutes, id: r.id, clientId: clientId.current });
+        go('done');
+      } catch (err) {
+        const ae = err instanceof ApiError ? err : new ApiError('server', 'صار خطأ، حاول مرة ثانية');
+        setSendError(ae.message);
+        if (ae.code === 'location' || ae.code === 'out_of_zone') { setPin(null); setErrors((x) => ({ ...x, location: ae.message })); refs.current.location?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      } finally {
+        setSending(false);
+      }
+      return;
+    }
+
+    // بدون سيرفر (GitHub Pages): رقم محلي ورسالة من المتصفح
     const order: Order = {
       number: nextLocalOrderNumber(),
       lines: lines.map((l) => toOrderLine(l, data)),
@@ -151,7 +182,7 @@ export function CheckoutScreen() {
       note,
       payment: s.payment,
     };
-    setOrder({ number: order.number, message: buildWhatsAppMessage(order), total, type: order.type, sent: false, createdAt: Date.now() });
+    setOrder({ number: order.number, message: buildWhatsAppMessage(order), total, type: order.type, sent: false, createdAt: Date.now(), etaMinutes: etaFor(s, order.type), id: null, clientId: null });
     go('done');
   };
 
@@ -208,7 +239,7 @@ export function CheckoutScreen() {
             ) : mapOpen ? (
               <div>
                 <Suspense fallback={<div className="grid h-[300px] place-items-center rounded-[20px] border border-line bg-surface-2"><LoaderCircle className="animate-spin text-muted" /></div>}>
-                  <MapPicker start={center} target={gpsTarget} zones={data.zones} restaurant={s.location} onMove={setCenter} onLocate={locate} locating={gps === 'locating'} />
+                  <MapPicker start={center} target={gpsTarget} zones={data.zones} restaurant={s.location} onMove={setCenter} onLocate={locate} locating={gps === 'locating'} tiles={s.map} />
                 </Suspense>
                 <p className="mt-2 text-[13.5px] leading-6 text-muted" role="status">
                   {gps === 'locating' && 'جاري تحديد موقعك…'}
@@ -301,9 +332,10 @@ export function CheckoutScreen() {
       </div>
 
       <div className="pb-safe sticky bottom-0 z-10 bg-gradient-to-t from-bg via-bg to-bg/0 px-4 pt-4">
-        {!open && <p className="mb-2 text-center text-[14px] font-semibold text-danger">{s.closedMessage}</p>}
-        <button disabled={!open || (delivery && mapOpen)} onClick={submit} className={`flex h-14 w-full items-center justify-between px-5 text-[17px] font-bold transition active:scale-[0.98] disabled:opacity-45 ${t.look.cta}`}>
-          <span>{delivery && mapOpen ? 'أكّد موقعك أول' : 'راجع وأكّد الطلب'}</span>
+        {!open && <p className="mb-2 text-center text-[14px] font-semibold text-danger">{reason}</p>}
+        {sendError && <p role="alert" className="mb-2 rounded-2xl bg-danger/10 px-4 py-2.5 text-center text-[14px] font-semibold text-danger">{sendError}</p>}
+        <button disabled={!open || (delivery && mapOpen) || sending} onClick={submit} aria-busy={sending} className={`flex h-14 w-full items-center justify-between px-5 text-[17px] font-bold transition active:scale-[0.98] disabled:opacity-45 ${t.look.cta}`}>
+          <span className="flex items-center gap-2">{sending && <LoaderCircle size={19} className="animate-spin" />}{sending ? 'جاري إرسال الطلب…' : delivery && mapOpen ? 'أكّد موقعك أول' : sendError ? 'حاول مرة ثانية' : 'راجع وأكّد الطلب'}</span>
           <Price value={total} />
         </button>
       </div>

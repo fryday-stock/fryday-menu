@@ -10,7 +10,9 @@ import sharp from 'sharp';
 import { mkdirSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { MenuData, Item, OptionGroup, TabId, Zone, Settings } from '../src/data/types';
+import type { MenuData, TabId, Zone, Settings } from '../src/data/types';
+import { DEFAULT_SETTINGS, ZONE_POLYGONS } from '../src/data/defaults';
+import { parseMenuSheets, cellText, SHEET_MENU, SHEET_OPTIONS, SHEET_ZONES, TAB_NAMES } from '../src/lib/menuSheet';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const XLSX = join(ROOT, 'assets-input/menu.xlsx');
@@ -19,176 +21,41 @@ const OUT_JSON = join(ROOT, 'src/data/menu.json');
 const PHOTOS = join(ROOT, 'public/photos');
 const THUMBS = join(PHOTOS, 'sm');
 
-/** حدود تقريبية للنجف والكوفة [lat, lng] — تتعدل لاحقاً من اللوحة */
-const ZONE_POLYGONS: Record<string, [number, number][]> = {
-  'النجف': [
-    [32.078, 44.262], [32.078, 44.376], [32.040, 44.377], [32.000, 44.381], [31.960, 44.380],
-    [31.922, 44.360], [31.918, 44.300], [31.950, 44.262], [32.010, 44.248],
-  ],
-  'الكوفة': [
-    [32.078, 44.376], [32.098, 44.392], [32.098, 44.462], [32.060, 44.478], [32.010, 44.468],
-    [31.982, 44.440], [31.982, 44.398], [32.000, 44.381], [32.040, 44.377],
-  ],
-};
-
-const TAB_MAP: Record<string, TabId> = { 'الأكل': 'food', 'المشروبات': 'drinks', 'الحلويات': 'sweets' };
-const TAB_NAMES: Record<TabId, string> = { food: 'الأكل', drinks: 'المشروبات', sweets: 'الحلويات' };
-
-function text(v: ExcelJS.CellValue): string {
-  if (v == null) return '';
-  if (typeof v === 'object') {
-    if ('richText' in v) return v.richText.map((r) => r.text).join('').trim();
-    if ('result' in v) return String(v.result ?? '').trim();
-    if ('text' in v) return String(v.text).trim();
-  }
-  return String(v).trim();
-}
-
-function num(v: ExcelJS.CellValue): number | null {
-  const s = text(v).replace(/[,،\s]/g, '');
-  if (!s) return null;
-  const n = Number(s);
-  return Number.isFinite(n) ? n : null;
-}
-
-function sheetRows(ws: ExcelJS.Worksheet): ExcelJS.CellValue[][] {
-  const rows: ExcelJS.CellValue[][] = [];
-  ws.eachRow({ includeEmpty: false }, (row) => {
-    const vals = row.values as ExcelJS.CellValue[];
-    rows.push(vals.slice(1)); // exceljs rows are 1-indexed
-  });
+function sheetRows(ws: ExcelJS.Worksheet | undefined): unknown[][] {
+  const rows: unknown[][] = [];
+  ws?.eachRow({ includeEmpty: false }, (row) => rows.push((row.values as unknown[]).slice(1))); // exceljs 1-indexed
   return rows;
-}
-
-/** "إجباري — واحد" / "اختياري — متعدد" / "إجباري — 3 بالضبط" → قواعد الاختيار */
-function parseGroupType(t: string): Pick<OptionGroup, 'min' | 'max' | 'kind'> {
-  const required = t.includes('إجباري');
-  const exact = t.match(/(\d+)\s*بالضبط/);
-  if (exact) {
-    const n = Number(exact[1]);
-    return { kind: 'multi', min: n, max: n };
-  }
-  if (t.includes('متعدد')) return { kind: 'multi', min: required ? 1 : 0, max: 99 };
-  return { kind: 'single', min: required ? 1 : 0, max: 1 };
 }
 
 async function main() {
   const wb = new ExcelJS.Workbook();
   await wb.xlsx.readFile(XLSX);
-  const warnings: string[] = [];
+  const parsed = parseMenuSheets({
+    [SHEET_MENU]: sheetRows(wb.getWorksheet(SHEET_MENU)),
+    [SHEET_OPTIONS]: sheetRows(wb.getWorksheet(SHEET_OPTIONS)),
+    [SHEET_ZONES]: sheetRows(wb.getWorksheet(SHEET_ZONES)),
+  });
+  const { items, groups, sectionsByTab, warnings } = parsed;
+  const photoFiles = new Set(items.map((i) => i.image).filter((x): x is string => !!x));
 
-  // ───── الخيارات ─────
-  const groups: Record<string, OptionGroup> = {};
-  const wsOpt = wb.getWorksheet('الخيارات');
-  if (!wsOpt) throw new Error('ورقة "الخيارات" مفقودة');
-  for (const r of sheetRows(wsOpt).slice(1)) {
-    const code = text(r[0]);
-    if (!code) continue;
-    const name = text(r[1]);
-    const type = text(r[2]);
-    const opt = text(r[3]);
-    const delta = num(r[4]) ?? 0;
-    if (!groups[code]) {
-      groups[code] = { code, name, ...parseGroupType(type), isSize: name.includes('الحجم'), options: [] };
-    }
-    const g = groups[code];
-    g.options.push({ id: `${code}-${g.options.length + 1}`, name: opt, price: delta });
-  }
+  const zones: Zone[] = parsed.zones.map((z, i) => {
+    const polygon = ZONE_POLYGONS[z.name];
+    if (!polygon) warnings.push(`منطقة "${z.name}" بدون حدود مرسومة — ما راح تشتغل بالخريطة`);
+    return { id: `z${i + 1}`, name: z.name, fee: z.fee, polygon: polygon ?? [] };
+  });
 
-  // ───── المنيو ─────
-  const wsMenu = wb.getWorksheet('المنيو');
-  if (!wsMenu) throw new Error('ورقة "المنيو" مفقودة');
-  const items: Item[] = [];
-  const sectionsByTab: Record<TabId, string[]> = { food: [], drinks: [], sweets: [] };
-  const photoFiles = new Set<string>();
-
-  for (const r of sheetRows(wsMenu).slice(1)) {
-    const id = text(r[0]);
-    if (!/^[A-Z]\d{3}$/.test(id)) continue; // يتجاهل سطور الدليل
-    const tabName = text(r[1]);
-    const tab = TAB_MAP[tabName];
-    if (!tab) { warnings.push(`${id}: تبويب غير معروف "${tabName}"`); continue; }
-    const section = text(r[2]);
-    if (!sectionsByTab[tab].includes(section)) sectionsByTab[tab].push(section);
-
-    const rawPrice = text(r[6]);
-    const price = num(r[6]);
-    const orderable = price != null; // "حسب الطلب" → غير قابل للطلب أونلاين
-    if (!orderable && !rawPrice.includes('حسب')) warnings.push(`${id}: سعر غير مفهوم "${rawPrice}"`);
-
-    const groupCodes = text(r[7]).split(/[,،]/).map((s) => s.trim()).filter(Boolean);
-    for (const c of groupCodes) if (!groups[c]) warnings.push(`${id}: مجموعة خيارات غير موجودة "${c}"`);
-
-    const img = text(r[8]);
-    const image = img && img !== '—' && img !== '-' ? img : null;
-    if (image) photoFiles.add(image);
-
-    let desc = text(r[5]) || null;
-    if (!orderable && desc?.includes('حسب الطلب')) desc = null;
-
-    items.push({
-      id,
-      tab,
-      section,
-      name: text(r[3]),
-      nameEn: text(r[4]) || null,
-      desc,
-      price,
-      orderable,
-      groups: groupCodes.filter((c) => groups[c]),
-      image,
-      available: text(r[9]) !== 'لا',
-    });
-  }
-
-  // ───── مناطق التوصيل ─────
-  const zones: Zone[] = [];
-  const wsZ = wb.getWorksheet('مناطق التوصيل');
-  if (wsZ) {
-    for (const r of sheetRows(wsZ).slice(1)) {
-      const name = text(r[0]);
-      const fee = num(r[1]);
-      if (!name || fee == null) continue;
-      const polygon = ZONE_POLYGONS[name];
-      if (!polygon) warnings.push(`منطقة "${name}" بدون حدود مرسومة — ما راح تشتغل بالخريطة`);
-      zones.push({ id: `z${zones.length + 1}`, name, fee, polygon: polygon ?? [] });
-    }
-  }
-
-  // ───── الإعدادات ─────
+  // ───── الإعدادات (اللي موجودة بالـ Excel، والباقي من defaults.ts) ─────
   const kv: Record<string, string> = {};
-  const wsS = wb.getWorksheet('الإعدادات');
-  if (wsS) for (const r of sheetRows(wsS).slice(1)) kv[text(r[0])] = text(r[1]);
-
+  for (const r of sheetRows(wb.getWorksheet('الإعدادات')).slice(1)) kv[cellText(r[0])] = cellText(r[1]);
   const waRaw = kv['رقم الواتساب لاستلام الطلبات'] ?? '';
-  const whatsapp = waRaw.match(/wa\.me\/(\d+)/)?.[1] ?? '9647715796059';
-  const phones = (kv['رقم الاتصال'] ?? '7320 — 07893000406').split(/[—\-–,،]/).map((s) => s.trim()).filter(Boolean);
-  const [instagram, tiktok, facebook] = (kv['انستغرام / تيك توك / فيسبوك'] ?? '').split('/').map((s) => s.trim());
-
+  const phones = (kv['رقم الاتصال'] ?? '').split(/[—\-–,،]/).map((x) => x.trim()).filter(Boolean);
   const settings: Settings = {
-    restaurantName: 'فرايدي',
-    restaurantNameEn: 'FRY DAY',
-    tagline: 'Fries & Pastry',
-    whatsapp,
-    phones,
-    callPhone: phones.find((p) => p.startsWith('07')) ?? phones[0],
-    address: kv['العنوان'] || 'النجف — شارع الغدير، مجاور جسر المشاة',
-    hours: { open: '12:00', close: '24:00', utcOffset: 3 },
-    closedMessage: 'نستقبل الطلبات من الساعة 12 الظهر',
-    deliveryNote: 'التوصيل داخل النجف والكوفة فقط',
-    minOrder: { enabled: false, amount: 0 },
-    freeDelivery: { enabled: false, threshold: 0 },
-    payment: kv['طريقة الدفع'] || 'كاش عند الاستلام',
-    etaMinutes: 45,
-    location: { lat: 32.01622, lng: 44.345007 },
-    delivery: { enabled: true, feeMode: 'map', fixedFee: 2500, locationRequired: true },
-    pickup: { enabled: true },
-    hero: { image: 'burger-mushroom.webp', media: [] },
-    messages: {
-      outOfZone: 'نعتذر، هذا الموقع خارج منطقة التوصيل (النجف والكوفة فقط)',
-      cashierFee: 'أجرة التوصيل يأكدها الكاشير',
-    },
-    social: { instagram: instagram || 'fryday.iq', tiktok: tiktok || 'fryday.iq', facebook: facebook || 'fryday' },
+    ...DEFAULT_SETTINGS,
+    whatsapp: waRaw.match(/wa\.me\/(\d+)/)?.[1] ?? DEFAULT_SETTINGS.whatsapp,
+    phones: phones.length ? phones : DEFAULT_SETTINGS.phones,
+    callPhone: phones.find((p) => p.startsWith('07')) ?? DEFAULT_SETTINGS.callPhone,
+    address: kv['العنوان'] || DEFAULT_SETTINGS.address,
+    payment: kv['طريقة الدفع'] || DEFAULT_SETTINGS.payment,
   };
 
   const data: MenuData = {

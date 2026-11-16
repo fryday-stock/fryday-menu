@@ -35,6 +35,10 @@ export interface Item {
   groups: string[];
   image: string | null;
   available: boolean;
+  /** ترتيب داخل القسم */
+  sort?: number;
+  /** "خالص اليوم" لحد هذا الوقت (ISO) — يرجع متوفر تلقائياً الساعة 6 الصبح */
+  soldOutUntil?: string | null;
 }
 
 export interface Zone {
@@ -52,6 +56,16 @@ export interface HeroMedia {
   src: string;
   poster?: string;
   title?: string;
+}
+
+export interface MapProvider {
+  /** اسم المزود (osm / carto / custom) */
+  provider: string;
+  /** قالب رابط البلاطات {z}/{x}/{y} (و {s} و {r} اختياري) */
+  tileUrl: string;
+  attribution: string;
+  maxZoom: number;
+  subdomains?: string;
 }
 
 /** طريقة أجرة التوصيل: map = تلقائية من الدبوس، fixed = مبلغ ثابت، cashier = يحددها الكاشير */
@@ -79,6 +93,14 @@ export interface Settings {
   pickup: { enabled: boolean };
   hero: { image: string; media: HeroMedia[] };
   messages: { outOfZone: string; cashierFee: string };
+  /** وقت تجهيز الاستلام من المطعم (دقائق) */
+  pickupMinutes: number;
+  /** وضع الضغط العالي: يغير وقت الوصول ويطلع تنبيه للزبون */
+  busy: { enabled: boolean; deliveryMinutes: number; pickupMinutes: number; message: string };
+  /** إيقاف الطلبات مؤقتاً (المنيو يبقى مفتوح) */
+  paused: { enabled: boolean; message: string };
+  /** مزود الخرائط (قابل للتبديل بدون تعديل كود) */
+  map: MapProvider;
   social: { instagram: string; tiktok: string; facebook: string };
 }
 
