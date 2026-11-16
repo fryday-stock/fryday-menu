@@ -79,8 +79,8 @@ describe('الطلبات والعداد اليومي', () => {
     const r = await createOrder(db, base, m, '1.1.1.1', evening);
     expect(r.total).toBe(26000 + 2500);
     expect(r.message).toContain('2× بركر فرايدي — 26,000');
-    expect(r.message).toContain('🛵 توصيل — النجف');
-    expect(r.message).toContain('🗺️ https://maps.google.com/?q=32.016220,44.345007');
+    expect(r.message).toContain('نوع الطلب: توصيل — النجف');
+    expect(r.message).toContain('الموقع: https://maps.google.com/?q=32.016220,44.345007');
     expect(r.etaMinutes).toBe(45);
   });
 
@@ -108,7 +108,7 @@ describe('الطلبات والعداد اليومي', () => {
   it('الاستلام ما يحتاج موقع', async () => {
     const m = await loadMenu(db);
     const r = await createOrder(db, { ...base, clientId: 'pick-000001', type: 'pickup', pin: null, address: '' }, m, '1', evening);
-    expect(r.message).toContain('🏃 استلام من المطعم');
+    expect(r.message).toContain('نوع الطلب: استلام من المطعم');
     expect(r.total).toBe(26000);
     expect(r.etaMinutes).toBe(20);
   });

@@ -66,12 +66,12 @@ describe('رسالة الواتساب', () => {
       mapsUrl: 'https://maps.google.com/?q=32.000000,44.300000', note: '', payment: 'كاش عند الاستلام',
     });
     expect(msg).toBe([
-      '🧾 طلب جديد #1047', '━━━━━━━━━━━━',
+      'طلب جديد #1047', '━━━━━━━━━━━━',
       '2× بركر فرايدي — 26,000', '   • وجبة (بطاطا + حلقات بصل + ببسي) (+3,000)', '   • ملاحظة: بدون بصل',
       '1× بيتزا ببروني (وسط) — 14,000', '1× آيس لاتيه — 5,000', '━━━━━━━━━━━━',
       'المجموع: 45,000', 'التوصيل: 2,500', 'الإجمالي: 47,500 د.ع', '━━━━━━━━━━━━',
-      '👤 أحمد علي', '📞 07801234567', '🛵 توصيل — النجف', '📍 حي الأمير، قرب جامع الحسن',
-      '🗺️ https://maps.google.com/?q=32.000000,44.300000', '💵 الدفع: كاش عند الاستلام',
+      'الاسم: أحمد علي', 'الهاتف: 07801234567', 'نوع الطلب: توصيل — النجف', 'العنوان: حي الأمير، قرب جامع الحسن',
+      'الموقع: https://maps.google.com/?q=32.000000,44.300000', 'الدفع: كاش عند الاستلام',
     ].join('\n'));
   });
 });
@@ -148,5 +148,20 @@ describe('Excel: تصدير ← استيراد يرجع نفس المنيو', ()
     expect(Object.keys(p.groups)).toEqual(Object.keys(data.groups));
     expect(p.groups.APPET_PICK).toMatchObject({ kind: 'multi', min: 3, max: 3 });
     expect(p.zones).toEqual(data.zones.map((z) => ({ name: z.name, fee: z.fee })));
+  });
+});
+
+describe('الرسالة نظيفة على كل موبايل', () => {
+  it('ماكو أي إيموجي حتى لو اسم الخيار أو الملاحظة بيها إيموجي', async () => {
+    const { whatsAppLink } = await import('../src/lib/whatsapp');
+    const lines = resolveLines([{ key: '1', itemId: 'F053', qty: 1, sel: { WINGS_SAUCE: ['WINGS_SAUCE-4'] }, note: 'حار 🔥🌶️ رجاءً' }], data, byId);
+    const msg = buildWhatsAppMessage({ number: 1001, lines: lines.map((l) => toOrderLine(l, data)), subtotal: 6500, deliveryFee: null, total: 6500, type: 'delivery', customer: { name: 'علي 😀', phone: '07801234567' }, zone: 'الكوفة', note: 'بسرعة 🙏', payment: 'كاش عند الاستلام' });
+    expect(msg).not.toMatch(/\p{Extended_Pictographic}|[\uD800-\uDFFF]|\uFFFD/u);
+    expect(msg).toContain('(سويت جيلي)');
+    expect(msg).toContain('• ملاحظة: حار رجاءً');
+    expect(msg).toContain('الاسم: علي');
+    const link = whatsAppLink('9647715796059', msg);
+    expect(link.startsWith('https://api.whatsapp.com/send?phone=9647715796059&text=')).toBe(true);
+    expect(decodeURIComponent(link.split('&text=')[1])).toBe(msg);
   });
 });
