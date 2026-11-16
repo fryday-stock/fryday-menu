@@ -172,7 +172,7 @@ function ItemD({ item, onClose }: { item: Item; onClose: () => void }) {
             <Plate file={item.image} alt={item.name} size="lg" eager />
           </motion.div>
         ) : (
-          <div className="absolute inset-0 grid place-items-center"><Logo size={130} /></div>
+          <div className="absolute inset-0 grid place-items-center"><Logo size={150} className="shadow-[0_16px_40px_-14px_rgba(0,0,0,0.45)]" /></div>
         )}
       </div>
       <div className="flex-1 px-5 pt-3">

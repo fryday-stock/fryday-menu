@@ -16,7 +16,7 @@ export function Chooser() {
   return (
     <div className="mx-auto min-h-dvh max-w-[480px] bg-[#f7f4ee] px-4 pt-8 pb-12 text-[#1a1612]" style={{ fontFamily: 'Cairo, system-ui, sans-serif' }}>
       <div className="flex items-center gap-3">
-        <Logo size={60} />
+        <Logo size={64} variant="mark" />
         <div>
           <h1 className="text-[24px] leading-tight font-extrabold">منيو فرايدي</h1>
           <p className="text-[14px] text-[#685f54]">المرحلة 0 — اختار النموذج اللي يعجبك</p>

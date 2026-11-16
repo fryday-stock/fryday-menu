@@ -53,7 +53,7 @@ function RestaurantHead() {
   return (
     <div className="relative z-10 -mt-14 px-4">
       <div className="flex items-end gap-3">
-        <div className="rounded-full bg-bg p-1.5 shadow-[0_10px_30px_-8px_rgba(232,17,45,0.55)]"><Logo size={78} ring /></div>
+        <div className="rounded-full bg-bg p-1.5 shadow-[0_10px_30px_-8px_rgba(232,17,45,0.55)]"><Logo size={78} /></div>
         <div className="min-w-0 flex-1 pb-1">
           <h1 className="flex items-center gap-1.5 text-[24px] leading-tight font-bold">{s.restaurantName} <BadgeCheck size={20} className="text-primary-2" aria-label="المطعم الرسمي" /></h1>
           <div className="mt-1 flex items-center gap-2"><StatusPill /><span className="text-[12.5px] text-muted">{s.tagline}</span></div>
@@ -210,7 +210,7 @@ function ItemC({ item, onClose }: { item: Item; onClose: () => void }) {
             <Plate file={item.image} alt={item.name} size="lg" eager />
           </motion.div>
         ) : (
-          <div className="absolute inset-0 grid place-items-center"><Logo size={130} /></div>
+          <div className="absolute inset-0 grid place-items-center"><Logo size={150} className="shadow-[0_16px_40px_-14px_rgba(0,0,0,0.45)]" /></div>
         )}
       </div>
       <div className="relative -mt-4 flex-1 rounded-t-[28px] border-t border-line bg-surface px-4 pt-5">

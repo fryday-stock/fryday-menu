@@ -207,7 +207,7 @@ function ItemA({ item, onClose }: { item: Item; onClose: () => void }) {
             <Plate file={item.image} alt={item.name} size="lg" eager />
           </motion.div>
         ) : (
-          <div className="absolute inset-0 grid place-items-center"><Logo size={120} /></div>
+          <div className="absolute inset-0 grid place-items-center"><Logo size={150} className="shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)]" /></div>
         )}
       </div>
       <div className="relative -mt-6 flex-1 rounded-t-[28px] bg-bg px-4 pt-6">
