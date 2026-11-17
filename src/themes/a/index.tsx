@@ -21,7 +21,6 @@ import { SizePicker, OptionGroupView, NoteField } from '../../components/OptionG
 import { useCartSummary } from '../../hooks/useCartSummary';
 import { useItemConfig } from '../../hooks/useItemConfig';
 import { hourLabel } from '../../lib/hours';
-import { photo } from '../../lib/format';
 import { go } from '../../lib/router';
 import { useQuickAdd, useBump, AddBar, MotionTap } from '../shared';
 import { TAB_ICONS, TextRow, Footer } from '../common';
@@ -54,21 +53,6 @@ function InfoCard() {
   );
 }
 
-function Promo({ onGo }: { onGo: () => void }) {
-  return (
-    <button onClick={onGo} className="relative mx-4 mt-4 flex w-[calc(100%-2rem)] items-center overflow-hidden rounded-[22px] bg-primary p-4 pe-[44%] text-start text-on-primary">
-      <div className="absolute -left-8 -bottom-10 size-44 rounded-full bg-white/30" />
-      <div className="relative">
-        <p className="text-[12.5px] font-extrabold tracking-wide opacity-75">عرض ثابت</p>
-        <p className="text-[21px] leading-tight font-extrabold">خليها وجبة!</p>
-        <p className="mt-0.5 text-[13.5px] leading-snug font-semibold opacity-85">أي بركر + بطاطا وحلقات بصل وببسي بـ <bdi className="num">3,000</bdi> بس</p>
-        <span className="mt-2 inline-flex h-9 items-center rounded-full bg-cta px-4 text-[13.5px] font-bold text-on-cta">شوف البركر</span>
-      </div>
-      <img src={photo('burger-zinger.webp', 'sm')} alt="" className="absolute bottom-3 left-[17%] w-[30%] drop-shadow-[0_12px_10px_rgba(0,0,0,0.35)]" />
-      <img src={photo('fries-classic.webp', 'sm')} alt="" className="absolute bottom-2 left-2 w-[20%] -rotate-12 drop-shadow-[0_10px_8px_rgba(0,0,0,0.3)]" />
-    </button>
-  );
-}
 
 /* ───────── صف صنف (أسلوب توترز) ───────── */
 function RowCard({ item }: { item: Item }) {
@@ -171,7 +155,6 @@ function HomeA() {
       <DarkHero onSection={openSection} />
       <InfoCard />
       <ClosedNotice className="mx-4 mt-3" />
-      <Promo onGo={() => { b.setTab('food'); setTimeout(() => b.scrollToSection(b.data.tabs[0].sections[0].id), 30); }} />
       <SeasonStrip className="mx-4 mt-3" />
       <PastOrderCard />
       <Featured />
