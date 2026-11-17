@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowDown, ArrowUp, ChevronLeft, PencilLine, Plus, Search } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronLeft, PencilLine, Plus, Search, Star } from 'lucide-react';
 import type { Item, TabId } from '../../data/types';
 import { useAdmin, api, AdminError } from '../api';
 import { Badge, Btn, Input, PageTitle, Segmented } from '../ui';
@@ -8,7 +8,7 @@ import { go } from '../../lib/router';
 import { useToast } from '../../components/Toast';
 import { normalizeQuery } from '../../lib/search';
 
-function ItemRow({ item, first, last, onMove, onSoldOut, busy }: { item: Item; first: boolean; last: boolean; onMove: (d: -1 | 1) => void; onSoldOut: () => void; busy: boolean }) {
+function ItemRow({ item, first, last, onMove, onSoldOut, busy, starred, onStar }: { item: Item; first: boolean; last: boolean; onMove: (d: -1 | 1) => void; onSoldOut: () => void; busy: boolean; starred: boolean; onStar: () => void }) {
   const soldOut = !!item.soldOutUntil;
   return (
     <li className={`flex items-center gap-2.5 rounded-2xl bg-surface p-2.5 shadow-card ${soldOut || !item.available ? 'opacity-75' : ''}`}>
@@ -24,6 +24,10 @@ function ItemRow({ item, first, last, onMove, onSoldOut, busy }: { item: Item; f
             {!item.available && <Badge>مخفي</Badge>}
           </span>
         </span>
+      </button>
+      <button onClick={onStar} disabled={busy || !item.image || !item.orderable} aria-pressed={starred} aria-label={starred ? 'شيله من الأكثر طلباً' : 'ضيفه للأكثر طلباً'} title="الأكثر طلباً"
+        className="grid size-10 shrink-0 place-items-center rounded-xl disabled:opacity-25">
+        <Star size={19} className={starred ? 'fill-primary text-primary-2' : 'text-muted'} />
       </button>
       <button onClick={onSoldOut} disabled={busy} className={`h-10 shrink-0 rounded-xl px-2.5 text-[12.5px] font-bold ${soldOut ? 'bg-ok/12 text-ok' : 'bg-danger/8 text-danger'}`}>
         {soldOut ? 'رجّعه' : 'خالص اليوم'}
@@ -55,6 +59,9 @@ export function MenuPage() {
     try { await fn(); await loadMenu(); if (msg) toast(msg); } catch (e) { alert((e as AdminError).message); } finally { setBusy(null); }
   };
 
+  const featured = menu.settings.featured.items;
+  const patch = useAdmin((x) => x.patchSettings);
+  const star = (i: Item) => run(i.id, () => patch({ featured: { items: featured.includes(i.id) ? featured.filter((x) => x !== i.id) : [...featured, i.id] } }), featured.includes(i.id) ? `${i.name} انشال من الأكثر طلباً` : `${i.name} ⭐ صار بالأكثر طلباً`);
   const soldOut = (i: Item) => run(i.id, () => api(`items/${i.id}/soldout`, { body: { on: !i.soldOutUntil } }), i.soldOutUntil ? `${i.name} رجع متوفر` : `${i.name}: خالص لحد 6 الصبح`);
   const moveItem = (list: Item[], idx: number, d: -1 | 1) => {
     const ids = list.map((i) => i.id);
@@ -79,7 +86,7 @@ export function MenuPage() {
 
   const renderList = (items: Item[]) => (
     <ul className="space-y-2">
-      {items.map((i, k) => <ItemRow key={i.id} item={i} first={k === 0} last={k === items.length - 1} busy={busy === i.id} onSoldOut={() => soldOut(i)} onMove={(d) => moveItem(items, k, d)} />)}
+      {items.map((i, k) => <ItemRow key={i.id} item={i} first={k === 0} last={k === items.length - 1} busy={busy === i.id} onSoldOut={() => soldOut(i)} onMove={(d) => moveItem(items, k, d)} starred={featured.includes(i.id)} onStar={() => star(i)} />)}
     </ul>
   );
 

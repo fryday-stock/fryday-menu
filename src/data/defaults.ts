@@ -60,6 +60,32 @@ export const DEFAULT_SETTINGS: Settings = {
   busy: { enabled: false, deliveryMinutes: 75, pickupMinutes: 40, message: 'عدنا ضغط طلبات هسه — الطلب ياخذ وقت أطول شوية. شكراً لصبركم 🙏' },
   paused: { enabled: false, message: 'الطلبات أونلاين متوقفة مؤقتاً — تگدر تتصل بينا' },
   map: MAP_PRESETS.osm,
+  banner: {
+    enabled: true,
+    auto: true,
+    intervalSec: 6,
+    dayparts: {
+      lunch: { from: '12:00', to: '16:00', title: 'وقت الغدا', items: ['F039', 'F042', 'F015', 'F034'] },
+      afternoon: { from: '16:00', to: '20:00', title: 'قهوة وحلو العصرية', items: ['D039', 'S001', 'S017', 'D041'] },
+      evening: { from: '20:00', to: '24:00', title: 'سهرة العائلة', items: ['F024', 'F020', 'F005', 'F069'] },
+    },
+    weather: {
+      enabled: true,
+      hotAbove: 40,
+      coldBelow: 15,
+      hot: { title: 'حر اليوم 🔥 برّد على نفسك', items: ['D042', 'D047', 'D039', 'D044'] },
+      cold: { title: 'برد اليوم ☕ دفّي نفسك', items: ['D021', 'D015', 'D024', 'D022'] },
+    },
+    slides: [],
+  },
+  upsell: {
+    meal: { enabled: true, group: 'MEAL' },
+    cart: { enabled: true, drinks: ['D035', 'D057', 'D048', 'D042', 'D001'], sweets: ['S001', 'S002', 'S016', 'S005'], sauceGroup: 'EXTRA_SAUCE' },
+  },
+  featured: { enabled: true, title: 'الأكثر طلباً', items: ['F001', 'F015', 'F024', 'F069', 'D039', 'S001'] },
+  reorder: { enabled: true },
+  mascot: { enabled: true, image: null },
+  season: { enabled: false, kind: 'ramadan', name: 'رمضان كريم', message: 'رمضان كريم 🌙 الطلبات من الفطور للسحور', hours: { enabled: true, open: '17:00', close: '03:00' }, until: null },
   social: { instagram: 'fryday.iq', tiktok: 'fryday.iq', facebook: 'fryday' },
 };
 
@@ -80,4 +106,20 @@ export function mergeSettings<T>(base: T, over: unknown): T {
 export function etaFor(s: Settings, type: 'delivery' | 'pickup'): number {
   if (type === 'pickup') return s.busy.enabled ? s.busy.pickupMinutes : s.pickupMinutes;
   return s.busy.enabled ? s.busy.deliveryMinutes : s.etaMinutes;
+}
+
+/** الموسم فعّال هسه؟ (وينتهي تلقائياً بعد تاريخ until بتوقيت بغداد) */
+export function activeSeason(s: Settings, now: Date = new Date()): Settings['season'] | null {
+  if (!s.season.enabled) return null;
+  if (s.season.until) {
+    const day = new Date(now.getTime() + s.hours.utcOffset * 3600_000).toISOString().slice(0, 10);
+    if (day > s.season.until) return null;
+  }
+  return s.season;
+}
+
+/** الدوام الفعلي: أوقات الموسم إذا مفعّلة، وإلا الدوام العادي */
+export function effectiveHours(s: Settings, now: Date = new Date()): Settings['hours'] {
+  const season = activeSeason(s, now);
+  return season?.hours.enabled ? { open: season.hours.open, close: season.hours.close, utcOffset: s.hours.utcOffset } : s.hours;
 }

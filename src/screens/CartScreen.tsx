@@ -1,4 +1,4 @@
-import { ShoppingBag, Trash, Plus } from 'lucide-react';
+import { ShoppingBag, Trash, Plus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useMenu } from '../data/MenuContext';
 import { useCartSummary } from '../hooks/useCartSummary';
@@ -13,6 +13,9 @@ import { ClosedNotice } from '../components/StatusPill';
 import { useTheme } from '../themes/ThemeContext';
 import { back, go } from '../lib/router';
 import { feeSummary } from '../lib/delivery';
+import { CartSuggestions } from '../components/CartSuggestions';
+import { AnimatedPrice } from '../components/AnimatedPrice';
+import { useCartNotice } from '../store/upsell';
 
 export function CartScreen() {
   const t = useTheme();
@@ -21,6 +24,8 @@ export function CartScreen() {
   const setQty = useCart((s) => s.setQty);
   const remove = useCart((s) => s.remove);
   const { open, reason } = useOpen();
+  const notes = useCartNotice((x) => x.notes);
+  const setNotes = useCartNotice((x) => x.set);
   const min = data.settings.minOrder;
   const belowMin = min.enabled && subtotal < min.amount;
 
@@ -39,6 +44,14 @@ export function CartScreen() {
         <>
           <div className="flex-1 px-4 pb-4">
             <ClosedNotice className="mb-3" />
+            {notes.length > 0 && (
+              <div role="status" className="mb-3 rounded-2xl border border-[#f59e0b]/40 bg-[#fff7e6] p-3 text-[13.5px] leading-6 text-[#92400e]">
+                <div className="flex items-start justify-between gap-2">
+                  <ul className="list-disc ps-4">{notes.map((n) => <li key={n}>{n}</li>)}</ul>
+                  <button onClick={() => setNotes([])} aria-label="سكّر الملاحظة" className="-m-1 grid size-9 shrink-0 place-items-center"><X size={16} /></button>
+                </div>
+              </div>
+            )}
             <ul className="flex flex-col gap-3">
               <AnimatePresence initial={false}>
                 {lines.map((l) => {
@@ -61,7 +74,7 @@ export function CartScreen() {
                         {summary && <p className="text-[13px] leading-snug text-muted">{summary}</p>}
                         {l.note && <p className="text-[13px] leading-snug text-muted">ملاحظة: {l.note}</p>}
                         <div className="mt-auto flex items-center justify-between gap-2 pt-2">
-                          <Price value={l.total} className="text-[16px] font-extrabold" />
+                          <AnimatedPrice value={l.total} className="text-[16px] font-extrabold" />
                           <QtyStepper value={l.qty} min={0} onChange={(n) => setQty(l.key, n)} look={t.look.stepper} label={`كمية ${l.item.name}`} />
                         </div>
                       </div>
@@ -75,8 +88,10 @@ export function CartScreen() {
               <Plus size={18} /> أضف أصناف ثانية
             </button>
 
+            <CartSuggestions lines={lines} />
+
             <div className={`mt-4 space-y-2 p-4 text-[15px] ${t.look.card}`}>
-              <div className="flex justify-between"><span className="text-muted">المجموع</span><Price value={subtotal} className="font-bold" /></div>
+              <div className="flex justify-between"><span className="text-muted">المجموع</span><AnimatedPrice value={subtotal} className="font-bold" /></div>
               <div className="flex justify-between text-[14px]"><span className="text-muted">التوصيل</span><span className="text-muted">{data.settings.delivery.feeMode === 'map' ? 'يتحسب من موقعك على الخريطة' : data.settings.delivery.feeMode === 'cashier' ? data.settings.messages.cashierFee : `${feeSummary(data.settings, data.zones)} د.ع`}</span></div>
               {belowMin && <p className="text-[14px] font-semibold text-danger">أقل مبلغ للطلب <Price value={min.amount} /></p>}
             </div>
@@ -87,7 +102,7 @@ export function CartScreen() {
             <button disabled={!open || belowMin} onClick={() => go('checkout')}
               className={`flex h-14 w-full items-center justify-between px-5 text-[17px] font-bold transition active:scale-[0.98] disabled:opacity-45 ${t.look.cta}`}>
               <span>كمّل الطلب</span>
-              <Price value={subtotal} />
+              <AnimatedPrice value={subtotal} />
             </button>
           </div>
         </>

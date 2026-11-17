@@ -181,3 +181,84 @@ describe('حذف الطلبات التجريبية', () => {
     expect(c.number).toBe(1001);
   });
 });
+
+describe('المرحلة 2 — السيرفر', () => {
+  const login = async (env: Env) => {
+    const r = await handleAdmin(new Request('https://x.test/api/admin/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: 'p' }) }), env, 'login');
+    return r.headers.get('set-cookie')!.split(';')[0];
+  };
+  const adminCall = (env: Env, cookie: string, path: string, init: RequestInit = {}) =>
+    handleAdmin(new Request(`https://x.test/api/admin/${path}`, { ...init, headers: { ...(init.body && typeof init.body === 'string' ? { 'content-type': 'application/json' } : {}), cookie } }), env, path)
+      .catch((e: HttpError) => new Response(JSON.stringify({ code: e.code, message: e.message }), { status: e.status }));
+
+  it('الأكثر طلباً تلقائياً من الطلبات المؤكدة (يحتاج 10 طلبات)', async () => {
+    const db = await freshDb();
+    const env = { DB: db, ADMIN_PASSWORD: 'p' } as Env;
+    const cookie = await login(env);
+    const m = await loadMenu(db);
+    const open = { ...m, settings: { ...m.settings, hours: { ...m.settings.hours, open: '00:00', close: '00:00' } } };
+    const few = await adminCall(env, cookie, 'featured/auto', { method: 'POST', body: '{}' });
+    expect(few.status).toBe(409);
+    for (let k = 0; k < 12; k++) {
+      const lines = k < 8 ? [{ itemId: 'F069', qty: 2, sel: {} }] : [{ itemId: 'D035', qty: 1, sel: {} }];
+      const r = await createOrder(db, { ...base, clientId: `feat-${String(k).padStart(5, '0')}`, type: 'pickup', pin: null, lines }, open, `7.7.7.${k}`, new Date());
+      await markSent(db, r.id, `feat-${String(k).padStart(5, '0')}`);
+    }
+    const ok = await adminCall(env, cookie, 'featured/auto', { method: 'POST', body: '{}' });
+    const body = await ok.json() as { items: string[] };
+    expect(body.items.slice(0, 2)).toEqual(['F069', 'D035']);
+    expect((await loadMenu(db)).settings.featured.items.slice(0, 2)).toEqual(['F069', 'D035']);
+  });
+
+  it('أوقات الموسم يطبقها السيرفر على الطلب', async () => {
+    const db = await freshDb();
+    const m = await loadMenu(db);
+    const ramadan = { ...m, settings: { ...m.settings, season: { ...m.settings.season, enabled: true, hours: { enabled: true, open: '17:00', close: '03:00' }, until: null } } };
+    const err = await createOrder(db, { ...base, clientId: 'season-0001' }, ramadan, '1', at('2026-11-16T13:00:00+03:00')).catch((e: HttpError) => e.message);
+    expect(String(err)).toContain('الطلبات من 17:00');
+    const ok = await createOrder(db, { ...base, clientId: 'season-0002' }, ramadan, '1', at('2026-11-16T23:30:00+03:00'));
+    expect(ok.number).toBe(1001);
+  });
+
+  it('الإعدادات ترفض شريحة بمسار غير صالح', async () => {
+    const db = await freshDb();
+    const env = { DB: db, ADMIN_PASSWORD: 'p' } as Env;
+    const cookie = await login(env);
+    const bad = await adminCall(env, cookie, 'settings/patch', { method: 'POST', body: JSON.stringify({ banner: { slides: [{ id: 'x', slot: 'lunch', enabled: true, media: { type: 'video', src: 'https://evil.example/x.mp4' }, title: 't', cta: { type: 'none', target: '', label: '' } }] } }) });
+    expect(bad.status).toBe(400);
+    const good = await adminCall(env, cookie, 'settings/patch', { method: 'POST', body: JSON.stringify({ banner: { slides: [{ id: 'x', slot: 'lunch', enabled: true, media: { type: 'video', src: '/media/video/a.mp4', poster: '/media/video/a.webp' }, title: 'غداك جاهز', cta: { type: 'item', target: 'F039', label: 'اطلبه' } }] } }) });
+    expect(good.status).toBe(200);
+  });
+});
+
+describe('رفع فيديو للبانر (بدون R2) + تحميل جزئي للآيفون', () => {
+  it('فيديو 1.2MB ينقسم أجزاء بـ D1 ويرجع كامل، والـ Range يرجع 206', async () => {
+    const { onRequestGet } = await import('../functions/media/[[path]]');
+    const db = await freshDb();
+    const env = { DB: db, ADMIN_PASSWORD: 'p' } as Env;
+    const lr = await handleAdmin(new Request('https://x.test/api/admin/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: 'p' }) }), env, 'login');
+    const cookie = lr.headers.get('set-cookie')!.split(';')[0];
+    const bytes = new Uint8Array(1_200_000).map((_, i) => (i * 31) % 251);
+    const form = new FormData();
+    form.append('file', new File([bytes], 'v.mp4', { type: 'video/mp4' }));
+    form.append('thumb', new File([new Uint8Array(500)], 'p.webp', { type: 'image/webp' }));
+    const up = await handleAdmin(new Request('https://x.test/api/admin/upload', { method: 'POST', headers: { cookie }, body: form }), env, 'upload');
+    const { url, poster } = await up.json() as { url: string; poster: string };
+    expect(url).toMatch(/^\/media\/video\/.+\.mp4$/);
+    expect(poster).toMatch(/^\/media\/video\/.+\.webp$/);
+    const chunks = await db.prepare('SELECT COUNT(*) AS n FROM media_chunks').first<{ n: number }>();
+    expect(chunks!.n).toBeGreaterThan(1);
+    const get = (range?: string) => onRequestGet({ env, params: { path: url.replace('/media/', '').split('/') }, request: new Request(`https://x.test${url}`, { headers: range ? { range } : {} }) } as never) as Promise<Response>;
+    const full = await get();
+    expect(full.status).toBe(200);
+    expect(new Uint8Array(await full.arrayBuffer())).toEqual(bytes);
+    const part = await get('bytes=0-1');
+    expect(part.status).toBe(206);
+    expect(part.headers.get('content-range')).toBe(`bytes 0-1/${bytes.length}`);
+    expect([...new Uint8Array(await part.arrayBuffer())]).toEqual([bytes[0], bytes[1]]);
+    // فيديو أكبر من 1.5MB ينرفض
+    const big = new FormData();
+    big.append('file', new File([new Uint8Array(1_700_000)], 'b.mp4', { type: 'video/mp4' }));
+    await expect(handleAdmin(new Request('https://x.test/api/admin/upload', { method: 'POST', headers: { cookie }, body: big }), env, 'upload')).rejects.toThrow(/1.5MB/);
+  });
+});

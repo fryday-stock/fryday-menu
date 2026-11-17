@@ -7,6 +7,8 @@ import { useCart } from '../store/cart';
 import { useToast } from '../components/Toast';
 import { go } from '../lib/router';
 import type { ItemConfig } from '../hooks/useItemConfig';
+import { mealOffer } from '../lib/upsell';
+import { useUpsell } from '../store/upsell';
 
 /** زر + : الصنف بدون خيارات ينضاف مباشرة، والباقي يفتح صفحة الصنف */
 export function useQuickAdd() {
@@ -50,10 +52,14 @@ export function AddBar({ item, cfg, onDone, children, className = '' }: { item: 
     );
   }
   const submit = () => {
-    if (cfg.submit()) {
-      toast(`انضاف ${item.name}`);
-      onDone();
-    }
+    const key = cfg.submit();
+    if (!key) return;
+    const offer = mealOffer(item, cfg.sel, data);
+    if (offer) {
+      // نسأل "تحوّله لوجبة؟" بعد ما تنسد صفحة الصنف
+      setTimeout(() => useUpsell.getState().ask({ lineKey: key, itemName: item.name, image: item.image, group: offer.group.code, optionId: offer.optionId, price: offer.price, label: offer.label }), 950);
+    } else toast(`انضاف ${item.name}`);
+    onDone();
   };
   return <div className={`pb-safe sticky bottom-0 z-10 ${className}`}>{children(submit)}</div>;
 }

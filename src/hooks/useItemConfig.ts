@@ -20,7 +20,7 @@ export function useItemConfig(item: Item) {
   const toggle = (g: OptionGroup, optionId: string) => setSel((s) => toggleOption(g, s, optionId));
 
   /** يضيف للسلة — يرجع false إذا ناقص اختيار إجباري */
-  const submit = (): boolean => {
+  const submit = (): string | false => {
     if (!v.ok) {
       setShowErrors(true);
       const el = document.getElementById(`grp-${v.firstMissing}`);
@@ -28,9 +28,9 @@ export function useItemConfig(item: Item) {
       if (navigator.vibrate) navigator.vibrate(30);
       return false;
     }
-    add(item.id, sel, qty, note);
+    const key = add(item.id, sel, qty, note);
     if (navigator.vibrate) navigator.vibrate(12);
-    return true;
+    return key;
   };
 
   return { sel, toggle, qty, setQty, note, setNote, unit, total: unit * qty, valid: v.ok, statuses: v.statuses, showErrors, submit, groups, sizeGroup, otherGroups };

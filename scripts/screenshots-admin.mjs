@@ -55,6 +55,19 @@ if (process.env.XLSX) {
   await page.locator('input[type=file]').setInputFiles(process.env.XLSX);
   await shot('admin-excel-review', 2000);
 }
-await nav('password');
-await shot('admin-password');
+if (process.env.PHASE2) {
+  await nav('banner', 900);
+  await shot('admin-banner');
+  await page.evaluate(() => window.scrollTo(0, 900));
+  await shot('admin-banner-2', 500);
+  await nav('sales', 900);
+  await shot('admin-sales');
+  await nav('season', 700);
+  await shot('admin-season');
+  await nav('menu', 700);
+  await shot('admin-menu-stars');
+} else {
+  await nav('password');
+  await shot('admin-password');
+}
 await browser.close();

@@ -48,3 +48,11 @@ export const useLastOrder = create<{ order: PlacedOrder | null; set: (o: PlacedO
     { name: 'fryday:last-order', version: 1 },
   ),
 );
+
+/** آخر طلب انطلب من هذا الموبايل (حتى "اطلب نفس طلبك السابق") */
+export const usePastOrder = create<{ past: import('../lib/upsell').PastOrder | null; save: (p: import('../lib/upsell').PastOrder) => void; clear: () => void }>()(
+  persist(
+    (set) => ({ past: null, save: (past) => set({ past }), clear: () => set({ past: null }) }),
+    { name: 'fryday:past-order', version: 1 },
+  ),
+);
