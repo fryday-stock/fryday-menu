@@ -11,7 +11,8 @@ let cachedHash = window.location.hash;
 function subscribe(cb: () => void) {
   const on = () => cb();
   window.addEventListener('hashchange', on);
-  return () => window.removeEventListener('hashchange', on);
+  window.addEventListener('popstate', on);
+  return () => { window.removeEventListener('hashchange', on); window.removeEventListener('popstate', on); };
 }
 function snapshot() {
   if (window.location.hash !== cachedHash) {
@@ -25,18 +26,22 @@ export function useRoute(): string[] {
   return useSyncExternalStore(subscribe, snapshot);
 }
 
+/** عمق التنقل داخل الموقع (محفوظ بـ history.state) — حتى "رجوع" ما يطلّع الزبون برا الموقع */
+const depth = (): number => (window.history.state as { fdDepth?: number } | null)?.fdDepth ?? 0;
+
 export function go(path: string, opts: { replace?: boolean } = {}) {
   const url = `#/${path.replace(/^\//, '')}`;
-  if (opts.replace) window.location.replace(url);
-  else window.location.hash = url;
+  if (url === window.location.hash) return;
+  if (opts.replace) window.history.replaceState({ fdDepth: depth() }, '', url);
+  else window.history.pushState({ fdDepth: depth() + 1 }, '', url);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
 }
 
-/** رجوع: إذا ماكو تاريخ داخل التطبيق يروح للمسار البديل */
+/**
+ * رجوع: إذا الزبون وصل لهالصفحة من داخل الموقع نرجع خطوة،
+ * وإذا فتحها من رابط مباشر (مشاركة) نوديه للمسار البديل بدل ما يطلع من الموقع.
+ */
 export function back(fallback: string) {
-  if (window.history.state?.__depth > 0 || window.history.length > 1) {
-    const before = window.location.hash;
-    window.history.back();
-    // إذا ما تغير شي (فتح الرابط مباشرة) نروح للبديل
-    setTimeout(() => { if (window.location.hash === before) go(fallback, { replace: true }); }, 120);
-  } else go(fallback, { replace: true });
+  if (depth() > 0) window.history.back();
+  else go(fallback, { replace: true });
 }

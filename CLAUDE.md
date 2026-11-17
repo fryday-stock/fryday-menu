@@ -35,6 +35,10 @@
 | سعر السطر بالرسالة | **يشمل الخيارات** (2× بركر + وجبة = 26,000) حتى المجموع يطابق — أكده أحمد (المثال الأول بالبرومبت كان غلط) |
 | الخيارات بالرسالة | الإجباري (واحد) بين قوسين جنب الاسم `(وسط)`، والباقي نقاط تحت الصنف `• ...` |
 | رسالة الواتساب بدون إيموجي | الإيموجي كانت توصل "�" بالواتساب ← انشالت كلها وصارت كلمات: `الاسم:` `الهاتف:` `نوع الطلب: توصيل — النجف` `العنوان:` `الموقع:` `ملاحظة الطلب:` `الدفع:`. وأي إيموجي يكتبه الزبون بالملاحظة أو موجود باسم خيار ينشال تلقائياً (`cleanForWhatsApp`). الرابط `api.whatsapp.com/send?phone=…&text=…` (مو wa.me) |
+| البانر الذكي (المرحلة 2) | الرأس الغامق = شرائح حسب **الموسم ← الجو ← وقت اليوم** (بغداد): الغدا 12–4 (مشويات/فروج/كنتاكي)، العصرية 4–8 (قهوة/حلو/جيلاتو)، السهرة 8–12 (بيتزا/جامبو). الجو من Open-Meteo (`/api/weather` كاش ساعة): ≥40° يبرز البارد "حر اليوم 🔥 برّد على نفسك"، ≤15° يبرز الحار. كل شريحة: صورة/فيديو MP4 (≤1.5MB، صامت، loop، 4:5) + عنوان + زر (صنف/قسم). ماكو مرفوع → شرائح تلقائية من صور الأصناف بحركة Ken Burns. الفيديو ما يشتغل بتوفير البيانات/نت ضعيف/تقليل الحركة (تطلع صورة الغلاف). معاينة: `#/?preview=lunch|afternoon|evening|hot|cold|season` |
+| زيادة الطلب (المرحلة 2) | "حوّل لوجبة؟" بعد إضافة صنف بيه مجموعة `MEAL` بدون ما يختارها (تطلع بعد قفزة القطة) · "تكمّل طلبك؟" بالسلة: ماكو مشروب ← مشروبات، أكل بدون حلو ← حلويات، مقالي بدون صلصة ← صلصة إضافية (3–5) · "الأكثر طلباً ⭐" بأول المنيو (نجمة من اللوحة، أو تلقائي من آخر 30 يوم بشرط 10 طلبات مؤكدة) · "اطلب نفس طلبك السابق" (محفوظ على الجهاز، يتجاهل الخالص ويوضح السعر المتغير) · قطة فرايدي تقفز على السلة (مرسومة مؤقتاً `CatMascot.tsx`، تتبدل بصورة من اللوحة، وتنطفي من الإعدادات) |
+| المواسم (المرحلة 2) | رمضان/زيارة/مناسبة: رسالة فوك المنيو + أوقات طلب خاصة (`effectiveHours` بالزبون والسيرفر) + شرائح بانر `season` + تاريخ انتهاء تلقائي (`until`) |
+| رجوع بالموقع | `back()` يرجع بس إذا الزبون وصل من داخل الموقع (`history.state.fdDepth`) — الرابط المباشر لصنف ما يطلّعه برا الموقع |
 | ممنوع | تقييمات نجوم، سعرات، أي رقم وهمي، أي عرض/خصم مو حقيقي |
 | مؤجل (لا تبنيه) | نقاط الولاء، أكواد الخصم، الطلب المجدول، طلب الطاولة، تتبع السائق |
 
@@ -70,7 +74,7 @@ assets-input/            ملفات أحمد الأصلية (لا تنحذف)
 scripts/import-menu.ts   Excel → src/data/menu.json + فك الصور → public/photos (+ public/photos/sm نسخ 360px للقوائم)
 scripts/screenshots.mjs  لقطات Playwright 390×844 للزبون (الرئيسية، صنف، السلة، الطلب ويا الخريطة)
 scripts/screenshots-admin.mjs  لقطات اللوحة (يحتاج السيرفر المحلي + ADMIN_PW)
-functions/               Cloudflare Pages Functions (المسارات): api/menu، api/orders، api/orders/[id]/sent، api/admin/[[path]]، media/[[path]]
+functions/               Cloudflare Pages Functions (المسارات): api/menu، api/orders، api/orders/[id]/sent، api/weather، api/admin/[[path]] (+ featured/auto)، media/[[path]] (يدعم Range للفيديو)
 server/                  منطق السيرفر: db.ts (الجداول + التعبئة + تحميل المنيو)، orders.ts (الطلب + العداد اليومي)، auth.ts (الدخول والجلسات)، admin.ts (واجهة اللوحة)، time.ts (يوم بغداد، 6 الصبح)
 src/data/
   types.ts               أنواع البيانات
@@ -88,7 +92,11 @@ src/lib/
   orderNumber.ts         عداد محلي (بس بدون سيرفر)
   menuSheet.ts           Excel ⇄ المنيو (نفس شكل menu.xlsx) — مشترك بين السكربت واللوحة
 src/store/cart.ts        السلة (zustand + localStorage) — المنطق الصافي بـ cartCore.ts (يستخدمه السيرفر)
-src/admin/               لوحة الإدارة (React): App.tsx، api.ts، ui.tsx، image.ts (ضغط WebP)، ZoneMap.tsx، pages/*
+src/admin/               لوحة الإدارة (React): App.tsx، api.ts، ui.tsx، image.ts (ضغط WebP)، pickers.tsx (اختيار أصناف + رفع صورة/فيديو مع غلاف تلقائي)، ZoneMap.tsx، pages/* (Banner، Sales، Season جديدة)
+src/lib/banner.ts        اختيار شرائح البانر (وقت/جو/موسم/معاينة) — منطق صافي
+src/lib/upsell.ts        حوّل لوجبة، اقتراحات السلة، إعادة الطلب السابق — منطق صافي
+src/components/          + MealUpsell، CartSuggestions، SalesBlocks (الأكثر طلباً، الطلب السابق، شريط الموسم)، CatMascot، AnimatedPrice
+src/hooks/useBannerContext.ts  الجو (/api/weather)، المعاينة، هل نشغّل فيديو
 src/store/customer.ts    بيانات الزبون المحفوظة + آخر طلب
 src/components/          مكونات مشتركة (MenuBrowser: تبويبات + scroll-spy + بحث، OptionGroups، Overlay، MapPicker، HeroMedia…)
 src/screens/             السلة، إكمال الطلب (ويا الخريطة)، التأكيد
@@ -96,11 +104,13 @@ src/themes/a/            النموذج النهائي: index.tsx (الرئيس�
 src/themes/common|shared الصف النصي، الفوتر، زر +، شريط الإضافة
 src/index.css            design tokens (.theme-a)
 tests/logic.test.ts      اختبارات المنطق (vitest)
-tests/server.test.ts     اختبارات السيرفر فوق D1 مزيّف (tests/d1shim.ts على node:sqlite): العداد اليومي، الطلبات، الدخول، خالص اليوم
+tests/server.test.ts     اختبارات السيرفر فوق D1 مزيّف (tests/d1shim.ts على node:sqlite): العداد اليومي، الطلبات، الدخول، خالص اليوم، الأكثر طلباً، أوقات الموسم، رفع الفيديو + Range
+tests/sales.test.ts      البانر (أوقات/جو/مرفوع/موسم/معاينة)، الوجبة، اقتراحات السلة، الطلب السابق، المواسم
+scripts/screenshots-phase2.mjs  لقطات المرحلة 2
 ```
 
 ### قاعدة البيانات D1
-`items` · `sections` (ترتيب الأقسام) · `option_groups` (JSON) · `zones` · `settings` (`main` = JSON الإعدادات، `seeded`) · `orders` (`day` بغداد + `number` فريد باليوم، `client_id` فريد لمنع التكرار، `status` pending=غير مؤكد / sent) · `order_counters` (عداد يومي ذري: `INSERT … ON CONFLICT DO UPDATE SET last=last+1 RETURNING`) · `sessions` (hash التوكن) · `login_attempts` (5 غلط/15 دقيقة) · `media`.
+`items` · `sections` (ترتيب الأقسام) · `option_groups` (JSON) · `zones` · `settings` (`main` = JSON الإعدادات، `seeded`) · `orders` (`day` بغداد + `number` فريد باليوم، `client_id` فريد لمنع التكرار، `status` pending=غير مؤكد / sent) · `order_counters` (عداد يومي ذري: `INSERT … ON CONFLICT DO UPDATE SET last=last+1 RETURNING`) · `sessions` (hash التوكن) · `login_attempts` (5 غلط/15 دقيقة) · `media` + `media_chunks` (الفيديو ينقسم أجزاء ~700KB لأن حد الصف 2MB).
 - "خالص اليوم" = `items.sold_out_until` = الساعة 6 الصبح بغداد الجاية — يرجع متوفر تلقائياً بدون cron.
 - الطلب: السيرفر يعيد حساب الأسعار من القاعدة، يتأكد من الدوام/الإيقاف/المنطقة/الخيارات، ويبني رسالة الواتساب. حد 30 طلب/ساعة لكل جهاز.
 
@@ -132,5 +142,8 @@ ADMIN_PW=... node scripts/screenshots-admin.mjs       # لقطات اللوحة
   - حذف طلب من اللوحة ("حذف (تجريبي)") يرجّع عداد ذاك اليوم لأكبر رقم باقي — للطلبات التجريبية.
   - لقطات: `screenshots/phase1/`.
   - ⏸ **بانتظار تجربة أحمد من الموبايل و"كمل" للمرحلة 2.**
-- [ ] المرحلة 2 — المبيعات (البانر الذكي يستخدم `settings.hero.media`).
+- [x] **المرحلة 2 — المبيعات والإبهار**: البانر الذكي (وقت/جو/موسم + صور وفيديو من اللوحة + تلقائي)، حوّل لوجبة، تكمّل طلبك، الأكثر طلباً (نجمة + تلقائي)، الطلب السابق، قطة فرايدي، وضع المواسم، لمسات حركة (الرأس يصغر مع السكرول، انتقال التبويبات، الأسعار تتحرك). 46 اختبار. لقطات: `screenshots/phase2/`.
+  - صلّحت بالمرحلة: الرجوع من رابط صنف مباشر كان يطلّع الزبون برا الموقع.
+  - Open-Meteo محجوب ببيئة Claude — الجو انجرب بالاختبارات والمعاينة (`?preview=hot`)، والحقيقي يشتغل على Cloudflare.
+  - ⏸ **بانتظار تجربة أحمد و"كمل" للمرحلة 3.**
 - [ ] المرحلة 3 — الإبهار والبيانات.

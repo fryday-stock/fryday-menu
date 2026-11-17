@@ -3,7 +3,7 @@
  * يتأكد من الدوام والموقع، ياخذ رقم يومي متسلسل (يبدي 1001 كل يوم بتوقيت بغداد)، ويبني رسالة الواتساب.
  */
 import type { MenuData } from '../src/data/types';
-import { etaFor } from '../src/data/defaults';
+import { activeSeason, effectiveHours, etaFor } from '../src/data/defaults';
 import { itemGroups, validateSelection, type Selection } from '../src/lib/price';
 import { resolveLines, toOrderLine, type CartLine } from '../src/store/cartCore';
 import { buildWhatsAppMessage, type Order } from '../src/lib/whatsapp';
@@ -41,7 +41,10 @@ const str = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice
 export function prepareOrder(input: OrderInput, menu: MenuData, now: Date) {
   const s = menu.settings;
   if (s.paused.enabled) throw new HttpError(409, 'paused', s.paused.message);
-  if (!isOpenAt(now, s.hours)) throw new HttpError(409, 'closed', `المطعم مسكّر هسه — ${s.closedMessage}`);
+  if (!isOpenAt(now, effectiveHours(s, now))) {
+    const season = activeSeason(s, now);
+    throw new HttpError(409, 'closed', season?.hours.enabled ? `مسكّر هسه — ${season.name}: الطلبات من ${season.hours.open} لـ ${season.hours.close}` : `المطعم مسكّر هسه — ${s.closedMessage}`);
+  }
   const type = input.type === 'pickup' ? 'pickup' : 'delivery';
   if (type === 'delivery' && !s.delivery.enabled) throw new HttpError(400, 'no_delivery', 'التوصيل متوقف هسه — تگدر تختار الاستلام من المطعم');
   if (type === 'pickup' && !s.pickup.enabled) throw new HttpError(400, 'no_pickup', 'الاستلام من المطعم متوقف هسه');

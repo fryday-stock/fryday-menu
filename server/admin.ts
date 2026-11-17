@@ -20,6 +20,12 @@ function validImage(v: unknown): string | null {
   throw bad('مسار الصورة غير صالح');
 }
 
+/** صورة أو فيديو: اسم ملف صورة صنف أو مسار /media/ */
+function validMedia(v: unknown): string {
+  if (typeof v === 'string' && (/^[a-z0-9-]+\.webp$/i.test(v) || /^\/media\/[\w/.-]{3,200}$/.test(v))) return v;
+  throw bad('مسار الملف غير صالح');
+}
+
 function validItem(raw: unknown, groups: Record<string, OptionGroup>): Item {
   const i = raw as Record<string, unknown>;
   if (!isStr(i.id, 4, 5) || !ITEM_ID.test(i.id)) throw bad('الكود لازم حرف وأرقام (مثل F078)');
@@ -81,6 +87,20 @@ function validSettings(raw: unknown): Settings {
   if (!/^https:\/\/[^\s"'<>]+\{z\}[^\s"'<>]*\{x\}[^\s"'<>]*\{y\}/.test(s.map.tileUrl)) throw bad('رابط بلاطات الخريطة لازم https ويحتوي {z} {x} {y}');
   if (!isInt(s.map.maxZoom, 10, 22)) throw bad('أقصى تقريب للخريطة بين 10 و 22');
   validImage(s.hero.image);
+  if (s.mascot.image) validImage(s.mascot.image);
+  const b = s.banner;
+  if (!Array.isArray(b.slides) || b.slides.length > 40) throw bad('شرائح البانر هواية (40 حد أقصى)');
+  for (const sl of b.slides) {
+    if (!['lunch', 'afternoon', 'evening', 'hot', 'cold', 'season', 'any'].includes(sl.slot)) throw bad('وقت الشريحة غير صحيح');
+    if (!['image', 'video'].includes(sl.media?.type)) throw bad('نوع ملف الشريحة غير صحيح');
+    validMedia(sl.media.src);
+    if (sl.media.poster) validMedia(sl.media.poster);
+    if (typeof sl.title !== 'string' || sl.title.length > 60) throw bad('عنوان الشريحة طويل (60 حرف حد أقصى)');
+  }
+  if (!isInt(b.intervalSec, 3, 30)) throw bad('مدة الشريحة بين 3 و 30 ثانية');
+  for (const d of Object.values(b.dayparts)) if (!/^\d{1,2}:\d{2}$/.test(d.from) || !/^\d{1,2}:\d{2}$/.test(d.to)) throw bad('أوقات البانر بصيغة 12:00');
+  if (s.season.until && !/^\d{4}-\d{2}-\d{2}$/.test(s.season.until)) throw bad('تاريخ انتهاء الموسم غير صحيح');
+  if (s.season.hours.enabled && (!/^\d{1,2}:\d{2}$/.test(s.season.hours.open) || !/^\d{1,2}:\d{2}$/.test(s.season.hours.close))) throw bad('أوقات الموسم بصيغة 17:00');
   if (!Array.isArray(s.hero.media) || s.hero.media.length > 10) throw bad('محتوى الرأس غير صحيح');
   if (!(Math.abs(s.location.lat) <= 90 && Math.abs(s.location.lng) <= 180)) throw bad('موقع المطعم غير صحيح');
   return s;
@@ -94,24 +114,47 @@ const toB64 = (buf: ArrayBuffer) => {
 };
 
 /** رفع صورة: على R2 إذا مربوط، وإلا بقاعدة البيانات D1 (حتى ما نحتاج بطاقة دفع لتفعيل R2) */
+const CHUNK = 700_000; // حروف base64 بكل جزء
+
+/**
+ * رفع ملف: صورة WebP (≤150KB + نسخة صغيرة) أو فيديو MP4 (≤1.5MB) أو صورة غلاف للفيديو.
+ * على R2 إذا مربوط، وإلا بقاعدة البيانات D1 (الكبير ينقسم أجزاء).
+ */
 async function upload(req: Request, env: Env) {
   const form = await req.formData();
   const file = form.get('file');
   const thumb = form.get('thumb');
-  if (!(file instanceof File)) throw bad('ماكو صورة');
-  if (file.size > 400_000 || (thumb instanceof File && thumb.size > 150_000)) throw bad('الصورة كبيرة — لازم تنضغط أول');
-  if (file.type !== 'image/webp') throw bad('الصورة لازم WebP (اللوحة تحولها تلقائياً)');
+  if (!(file instanceof File)) throw bad('ماكو ملف');
+  const isVideo = file.type === 'video/mp4';
+  if (isVideo) {
+    if (file.size > 1_600_000) throw bad('الفيديو لازم أقل من 1.5MB');
+  } else {
+    if (file.type !== 'image/webp') throw bad('الصورة لازم WebP (اللوحة تحولها تلقائياً)');
+    if (file.size > 400_000 || (thumb instanceof File && thumb.size > 150_000)) throw bad('الصورة كبيرة — لازم تنضغط أول');
+  }
   const id = crypto.randomUUID();
-  const key = `items/${id}.webp`;
+  const folder = isVideo ? 'video' : 'items';
+  const ext = isVideo ? 'mp4' : 'webp';
+  const key = `${folder}/${id}.${ext}`;
   const parts: [string, File][] = [[key, file]];
-  if (thumb instanceof File) parts.push([`items/sm/${id}.webp`, thumb]);
+  if (thumb instanceof File && thumb.type === 'image/webp') parts.push([isVideo ? `video/${id}.webp` : `items/sm/${id}.webp`, thumb]);
   const now = new Date().toISOString();
   if (env.MEDIA) {
-    for (const [k, f] of parts) await env.MEDIA.put(k, f.stream(), { httpMetadata: { contentType: 'image/webp', cacheControl: 'public, max-age=31536000, immutable' } });
+    for (const [k, f] of parts) await env.MEDIA.put(k, f.stream(), { httpMetadata: { contentType: f.type, cacheControl: 'public, max-age=31536000, immutable' } });
   } else {
-    await env.DB.batch(await Promise.all(parts.map(async ([k, f]) => env.DB.prepare(`INSERT INTO media (key, content_type, data, created_at) VALUES (?,?,?,?)`).bind(k, 'image/webp', toB64(await f.arrayBuffer()), now))));
+    const stmts: D1PreparedStatement[] = [];
+    for (const [k, f] of parts) {
+      const b64 = toB64(await f.arrayBuffer());
+      if (b64.length <= CHUNK) stmts.push(env.DB.prepare(`INSERT INTO media (key, content_type, data, created_at) VALUES (?,?,?,?)`).bind(k, f.type, b64, now));
+      else {
+        stmts.push(env.DB.prepare(`INSERT INTO media (key, content_type, data, created_at) VALUES (?,?,'',?)`).bind(k, f.type, now));
+        for (let i = 0, n = 0; i < b64.length; i += CHUNK, n++) stmts.push(env.DB.prepare(`INSERT INTO media_chunks (key, idx, data) VALUES (?,?,?)`).bind(k, n, b64.slice(i, i + CHUNK)));
+      }
+    }
+    // كل جزء بطلب منفصل حتى ما يكبر الـ batch هواية
+    for (const st of stmts) await st.run();
   }
-  return { url: `/media/${key}` };
+  return { url: `/media/${key}`, poster: isVideo && thumb instanceof File ? `/media/video/${id}.webp` : undefined };
 }
 
 export async function handleAdmin(req: Request, env: Env, path: string): Promise<Response> {
@@ -257,6 +300,28 @@ export async function handleAdmin(req: Request, env: Env, path: string): Promise
     ]);
     const next = await db.prepare(`SELECT last FROM order_counters WHERE day = ?`).bind(row.day).first<{ last: number }>();
     return json({ ok: true, nextNumber: (next?.last ?? 1000) + 1 });
+  }
+
+  /**
+   * "رتّب تلقائياً من الطلبات": أكثر الأصناف طلباً بآخر 30 يوم (بس الطلبات اللي انرسلت).
+   * يحتاج 10 طلبات على الأقل حتى يكون الترتيب منطقي.
+   */
+  if (path === 'featured/auto' && m === 'POST') {
+    const since = new Date(Date.now() - 30 * 86400_000).toISOString();
+    const rows = (await db.prepare(`SELECT lines FROM orders WHERE created_at > ? AND status = 'sent'`).bind(since).all<{ lines: string }>()).results;
+    if (rows.length < 10) throw new HttpError(409, 'few_orders', `بعد ما عدنا طلبات كافية (${rows.length} من 10) — ضل اختار يدوياً بالنجمة`);
+    const menu = await loadMenu(db, { admin: true });
+    const byName = new Map(menu.items.map((i) => [i.name, i.id]));
+    const count = new Map<string, number>();
+    for (const r of rows) for (const l of JSON.parse(r.lines) as { itemId?: string; name: string; qty: number }[]) {
+      const id = l.itemId ?? byName.get(l.name);
+      if (id) count.set(id, (count.get(id) ?? 0) + (Number(l.qty) || 1));
+    }
+    const valid = new Set(menu.items.filter((i) => i.orderable && i.image).map((i) => i.id));
+    const top = [...count.entries()].filter(([id]) => valid.has(id)).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id]) => id);
+    const s = validSettings(mergeSettings(await getSettings(db), { featured: { items: top } }));
+    await db.prepare(`INSERT OR REPLACE INTO settings (key, value, updated_at) VALUES ('main', ?, ?)`).bind(JSON.stringify(s), new Date().toISOString()).run();
+    return json({ ok: true, items: top, orders: rows.length, counts: Object.fromEntries(top.map((id) => [id, count.get(id)])) });
   }
 
   // ───── استيراد Excel (بعد شاشة المراجعة) ─────

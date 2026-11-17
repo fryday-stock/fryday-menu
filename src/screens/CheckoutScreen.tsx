@@ -3,7 +3,7 @@ import { Bike, Check, MapPin, Store, Wallet, PencilLine, CircleAlert, LoaderCirc
 import { useMenu } from '../data/MenuContext';
 import { useCartSummary } from '../hooks/useCartSummary';
 import { useOpen } from '../hooks/useOpen';
-import { useCustomer, useLastOrder, type Customer } from '../store/customer';
+import { useCustomer, useLastOrder, usePastOrder, type Customer } from '../store/customer';
 import { toOrderLine } from '../store/cart';
 import { buildWhatsAppMessage, type Order } from '../lib/whatsapp';
 import { mapsUrl, quoteDelivery, zoneAt, type LatLng, type DeliveryQuote } from '../lib/delivery';
@@ -145,6 +145,10 @@ export function CheckoutScreen() {
     const clean: Customer = { ...c, name: c.name.trim(), phone: cleanPhone(c.phone), address: c.address.trim(), landmark: c.landmark.trim(), zoneId: zone?.id ?? '', pin: pin ?? saved.pin ?? null };
     saveCustomer(clean);
     setSendError(null);
+    const rememberOrder = (total: number) => usePastOrder.getState().save({
+      lines: lines.map((l) => ({ itemId: l.itemId, qty: l.qty, sel: l.sel, note: l.note, unit: l.unit, name: l.item.name })),
+      total, at: Date.now(),
+    });
 
     if (data.live) {
       // السيرفر يحفظ الطلب ويعيد حساب الأسعار ويرجع رقم يومي + الرسالة
@@ -156,6 +160,7 @@ export function CheckoutScreen() {
           lines: lines.map((l) => ({ itemId: l.itemId, qty: l.qty, sel: l.sel, note: l.note })),
         });
         setOrder({ number: r.number, message: r.message, total: r.total, type: r.type, sent: false, createdAt: Date.parse(r.createdAt) || Date.now(), etaMinutes: r.etaMinutes, id: r.id, clientId: clientId.current });
+        rememberOrder(subtotal);
         go('done');
       } catch (err) {
         const ae = err instanceof ApiError ? err : new ApiError('server', 'صار خطأ، حاول مرة ثانية');
@@ -183,6 +188,7 @@ export function CheckoutScreen() {
       payment: s.payment,
     };
     setOrder({ number: order.number, message: buildWhatsAppMessage(order), total, type: order.type, sent: false, createdAt: Date.now(), etaMinutes: etaFor(s, order.type), id: null, clientId: null });
+    rememberOrder(subtotal);
     go('done');
   };
 

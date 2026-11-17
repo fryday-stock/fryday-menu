@@ -1,6 +1,8 @@
 import { fmt } from './format';
 
 export interface OrderLine {
+  /** كود الصنف (لإحصائيات "الأكثر طلباً") */
+  itemId?: string;
   name: string;
   qty: number;
   /** سعر القطعة مع الخيارات */

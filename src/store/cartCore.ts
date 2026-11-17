@@ -38,5 +38,5 @@ export function toOrderLine(l: ResolvedLine, menu: MenuData): OrderLine {
     if (g.kind === 'single' && g.min === 1) opts.forEach((o) => inline.push(o.name));
     else opts.forEach((o) => bullets.push({ name: o.name, price: o.price }));
   }
-  return { name: l.item.name, qty: l.qty, unit: l.unit, inline, bullets, note: l.note || undefined };
+  return { itemId: l.item.id, name: l.item.name, qty: l.qty, unit: l.unit, inline, bullets, note: l.note || undefined };
 }

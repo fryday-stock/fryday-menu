@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Bike, Clock, Plus, Timer, ArrowRight, Phone } from 'lucide-react';
 import type { Item } from '../../data/types';
 import { useMenu } from '../../data/MenuContext';
@@ -10,6 +11,11 @@ import { ClosedNotice } from '../../components/StatusPill';
 import { feeSummary } from '../../lib/delivery';
 import { etaFor } from '../../data/defaults';
 import { DarkHero } from './Hero';
+import { AnimatedPrice } from '../../components/AnimatedPrice';
+import { MealUpsell } from '../../components/MealUpsell';
+import { Featured, PastOrderCard, SeasonStrip } from '../../components/SalesBlocks';
+import { Cat } from '../../components/CatMascot';
+import { useCart } from '../../store/cart';
 import { QtyStepper } from '../../components/QtyStepper';
 import { SizePicker, OptionGroupView, NoteField } from '../../components/OptionGroups';
 import { useCartSummary } from '../../hooks/useCartSummary';
@@ -100,6 +106,38 @@ function RowCard({ item }: { item: Item }) {
   );
 }
 
+/** قطة فرايدي تقفز على أيقونة السلة لما ينضاف شي */
+function CartCat() {
+  const { data } = useMenu();
+  const bump = useCart((x) => x.bump);
+  const reduce = useReducedMotion();
+  const [show, setShow] = useState(0);
+  const seen = useRef(0);
+  useEffect(() => {
+    // أول إضافة: شريط السلة ينخلق بنفس اللحظة — نقفز إذا الإضافة صارت هسه
+    const fresh = Date.now() - bump < 1500;
+    if (bump === seen.current || !fresh) { seen.current = bump; return; }
+    seen.current = bump;
+    if (!data.settings.mascot.enabled || reduce) return;
+    setShow(bump);
+    const t = setTimeout(() => setShow(0), 1300);
+    return () => clearTimeout(t);
+  }, [bump, data.settings.mascot.enabled, reduce]);
+  return (
+    <AnimatePresence>
+      {show > 0 && (
+        <motion.span key={show} aria-hidden className="pointer-events-none absolute -top-[44px] -right-1 z-10 drop-shadow-[0_0_2px_#fff] [filter:drop-shadow(0_0_1.5px_#fff)_drop-shadow(0_4px_6px_rgba(0,0,0,0.35))]"
+          initial={{ y: 34, opacity: 0, rotate: -12, scale: 0.6 }}
+          animate={{ y: [34, -18, 0, -6, 0], opacity: [0, 1, 1, 1, 1], rotate: [-12, 8, -4, 0, 0], scale: [0.6, 1.1, 0.95, 1.02, 1] }}
+          exit={{ y: 20, opacity: 0, scale: 0.7, transition: { duration: 0.25 } }}
+          transition={{ duration: 0.75, times: [0, 0.35, 0.6, 0.8, 1], ease: 'easeOut' }}>
+          <Cat image={data.settings.mascot.image} size={50} />
+        </motion.span>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function CartBar() {
   const { count, subtotal } = useCartSummary();
   const controls = useBump();
@@ -108,9 +146,9 @@ function CartBar() {
       {count > 0 && (
         <motion.div className="pb-safe pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto max-w-[480px] px-4" initial={{ y: 120 }} animate={{ y: 0 }} exit={{ y: 120 }} transition={{ type: 'spring', stiffness: 380, damping: 32 }}>
           <motion.button animate={controls} onClick={() => go('cart')} className="pointer-events-auto flex h-15 w-full items-center gap-3 rounded-[20px] bg-cta ps-2.5 pe-5 text-on-cta shadow-float">
-            <span className="grid size-10 place-items-center rounded-[14px] bg-primary text-[16px] font-extrabold text-on-primary"><bdi className="num">{count}</bdi></span>
+            <span className="relative grid size-10 place-items-center rounded-[14px] bg-primary text-[16px] font-extrabold text-on-primary"><bdi className="num">{count}</bdi><CartCat /></span>
             <span className="flex-1 text-start text-[16.5px] font-bold">عرض السلة</span>
-            <Price value={subtotal} className="text-[17px] font-extrabold" />
+            <AnimatedPrice value={subtotal} className="text-[17px] font-extrabold" />
           </motion.button>
         </motion.div>
       )}
@@ -120,12 +158,23 @@ function CartBar() {
 
 function HomeA() {
   const b = useMenuBrowser();
+  // زر البانر "افتح القسم": نروح للتبويب وننزل للقسم
+  const openSection = (name: string) => {
+    const t = b.data.tabs.find((x) => x.sections.some((s) => s.name === name));
+    if (!t) return;
+    b.setQuery('');
+    b.setTab(t.id);
+    setTimeout(() => b.scrollToSection(t.sections.find((s) => s.name === name)!.id), 60);
+  };
   return (
     <div className="pb-28">
-      <DarkHero />
+      <DarkHero onSection={openSection} />
       <InfoCard />
       <ClosedNotice className="mx-4 mt-3" />
       <Promo onGo={() => { b.setTab('food'); setTimeout(() => b.scrollToSection(b.data.tabs[0].sections[0].id), 30); }} />
+      <SeasonStrip className="mx-4 mt-3" />
+      <PastOrderCard />
+      <Featured />
       <SearchInput b={b} className="mx-4 mt-4" inputClassName="bg-surface border border-line shadow-[0_2px_10px_-6px_rgba(0,0,0,0.2)] focus:border-fg/50" />
 
       <div ref={b.anchorRef} />
@@ -150,6 +199,7 @@ function HomeA() {
         )} />
       </div>
 
+      <motion.div key={b.results ? 'search' : b.tab} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28, ease: 'easeOut' }}>
       <SectionList b={b} layout="rows"
         sectionTitle={(s) => (
           <div className="mb-3 flex items-baseline gap-2">
@@ -160,8 +210,10 @@ function HomeA() {
         renderItem={(i) => <RowCard item={i} />}
         renderTextItem={(i) => <TextRow item={i} className="rounded-none bg-transparent" />}
       />
+      </motion.div>
       <Footer />
       <CartBar />
+      <MealUpsell />
     </div>
   );
 }
@@ -203,7 +255,7 @@ function ItemA({ item, onClose }: { item: Item; onClose: () => void }) {
             <QtyStepper value={cfg.qty} onChange={cfg.setQty} look="soft" />
             <button onClick={submit} className={`flex h-14 flex-1 items-center justify-between rounded-[18px] px-5 text-[16.5px] font-bold transition active:scale-[0.98] ${cfg.valid ? 'bg-cta text-on-cta' : 'bg-cta/55 text-on-cta'}`}>
               <span>أضف للسلة</span>
-              <Price value={cfg.total} className="font-extrabold" />
+              <AnimatedPrice value={cfg.total} className="font-extrabold" />
             </button>
           </div>
         )}

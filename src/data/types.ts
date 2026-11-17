@@ -68,6 +68,59 @@ export interface MapProvider {
   subdomains?: string;
 }
 
+/** أوقات البانر الذكي وحالات الجو والمواسم */
+export type BannerSlot = 'lunch' | 'afternoon' | 'evening' | 'hot' | 'cold' | 'season' | 'any';
+
+/** زر الشريحة: يفتح صنف أو قسم */
+export interface BannerCta {
+  type: 'item' | 'section' | 'none';
+  /** كود الصنف (F001) أو اسم القسم */
+  target: string;
+  label: string;
+}
+
+/** شريحة مرفوعة من اللوحة (صورة أو فيديو MP4 صامت) */
+export interface BannerSlide {
+  id: string;
+  slot: BannerSlot;
+  enabled: boolean;
+  media: { type: 'image' | 'video'; src: string; poster?: string };
+  title: string;
+  subtitle?: string;
+  cta: BannerCta;
+}
+
+/** وقت من اليوم + الأصناف اللي تطلع تلقائياً إذا ماكو شرائح مرفوعة */
+export interface Daypart {
+  from: string;
+  to: string;
+  title: string;
+  items: string[];
+}
+
+export interface BannerSettings {
+  enabled: boolean;
+  /** شرائح تلقائية من صور الأصناف إذا ماكو محتوى مرفوع */
+  auto: boolean;
+  /** ثواني لكل شريحة */
+  intervalSec: number;
+  dayparts: { lunch: Daypart; afternoon: Daypart; evening: Daypart };
+  weather: { enabled: boolean; hotAbove: number; coldBelow: number; hot: { title: string; items: string[] }; cold: { title: string; items: string[] } };
+  slides: BannerSlide[];
+}
+
+export interface Season {
+  enabled: boolean;
+  kind: 'ramadan' | 'ziyara' | 'event';
+  name: string;
+  /** رسالة تطلع فوك المنيو */
+  message: string;
+  /** أوقات طلب خاصة بالموسم */
+  hours: { enabled: boolean; open: string; close: string };
+  /** آخر يوم (بتوقيت بغداد) — بعده يرجع طبيعي تلقائياً */
+  until: string | null;
+}
+
 /** طريقة أجرة التوصيل: map = تلقائية من الدبوس، fixed = مبلغ ثابت، cashier = يحددها الكاشير */
 export type FeeMode = 'map' | 'fixed' | 'cashier';
 
@@ -101,6 +154,23 @@ export interface Settings {
   paused: { enabled: boolean; message: string };
   /** مزود الخرائط (قابل للتبديل بدون تعديل كود) */
   map: MapProvider;
+  /** البانر الذكي بالرأس (حسب الوقت والجو والموسم) */
+  banner: BannerSettings;
+  /** زيادة قيمة الطلب */
+  upsell: {
+    /** "تحوّله لوجبة؟" بعد إضافة بركر أو توست */
+    meal: { enabled: boolean; group: string };
+    /** "تكمّل طلبك؟" بالسلة */
+    cart: { enabled: boolean; drinks: string[]; sweets: string[]; sauceGroup: string };
+  };
+  /** "الأكثر طلباً ⭐" بأول المنيو */
+  featured: { enabled: boolean; title: string; items: string[] };
+  /** "اطلب نفس طلبك السابق" */
+  reorder: { enabled: boolean };
+  /** قطة فرايدي (حركة الإضافة للسلة) — image فاضي = القطة المرسومة */
+  mascot: { enabled: boolean; image: string | null };
+  /** وضع المواسم (رمضان / زيارة / مناسبة) */
+  season: Season;
   social: { instagram: string; tiktok: string; facebook: string };
 }
 

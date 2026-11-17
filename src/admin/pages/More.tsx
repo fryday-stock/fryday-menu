@@ -1,8 +1,11 @@
-import { ChevronLeft, ListChecks, Map, FileSpreadsheet, KeyRound, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ListChecks, Map, FileSpreadsheet, KeyRound, ExternalLink, Clapperboard, TrendingUp, Moon } from 'lucide-react';
 import { go } from '../../lib/router';
 import { PageTitle } from '../ui';
 
 const LINKS = [
+  { to: 'banner', label: 'البانر الذكي', hint: 'صور وفيديو الرأس حسب الوقت والجو', Icon: Clapperboard },
+  { to: 'sales', label: 'المبيعات', hint: 'الأكثر طلباً، حوّل لوجبة، اقتراحات السلة، القطة', Icon: TrendingUp },
+  { to: 'season', label: 'وضع المواسم', hint: 'رمضان، زيارة، مناسبة — أوقات ورسالة خاصة', Icon: Moon },
   { to: 'groups', label: 'مجموعات الخيارات', hint: 'الحجوم، الصوصات، حوّل لوجبة…', Icon: ListChecks },
   { to: 'zones', label: 'مناطق التوصيل', hint: 'الأجور وحدود المناطق على الخريطة', Icon: Map },
   { to: 'excel', label: 'استيراد وتصدير Excel', hint: 'نفس شكل ملف menu.xlsx', Icon: FileSpreadsheet },

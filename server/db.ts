@@ -30,6 +30,8 @@ export const SCHEMA: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_login ON login_attempts (ip_hash, at)`,
   // صور مرفوعة (إذا R2 مو مربوط تنحفظ هنا كـ base64 — كل صورة أقل من 150KB)
   `CREATE TABLE IF NOT EXISTS media (key TEXT PRIMARY KEY, content_type TEXT NOT NULL, data TEXT NOT NULL, created_at TEXT NOT NULL)`,
+  // الملفات الكبيرة (فيديو ≤ 1.5MB) تنقسم أجزاء — حد الصف بـ D1 حوالي 2MB
+  `CREATE TABLE IF NOT EXISTS media_chunks (key TEXT NOT NULL, idx INTEGER NOT NULL, data TEXT NOT NULL, PRIMARY KEY (key, idx))`,
 ];
 
 let ready: Promise<void> | null = null;

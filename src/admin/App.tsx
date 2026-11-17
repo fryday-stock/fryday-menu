@@ -14,6 +14,9 @@ import { MorePage } from './pages/More';
 import { Groups, GroupEditor } from './pages/Groups';
 import { ZonesPage } from './pages/Zones';
 import { ExcelPage } from './pages/Excel';
+import { BannerPage } from './pages/Banner';
+import { SalesPage } from './pages/Sales';
+import { SeasonPage } from './pages/Season';
 
 const NAV = [
   { id: 'orders', label: 'الطلبات', Icon: ReceiptText },
@@ -109,7 +112,7 @@ export function AdminApp() {
   }
   if (!authed) return <Login />;
 
-  const tab = page === 'item' ? 'menu' : page === 'group' || page === 'groups' || page === 'zones' || page === 'excel' ? 'more' : page || 'orders';
+  const tab = page === 'item' ? 'menu' : ['group', 'groups', 'zones', 'excel', 'banner', 'sales', 'season'].includes(page) ? 'more' : page || 'orders';
   let content: ReactNode;
   switch (page) {
     case 'menu': content = <MenuPage />; break;
@@ -120,6 +123,9 @@ export function AdminApp() {
     case 'group': content = <GroupEditor code={a} />; break;
     case 'zones': content = <ZonesPage />; break;
     case 'excel': content = <ExcelPage />; break;
+    case 'banner': content = <BannerPage />; break;
+    case 'sales': content = <SalesPage />; break;
+    case 'season': content = <SeasonPage />; break;
     default: content = <Orders />;
   }
   return <Shell tab={tab}>{content}</Shell>;
